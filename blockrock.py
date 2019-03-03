@@ -3,8 +3,8 @@ from block import Block
 
 class BlockRock(Block):
     
-    def __init__(self,x,y, parent=None):
+    def __init__(self,x,y,collision = True, parent=None):
         Block.__init__(self,parent)
         self.setPixmap(QPixmap("Textures\BlockRock.png"))
         self.addPos(x,y)
-        
+        self.collision = collision
