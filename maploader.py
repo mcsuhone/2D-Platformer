@@ -54,6 +54,7 @@ class MapLoader():
                 
     
     def titlereader(self):
+        
         while True:
             self.current_line = self.file.readline()
             if self.current_line == "" or self.current_line.startswith("#"):
@@ -76,6 +77,7 @@ class MapLoader():
         
         
     def mapreader(self):
+        
         y=0
         while True:
             self.current_line = self.file.readline()

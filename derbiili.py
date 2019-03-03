@@ -15,8 +15,9 @@ class Derbiili(QGraphicsPixmapItem):
         self.setPos(x*32,y*32)
         
         self.speed = 4
-        self.jump_height = 8.0
+        self.jump_height = 10.0
         self.jump = False
+        self.fall = False
         self.vy = 0.0
         self.counter = 0
         #Height = 22
@@ -44,53 +45,88 @@ class Derbiili(QGraphicsPixmapItem):
         if self.counter >= 3:
             self.jump = False    
         
-            
-        if self.physics.check_collision(self) and self.jump:
+        if not self.fall:   
+            dy = self.Jumping()
+        else:
+            dy = self.Falling()
+        
+        if not self.physics.check_collision_left(self,self.scene):
+            if Qt.Key_A in keys_pressed:
+                dx -= self.speed
+        
+        if not self.physics.check_collision_right(self,self.scene):
+            if Qt.Key_D in keys_pressed:
+                dx += self.speed
+        
+        pos = self.pos()
+        pos += QPointF(3.0,31.0-dy)
+        transform = QTransform()
+        
+        itemunder = self.scene.itemAt(pos,transform)
+        
+        if itemunder != None:
+            self.setPos(self.x()+dx, itemunder.y()-32)
+        else:
+            self.setPos(self.x()+dx, self.y()-dy)
+    
+    def Falling(self):
+        
+        if self.physics.check_collision_down(self,self.scene) and self.jump:
             
             self.vy = self.jump_height
             dy = self.vy
             
-        elif self.physics.check_collision(self):
+        
+        elif self.physics.check_collision_down(self,self.scene):
+            
+            self.counter = 0
+            self.jump = False
+            self.fall = False
+            dy = 0
+            
+            self.vy = self.physics.reset_gravity()
+            
+        else:
+            
+            self.vy = self.physics.gravity(self.vy)
+            if self.vy <= -10:
+                dy = -10
+            else:
+                dy = self.vy
+        
+        return dy
+    
+    def Jumping(self):
+        
+        if self.physics.check_collision_down(self,self.scene) and self.jump:
+            
+            self.vy = self.jump_height
+            dy = self.vy
+            
+        elif self.physics.check_collision_up(self, self.scene):
+            
+            self.vy = self.physics.reset_gravity()
+            dy = self.vy
+            self.fall = True
+            
+        elif self.physics.check_collision_down(self,self.scene):
             
             self.counter = 0
             self.jump = False
             dy = 0
             
-            self.physics.reset_gravity()
+            self.vy = self.physics.reset_gravity()
             
         else:
+            
             self.vy = self.physics.gravity(self.vy)
-            if self.vy >= 8:
-                dy = 8
+            if self.vy <= -10:
+                dy = -10
             else:
                 dy = self.vy
         
-        #if not self.physics.check_collision(self):
-        if Qt.Key_A in keys_pressed:
-            dx -= self.speed
+        return dy
         
-        #if not self.physics.check_collision(self):
-        if Qt.Key_D in keys_pressed:
-            dx += self.speed
-        
-        pos = self.pos()
-        pos += QPointF(0.0,31.0)
-        
-        '''
-        itemunder = self.scene.itemAt(pos)
-        
-        if itemunder.y() < self.y()-dy:
-            dy = itemunder.y()-self.y()
-        '''
-        self.setPos(self.x()+dx, self.y()-dy)
-    
-    def is_flying(self):
-        
-        if self.physics.check_collision(self):
-            return False
-        else:
-            return True
-     
         
         
         
