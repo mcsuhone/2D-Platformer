@@ -1,13 +1,10 @@
 from PyQt5.QtWidgets import QGraphicsPixmapItem,QGraphicsScene,QGraphicsView
 from PyQt5.QtCore import Qt,QBasicTimer,QRectF,QSizeF
 from PyQt5.QtGui import QBrush,QColor,QLinearGradient,QIcon,QPixmap
-from PyQt5.Qt import QPointF
+from PyQt5.Qt import QPointF, QTransform
 
 from maploader import MapLoader
 from CONSTANTS import *
-
-SCENE_X                 = 800
-SCENE_Y                 = 600
 
 class Scene(QGraphicsScene):
 
@@ -26,12 +23,11 @@ class Scene(QGraphicsScene):
         
         self.maploader = MapLoader()
         mapsize = self.maploader.load_map(self,mapname)
-        SCENE_X = mapsize['xsize']
-        SCENE_Y = mapsize['ysize']
+        self.SCENE_X = mapsize['xsize']
+        self.SCENE_Y = mapsize['ysize']
         
-        self.y = SCENE_Y
         
-        self.size = QSizeF(SCENE_X,SCENE_Y)
+        self.size = QSizeF(self.SCENE_X,self.SCENE_Y)
         rect = QRectF(QPointF(0,0),self.size)
         self.setSceneRect(rect)
         
@@ -45,7 +41,7 @@ class Scene(QGraphicsScene):
         self.view.setFixedSize(WINDOW_WIDTH,WINDOW_HEIGHT)
         
         x = self.player.x()
-        pos = QPointF(x,self.y)
+        pos = QPointF(x,self.SCENE_Y)
         self.view.centerOn(pos)
         
         self.view.show()
@@ -53,9 +49,13 @@ class Scene(QGraphicsScene):
         self.view.setWindowTitle("Derbiili: Adventures")
         self.view.setWindowIcon(QIcon(QPixmap('Textures\BlockGrass.png')))
     
+    def getSceneX(self):
+        
+        return self.SCENE_X
+    
     def addBackGround(self):
         
-        gradient = QLinearGradient(SCENE_X/2,0,SCENE_X/2,SCENE_Y)
+        gradient = QLinearGradient(self.SCENE_X/2,0,self.SCENE_X/2,self.SCENE_Y)
         gradient.setColorAt(0,QColor(0,100,200))
         gradient.setColorAt(1,QColor(200,200,200))
         
@@ -70,6 +70,7 @@ class Scene(QGraphicsScene):
 
     def keyReleaseEvent(self, event):
         self.keys_pressed.remove(event.key())
+    
 
     def timerEvent(self, event):
         #x = False
@@ -84,7 +85,7 @@ class Scene(QGraphicsScene):
     def camera_control(self):
         #checks x camera movement
         x = self.player.x()
-        pos = QPointF(x,self.y)
+        pos = QPointF(x,self.SCENE_Y)
         self.view.centerOn(pos)
         
     def game_update(self):

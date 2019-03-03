@@ -9,7 +9,7 @@ class Physics():
         
         transform = QTransform()
         pos = player.pos()
-        pos1 = pos + QPointF(-1.0, 0.0)
+        pos1 = pos + QPointF(0.0, 0.0)
         pos2 = pos + QPointF(31.0, 0.0)
         
         itemunder1 = scene.itemAt(pos1,transform)
@@ -24,7 +24,7 @@ class Physics():
         
         transform = QTransform()
         pos = player.pos()
-        pos1 = pos + QPointF(-1.0,32.0)
+        pos1 = pos + QPointF(0.0,32.0)
         pos2 = pos + QPointF(31.0,32.0)
         
         itemunder1 = scene.itemAt(pos1,transform)
@@ -39,8 +39,8 @@ class Physics():
         
         transform = QTransform()
         pos = player.pos()
-        pos1 = pos + QPointF(-1.0,4.0)
-        pos2 = pos + QPointF(0.0,29.0)
+        pos1 = pos + QPointF(-2.0,4.0)
+        pos2 = pos + QPointF(-2.0,29.0)
         
         itemunder1 = scene.itemAt(pos1,transform)
         itemunder2 = scene.itemAt(pos2,transform)

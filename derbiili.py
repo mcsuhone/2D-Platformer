@@ -53,19 +53,28 @@ class Derbiili(QGraphicsPixmapItem):
         if not self.physics.check_collision_left(self,self.scene):
             if Qt.Key_A in keys_pressed:
                 dx -= self.speed
+                if self.x()+dx < 0:
+                    dx = 0
         
         if not self.physics.check_collision_right(self,self.scene):
             if Qt.Key_D in keys_pressed:
                 dx += self.speed
+                if self.x()+dx+32 > self.scene.getSceneX():
+                    dx = 0
         
-        pos = self.pos()
-        pos += QPointF(3.0,31.0-dy)
         transform = QTransform()
+        pos = self.pos()
+        pos1 = pos + QPointF(0.0,31.0-dy)
+        pos2 = pos + QPointF(31.0,31.0-dy)
         
-        itemunder = self.scene.itemAt(pos,transform)
+        itemunder1 = self.scene.itemAt(pos1,transform)
+        itemunder2 = self.scene.itemAt(pos2,transform)
         
-        if itemunder != None:
-            self.setPos(self.x()+dx, itemunder.y()-32)
+        
+        if itemunder1 != None:
+            self.setPos(self.x()+dx, itemunder1.y()-32)
+        elif itemunder2 != None:
+            self.setPos(self.x()+dx, itemunder2.y()-32)
         else:
             self.setPos(self.x()+dx, self.y()-dy)
     
