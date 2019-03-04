@@ -15,7 +15,7 @@ class Derbiili(QGraphicsPixmapItem):
         self.setPos(x*32,y*32)
         
         self.speed = 4
-        self.jump_height = 10.0
+        self.jump_height = 12.0
         self.jump = False
         self.fall = False
         self.vy = 0.0
@@ -98,8 +98,8 @@ class Derbiili(QGraphicsPixmapItem):
         else:
             
             self.vy = self.physics.gravity(self.vy)
-            if self.vy <= -self.jump_height:
-                dy = -self.jump_height
+            if self.vy <= -self.jump_height*2:
+                dy = -self.jump_height*2
             else:
                 dy = self.vy
         
@@ -129,8 +129,8 @@ class Derbiili(QGraphicsPixmapItem):
         else:
             
             self.vy = self.physics.gravity(self.vy)
-            if self.vy <= -10:
-                dy = -10
+            if self.vy <= -self.jump_height*2:
+                dy = -self.jump_height*2
             else:
                 dy = self.vy
         

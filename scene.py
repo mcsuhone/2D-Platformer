@@ -38,7 +38,9 @@ class Scene(QGraphicsScene):
         self.view = QGraphicsView(self)
         self.view.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.view.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        self.view.setFixedSize(WINDOW_WIDTH,WINDOW_HEIGHT)
+        self.view.setFixedSize(WINDOW_WIDTH*1.5,WINDOW_HEIGHT*1.5)
+        
+        self.view.scale(2,2)
         
         x = self.player.x()
         pos = QPointF(x,self.SCENE_Y)
