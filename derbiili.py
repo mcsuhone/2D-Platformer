@@ -98,8 +98,8 @@ class Derbiili(QGraphicsPixmapItem):
         else:
             
             self.vy = self.physics.gravity(self.vy)
-            if self.vy <= -10:
-                dy = -10
+            if self.vy <= -self.jump_height:
+                dy = -self.jump_height
             else:
                 dy = self.vy
         
