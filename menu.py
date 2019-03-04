@@ -2,6 +2,7 @@ from PyQt5.QtWidgets import QGraphicsPixmapItem,QGraphicsScene,QGraphicsView,QPu
 from PyQt5.QtGui import QBrush,QColor,QLinearGradient,QIcon,QPixmap
 from PyQt5.QtCore import Qt,QBasicTimer
 from PyQt5.QtWidgets import QWidget
+from PyQt5.QtGui import QPalette,QPixmap
 
 from scene import Scene
 from CONSTANTS import *
@@ -15,8 +16,17 @@ class Menu(QWidget):
         self.timer = QBasicTimer()
         self.timer.start(FRAME_TIME_MS, self)
         
+        self.addMenuGraphics()
         self.initUI()
         
+        
+    def addMenuGraphics(self):
+        
+        self.palette = QPalette()
+        pixmap = QPixmap('Textures/BlockGround.png')
+        self.palette.setBrush(QPalette.Background, QBrush(pixmap))
+        self.setPalette(self.palette)
+    
     def initUI(self):               
         
         button_play = QPushButton('Play', self)
