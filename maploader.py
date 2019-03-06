@@ -4,6 +4,7 @@ from blockground import BlockGround
 from blockgrass import BlockGrass
 from blockrock import BlockRock
 from derbiili import Derbiili
+from cake import Cake
 
 class MapLoader():
     
@@ -109,6 +110,9 @@ class MapLoader():
                             derbiili = Derbiili(self.scene,x,y)
                             self.scene.addItem(derbiili)
                             self.scene.addDerbiili(derbiili)
+                        elif block == "C":
+                            item = Cake(x,y)
+                            self.scene.addItem(item)
                         x+=1
         self.map_size['ysize'] = y*32            
         

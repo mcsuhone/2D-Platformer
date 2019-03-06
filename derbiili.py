@@ -15,7 +15,7 @@ class Derbiili(QGraphicsPixmapItem):
         self.setPos(x*32,y*32)
         
         self.speed = 4
-        self.jump_height = 12.0
+        self.jump_height = 10.0
         self.jump = False
         self.fall = False
         self.vy = 0.0
@@ -27,6 +27,7 @@ class Derbiili(QGraphicsPixmapItem):
         self.physics = Physics()
         
     def is_collidable(self):
+        
         return self.collision
     
     def player_movement(self, keys_pressed):
@@ -42,13 +43,14 @@ class Derbiili(QGraphicsPixmapItem):
         
         if self.jump:
             self.counter += 1
-        if self.counter >= 3:
+        if self.counter >= 5:
             self.jump = False    
         
-        if not self.fall:   
+        if not self.fall:
             dy = self.Jumping()
         else:
             dy = self.Falling()
+            
         
         if not self.physics.check_collision_left(self,self.scene):
             if Qt.Key_A in keys_pressed:
@@ -62,22 +64,57 @@ class Derbiili(QGraphicsPixmapItem):
                 if self.x()+dx+32 > self.scene.getSceneX():
                     dx = 0
         
+        self.try_to_move(dx,dy)
+        
+        
+    
+    def try_to_move(self,dx,dy):
+        
         transform = QTransform()
         pos = self.pos()
-        pos1 = pos + QPointF(0.0,31.0-dy)
-        pos2 = pos + QPointF(31.0,31.0-dy)
+        pos1 = pos + QPointF(3.0,31.0-dy)
+        pos2 = pos + QPointF(29.0,31.0-dy)
         
-        itemunder1 = self.scene.itemAt(pos1,transform)
-        itemunder2 = self.scene.itemAt(pos2,transform)
+        item1 = self.scene.itemAt(pos1,transform)
+        item2 = self.scene.itemAt(pos2,transform)
+        print(item1,item2)
+        if item1 is None and item2 is None:
+            pass
+            
+        if item1 is not None:
+            if item1.is_collidable():
+                dy = item1.y()-self.y()-32
+                
+        if item2 is not None:
+            if item2.is_collidable():
+                dy = item2.y()-self.y()-32
+                
+        if item1 is not None or item2 is not None:
+            pass
         
+        pos3 = pos + QPointF(3.0,25.0-dx)
+        pos4 = pos + QPointF(29.0,25.0+dx)
         
-        if itemunder1 != None:
-            self.setPos(self.x()+dx, itemunder1.y()-32)
-        elif itemunder2 != None:
-            self.setPos(self.x()+dx, itemunder2.y()-32)
-        else:
-            self.setPos(self.x()+dx, self.y()-dy)
-    
+        item3 = self.scene.itemAt(pos3,transform)
+        item4 = self.scene.itemAt(pos4,transform)
+        
+        if item3 is None and item4 is None:
+            pass
+            
+        if item3 is not None:
+            if item3.is_collidable():
+                dx = self.x()-item3.x()-32
+                
+        if item4 is not None:
+            if item4.is_collidable():
+                dx = item4.x()-self.x()-32
+                
+        if item3 is not None or item4 is not None:
+            pass
+        
+        print(dx,dy)
+        self.setPos(self.x()+dx, self.y()-dy)
+        
     def Falling(self):
         
         if self.physics.check_collision_down(self,self.scene) and self.jump:
@@ -85,7 +122,6 @@ class Derbiili(QGraphicsPixmapItem):
             self.vy = self.jump_height
             dy = self.vy
             
-        
         elif self.physics.check_collision_down(self,self.scene):
             
             self.counter = 0
@@ -108,18 +144,15 @@ class Derbiili(QGraphicsPixmapItem):
     def Jumping(self):
         
         if self.physics.check_collision_down(self,self.scene) and self.jump:
-            
             self.vy = self.jump_height
             dy = self.vy
             
         elif self.physics.check_collision_up(self, self.scene):
-            
             self.vy = self.physics.reset_gravity()
             dy = self.vy
             self.fall = True
             
         elif self.physics.check_collision_down(self,self.scene):
-            
             self.counter = 0
             self.jump = False
             dy = 0
@@ -127,7 +160,6 @@ class Derbiili(QGraphicsPixmapItem):
             self.vy = self.physics.reset_gravity()
             
         else:
-            
             self.vy = self.physics.gravity(self.vy)
             if self.vy <= -self.jump_height*2:
                 dy = -self.jump_height*2
