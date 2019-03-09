@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QGraphicsPixmapItem,QGraphicsScene,QGraphicsView
 from PyQt5.QtCore import Qt,QBasicTimer,QRectF,QSizeF
 from PyQt5.QtGui import QBrush,QColor,QLinearGradient,QIcon,QPixmap
-from PyQt5.Qt import QPointF, QTransform
+from PyQt5.Qt import QPointF, QTransform, QGraphicsTextItem
 
 from maploader import MapLoader
 from CONSTANTS import *
@@ -22,17 +22,13 @@ class Scene(QGraphicsScene):
         mapname = "map1.txt"
         
         self.maploader = MapLoader()
-        mapsize = self.maploader.load_map(self,mapname)
-        self.SCENE_X = mapsize['xsize']
-        self.SCENE_Y = mapsize['ysize']
+        self.mapsize = self.maploader.load_map(self,mapname)
         
-        
-        self.size = QSizeF(self.SCENE_X,self.SCENE_Y)
-        rect = QRectF(QPointF(0,0),self.size)
+        rect = QRectF(QPointF(0,0),QSizeF(self.mapsize['xsize'],self.mapsize['ysize']))
         self.setSceneRect(rect)
         
         self.addBackGround()
-        
+        #self.setScoreBoard()
         
         
         self.view = QGraphicsView(self)
@@ -43,7 +39,7 @@ class Scene(QGraphicsScene):
         self.view.scale(2,2)
         
         x = self.player.x()
-        pos = QPointF(x,self.SCENE_Y)
+        pos = QPointF(x,self.mapsize['ysize'])
         self.view.centerOn(pos)
         
         self.view.show()
@@ -51,13 +47,18 @@ class Scene(QGraphicsScene):
         self.view.setWindowTitle("Derbiili: Adventures")
         self.view.setWindowIcon(QIcon(QPixmap('Textures\BlockGrass.png')))
     
+    def addScoreBoard(self):
+        
+        self.score = QGraphicsTextItem("Hello!")
+        self.addItem(self.score)
+    
     def getSceneX(self):
         
-        return self.SCENE_X
+        return self.mapsize['xsize']
     
     def addBackGround(self):
         
-        gradient = QLinearGradient(self.SCENE_X/2,0,self.SCENE_X/2,self.SCENE_Y)
+        gradient = QLinearGradient(self.mapsize['xsize']/2,0,self.mapsize['xsize']/2,self.mapsize['ysize'])
         gradient.setColorAt(0,QColor(0,100,200))
         gradient.setColorAt(1,QColor(200,200,200))
         
@@ -82,12 +83,13 @@ class Scene(QGraphicsScene):
         self.camera_control()
         self.game_update()
         self.update()
+        
         #    x=False
 
     def camera_control(self):
         #checks x camera movement
         x = self.player.x()
-        pos = QPointF(x,self.SCENE_Y)
+        pos = QPointF(x,self.mapsize['ysize'])
         self.view.centerOn(pos)
         
     def game_update(self):

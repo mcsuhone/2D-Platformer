@@ -4,103 +4,123 @@ class Physics():
     
     def __init__(self):
         self.g = 0.0
+        self.v = 0.0
     
-    def check_collision_up(self,player,scene):
-        
-        transform = QTransform()
-        pos = player.pos()
-        pos1 = pos + QPointF(3.0, 9.0)
-        pos2 = pos + QPointF(29.0, 9.0)
-        
-        item1 = scene.itemAt(pos1,transform)
-        item2 = scene.itemAt(pos2,transform)
-        
-        if item1 is None and item2 is None:
-            return False
-        elif item1 is not None:
-            if item1.is_collidable():
-                return True
-        elif item2 is not None:
-            if item2.is_collidable():
-                return True
+    def check_collisions_x(self,player,scene,dx):
+        if dx > 0:
+            #tests right side collision
+            transform = QTransform()
+            pos = player.pos()
+            posright1 = pos + QPointF(29.0+dx,9.0)
+            posright2 = pos + QPointF(29.0+dx,31.0)
+            
+            item1 = scene.itemAt(posright1,transform)
+            item2 = scene.itemAt(posright2,transform)
+            
+            if item1 is None and item2 is None:
+                return None
+                
+            if item1 is not None:
+                if item1.is_collidable():
+                    return 0
+                    
+            if item2 is not None:
+                if item2.is_collidable():
+                    return 0
+                    
+            if item1 is not None or item2 is not None:
+                return None
+            
+        elif dx < 0:
+            #tests left side collision
+            transform = QTransform()
+            pos = player.pos()
+            posleft1 = pos + QPointF(3.0+dx,9.0)
+            posleft2 = pos + QPointF(3.0+dx,31.0)
+            
+            item1 = scene.itemAt(posleft1,transform)
+            item2 = scene.itemAt(posleft2,transform)
+            
+            if item1 is None and item2 is None:
+                return None
+                
+            if item1 is not None:
+                if item1.is_collidable():
+                    return 0
+                    
+            if item2 is not None:
+                if item2.is_collidable():
+                    return 0
+                    
+            if item1 is not None or item2 is not None:
+                return None
+            
         else:
-            return False
+            return 0
+        
+    def check_collisions_y(self,player,scene,dy):
+        
+        if dy < 0:
+            #tests bottom of player collision
+            transform = QTransform()
+            pos = player.pos()
+            posdown1 = pos + QPointF(3.0,31.0-dy)
+            posdown2 = pos + QPointF(29.0,31.0-dy)
+            
+            item1 = scene.itemAt(posdown1,transform)
+            item2 = scene.itemAt(posdown2,transform)
+            
+            if item1 is None and item2 is None:
+                return None
+                
+            if item1 is not None:
+                if item1.is_collidable():
+                    return -(item1.y()-player.y()-32)
+                    
+            if item2 is not None:
+                if item2.is_collidable():
+                    return -(item2.y()-player.y()-32)
+                    
+            if item1 is not None or item2 is not None:
+                return None
+            
+        elif dy > 0:
+            #test top of player collisions
+            transform = QTransform()
+            pos = player.pos()
+            posup1 = pos + QPointF(3.0,9.0-dy)
+            posup2 = pos + QPointF(29.0,9.0-dy)
+            
+            item1 = scene.itemAt(posup1,transform)
+            item2 = scene.itemAt(posup2,transform)
+            
+            if item1 is None and item2 is None:
+                return None
+                
+            if item1 is not None:
+                if item1.is_collidable():
+                    return 0
+                    
+            if item2 is not None:
+                if item2.is_collidable():
+                    return 0
+                    
+            if item1 is not None or item2 is not None:
+                return None
+            
+        else:
+            return None
     
-    def check_collision_down(self,player,scene):
-        
-        transform = QTransform()
-        pos = player.pos()
-        pos1 = pos + QPointF(3.0,32.0)
-        pos2 = pos + QPointF(29.0,32.0)
-        
-        item1 = scene.itemAt(pos1,transform)
-        item2 = scene.itemAt(pos2,transform)
-        
-        if item1 is None and item2 is None:
-            return False
-        
-        elif item1 is not None:
-            if item1.is_collidable():
-                return True
-            
-        elif item2 is not None:
-            if item2.is_collidable():
-                return True
-            
-        else:
-            return False
-        
-    def check_collision_left(self,player,scene):
-        
-        transform = QTransform()
-        pos = player.pos()
-        pos1 = pos + QPointF(2.0,10.0)
-        pos2 = pos + QPointF(2.0,31.0)
-        
-        item1 = scene.itemAt(pos1,transform)
-        item2 = scene.itemAt(pos2,transform)
-        
-        if item1 is None and item2 is None:
-            return False
-        elif item1 is not None:
-            if item1.is_collidable():
-                return True
-        elif item2 is not None:
-            if item2.is_collidable():
-                return True
-        else:
-            return False
-           
-    def check_collision_right(self,player,scene):
-        
-        transform = QTransform()
-        pos = player.pos()
-        pos1 = pos + QPointF(30.0,10.0)
-        pos2 = pos + QPointF(30.0,31.0)
-        
-        item1 = scene.itemAt(pos1,transform)
-        item2 = scene.itemAt(pos2,transform)
-        
-        if item1 is None and item2 is None:
-            return False
-        elif item1 is not None:
-            if item1.is_collidable():
-                return True
-        elif item2 is not None:
-            if item2.is_collidable():
-                return True
-        else:
-            return False
         
     def reset_gravity(self):
         self.g = 0.0
-        return 0
+        self.v = 0.0
     
-    def gravity(self,v):
+    def gravity(self):
         
-        self.g -= 0.1
+        self.g += 0.07
+        if self.v <= 32.0:
+            self.v += self.g
         
-        v += self.g
-        
-        return v
+        return self.v
         
