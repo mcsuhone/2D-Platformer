@@ -1,7 +1,8 @@
 from PyQt5.QtWidgets import QGraphicsPixmapItem,QGraphicsScene,QGraphicsView
 from PyQt5.QtCore import Qt,QBasicTimer,QRectF,QSizeF
 from PyQt5.QtGui import QBrush,QColor,QLinearGradient,QIcon,QPixmap
-from PyQt5.Qt import QPointF, QTransform, QGraphicsTextItem
+from PyQt5.Qt import QPointF, QTransform, QGraphicsTextItem, QFont, QLabel,\
+    QGridLayout
 
 from maploader import MapLoader
 from CONSTANTS import *
@@ -19,6 +20,8 @@ class Scene(QGraphicsScene):
         self.timer = QBasicTimer()
         self.timer.start(FRAME_TIME_MS, self)
         
+        
+        
         mapname = "map1.txt"
         
         self.maploader = MapLoader()
@@ -28,7 +31,7 @@ class Scene(QGraphicsScene):
         self.setSceneRect(rect)
         
         self.addBackGround()
-        #self.setScoreBoard()
+        #self.addScoreBoard()
         
         
         self.view = QGraphicsView(self)
@@ -49,9 +52,12 @@ class Scene(QGraphicsScene):
     
     def addScoreBoard(self):
         
-        self.score = QGraphicsTextItem("Hello!")
-        self.addItem(self.score)
-    
+        self.layout = QGridLayout(self)
+        title = QLabel("Hello World", self)
+        self.layout.addWidget(title, 50, 50)
+        
+        self.setLayout(self.layout)
+        
     def getSceneX(self):
         
         return self.mapsize['xsize']

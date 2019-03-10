@@ -13,8 +13,8 @@ class Derbiili(QGraphicsPixmapItem):
         self.collision = False
         self.setPos(x*32,y*32)
         
-        self.speed = 6
-        self.jump_height = 10.0
+        self.speed = 3
+        self.jump_height = 6.0
         self.in_air = False
         self.vy = 0.0
         
@@ -91,7 +91,15 @@ class Derbiili(QGraphicsPixmapItem):
         self.move(dx,dy)
         
         self.pickup_items()
+        self.obstacle_check()
         
+    def obstacle_check(self):
+        
+        items = self.scene.collidingItems(self)
+        
+        for item in items:
+            if item.is_obstacle():
+                item.obstacle_effect()
         
     def pickup_items(self):
         

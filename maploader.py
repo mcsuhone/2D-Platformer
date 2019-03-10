@@ -1,8 +1,12 @@
 from io import StringIO
 
-from Blocks import *
+from Blocks.blockgrass import BlockGrass
+from Blocks.blockground import BlockGround
+from Blocks.blockrock import BlockRock
+from Blocks.spikes import Spikes
 from derbiili import Derbiili
-from Items import *
+from Items.cake import Cake
+from Items.grass import Grass
 
 class MapLoader():
     
@@ -96,24 +100,28 @@ class MapLoader():
                         if block == "0":
                             pass
                         elif block == "g":
-                            block = blockgrass.BlockGrass(x,y)
+                            block = BlockGrass(x,y)
                             self.scene.addItem(block)
                         elif block == "d":
-                            block = blockground.BlockGround(x,y)
+                            block = BlockGround(x,y)
                             self.scene.addItem(block)
                         elif block == "s":
-                            block = blockrock.BlockRock(x,y)
+                            block = BlockRock(x,y)
                             self.scene.addItem(block)
                         elif block == "X":
                             derbiili = Derbiili(self.scene,x,y)
                             self.scene.addItem(derbiili)
                             self.scene.addDerbiili(derbiili)
                         elif block == "C":
-                            item = cake.Cake(x,y)
+                            item = Cake(x,y)
                             self.scene.addItem(item)
-                        elif block == "F":
-                            item = flower.Flower(x,y)
+                        elif block == "G":
+                            item = Grass(x,y)
                             self.scene.addItem(item)
+                        elif block == "M":
+                            block = Spikes(x,y)
+                            self.scene.addItem(block)
+                            
                         x+=1
         self.map_size['ysize'] = y*32            
         
