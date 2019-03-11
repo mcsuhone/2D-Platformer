@@ -7,8 +7,7 @@ from PyQt5.QtGui import QPalette,QPixmap
 from button import Button
 from scene import Scene
 from CONSTANTS import *
-from PyQt5.Qt import QLabel, QLayout, QGridLayout, QPointF, QVBoxLayout,\
-    QHBoxLayout
+from PyQt5.Qt import QLabel
 
 
 class Menu(QWidget):
@@ -18,11 +17,12 @@ class Menu(QWidget):
         
         self.setup()
         
+        self.show()
+        
         self.main_menu()
         self.map_menu()
         
-        for item in self.main_menu_items:
-            item.show()
+        self.display_main_menu()
         
     def setup(self):
         
@@ -66,22 +66,28 @@ class Menu(QWidget):
         self.styleSheet()
         self.main_menu_items.append(button_exit)
         
-        self.show()
         
     def map_menu(self):
         
         self.map_menu_items = []
         
-        button_map1 = QPushButton('Level 1', self)
+        button_map1 = Button(200,100,64,64,'Level 1', self)
         button_map1.clicked.connect(self.play)
-        button_map1.setFixedSize(64,64)
-        button_map1.move(200,100)
         button_map1.setStyleSheet('''
                                 background-image: url(Textures/MapIcon.png);
                                 border: none;
                                 ''')
-        
+        self.mapname = 'map1.txt'
         self.map_menu_items.append(button_map1)
+        
+        button_map2 = Button(300,100,64,64,'Level 2', self)
+        button_map2.clicked.connect(self.play)
+        button_map2.setStyleSheet('''
+                                background-image: url(Textures/MapIcon.png);
+                                border: none;
+                                ''')
+        
+        self.map_menu_items.append(button_map2)
         
         button_back = Button(0,500,160,32,'Back', self)
         button_back.clicked.connect(self.display_main_menu)
@@ -105,7 +111,7 @@ class Menu(QWidget):
     def play(self):
         
         self.close()
-        scene = Scene()
+        scene = Scene(self,self.mapname)
 
         
         

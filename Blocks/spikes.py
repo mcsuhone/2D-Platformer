@@ -8,6 +8,7 @@ class Spikes(Block):
         self.setPixmap(QPixmap("Textures\Spikes.png"))
         self.addPos(x,y)
         
-    def obstacle_effect(self):
+    def obstacle_effect(self,scene):
         
+        scene.death_screen()
         print("Kuolit!")

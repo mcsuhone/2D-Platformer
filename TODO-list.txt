@@ -1,8 +1,9 @@
 TODO-list
 
--menu graphics
+
 -mousepressevents?
 -GUI for tracking score
 -doors to new scenes
--make blocks without collision
--items
+-enemies
+-idle movement
+-npc:s?

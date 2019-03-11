@@ -88,10 +88,11 @@ class Derbiili(QGraphicsPixmapItem):
                 dy = ydetect
                 
         #positive dy moves player up, negative moves down
-        self.move(dx,dy)
         
         self.pickup_items()
         self.obstacle_check()
+        
+        self.move(dx,dy)
         
     def obstacle_check(self):
         
@@ -99,7 +100,7 @@ class Derbiili(QGraphicsPixmapItem):
         
         for item in items:
             if item.is_obstacle():
-                item.obstacle_effect()
+                item.obstacle_effect(self.scene)
         
     def pickup_items(self):
         

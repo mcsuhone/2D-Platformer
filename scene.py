@@ -2,14 +2,14 @@ from PyQt5.QtWidgets import QGraphicsPixmapItem,QGraphicsScene,QGraphicsView
 from PyQt5.QtCore import Qt,QBasicTimer,QRectF,QSizeF
 from PyQt5.QtGui import QBrush,QColor,QLinearGradient,QIcon,QPixmap
 from PyQt5.Qt import QPointF, QTransform, QGraphicsTextItem, QFont, QLabel,\
-    QGridLayout
+    QGridLayout, QGraphicsRectItem
 
 from maploader import MapLoader
 from CONSTANTS import *
 
 class Scene(QGraphicsScene):
 
-    def __init__(self, parent = None):
+    def __init__(self,menu,mapname, parent = None):
         
         QGraphicsScene.__init__(self, parent)
         
@@ -21,9 +21,7 @@ class Scene(QGraphicsScene):
         self.timer.start(FRAME_TIME_MS, self)
         
         
-        
-        mapname = "map1.txt"
-        
+        self.menu = menu
         self.maploader = MapLoader()
         self.mapsize = self.maploader.load_map(self,mapname)
         
@@ -50,6 +48,26 @@ class Scene(QGraphicsScene):
         self.view.setWindowTitle("Derbiili: Adventures")
         self.view.setWindowIcon(QIcon(QPixmap('Textures\BlockGrass.png')))
     
+    def death_screen(self):
+        
+        redscreen = QGraphicsRectItem(0,0,self.mapsize['xsize'],self.mapsize['ysize'])
+        redbrush = QBrush(QColor(200,100,100))
+        redscreen.setBrush(redbrush)
+        redscreen.setOpacity(0.4)
+        self.addItem(redscreen)
+        
+        self.addText('Kuolit!!')
+        
+        self.timer.stop()
+        
+    
+    def death_event(self):
+        
+        
+        self.view.hide()
+        self.menu.show()
+        self.menu.display_map_menu()
+        
     def addScoreBoard(self):
         
         self.layout = QGridLayout(self)
