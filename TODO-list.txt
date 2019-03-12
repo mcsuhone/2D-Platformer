@@ -1,7 +1,7 @@
 TODO-list
 
 
--mousepressevents?
+-x-acceleration physics
 -GUI for tracking score
 -doors to new scenes
 -enemies

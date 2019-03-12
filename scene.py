@@ -4,6 +4,7 @@ from PyQt5.QtGui import QBrush,QColor,QLinearGradient,QIcon,QPixmap
 from PyQt5.Qt import QPointF, QTransform, QGraphicsTextItem, QFont, QLabel,\
     QGridLayout, QGraphicsRectItem
 
+import Items
 from maploader import MapLoader
 from CONSTANTS import *
 
@@ -20,17 +21,16 @@ class Scene(QGraphicsScene):
         self.timer = QBasicTimer()
         self.timer.start(FRAME_TIME_MS, self)
         
-        
+        #define menu and load map
         self.menu = menu
         self.maploader = MapLoader()
         self.mapsize = self.maploader.load_map(self,mapname)
         
-        rect = QRectF(QPointF(0,0),QSizeF(self.mapsize['xsize'],self.mapsize['ysize']))
-        self.setSceneRect(rect)
-        
         self.addBackGround()
         #self.addScoreBoard()
         
+        rect = QRectF(QPointF(0,0),QSizeF(self.mapsize['xsize'],self.mapsize['ysize']))
+        self.setSceneRect(rect)
         
         self.view = QGraphicsView(self)
         self.view.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
@@ -106,6 +106,7 @@ class Scene(QGraphicsScene):
         #if x:
         self.camera_control()
         self.game_update()
+        self.update_items()
         self.update()
         
         #    x=False
@@ -119,3 +120,11 @@ class Scene(QGraphicsScene):
     def game_update(self):
         
         self.player.player_movement(self.keys_pressed)
+        
+    def update_items(self):
+        print("X")
+        itemlist = self.view.items()
+        for item in itemlist:
+            if type(item) == Items.cake.Cake:
+                item.update_idle()
+                
