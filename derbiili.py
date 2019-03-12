@@ -16,6 +16,7 @@ class Derbiili(QGraphicsPixmapItem):
         self.speed = 3
         self.jump_height = 6.0
         self.in_air = False
+
         self.vy = 0.0
         
         self.scene = scene
@@ -36,10 +37,7 @@ class Derbiili(QGraphicsPixmapItem):
         if self.in_air:
             dv = self.physics.gravity()               #continue air movement
             dy = self.vy-dv
-            
-        elif Qt.Key_Space in keys_pressed:
-            dy = self.jump()                          #iniate jump
-            
+             
         if Qt.Key_A in keys_pressed:
             dx -= self.speed
             if self.x()+dx < 0:
@@ -54,11 +52,10 @@ class Derbiili(QGraphicsPixmapItem):
             
             xdetect = self.physics.check_collisions_x(self,self.scene,dx)
             ydetect = self.physics.check_collisions_y(self,self.scene,dy)
-            
-        #detects return None is player is not colliding with anything
-        #else returns distance from block
+
             if xdetect is None:
                 pass
+
             else:
                 dx = xdetect    
                 
@@ -75,8 +72,6 @@ class Derbiili(QGraphicsPixmapItem):
             xdetect = self.physics.check_collisions_x(self,self.scene,dx)
             ydetect = self.physics.check_collisions_y(self,self.scene,dy)
             
-        #detects return None is player is not colliding with anything
-        #else returns distance from block
             if xdetect is None:
                 pass
             else:
@@ -119,7 +114,7 @@ class Derbiili(QGraphicsPixmapItem):
         return dy
         
     def move(self,dx,dy):
-        
+
         self.setPos(self.x()+dx, self.y()-dy)
         
         
