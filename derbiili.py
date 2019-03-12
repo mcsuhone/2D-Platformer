@@ -37,7 +37,10 @@ class Derbiili(QGraphicsPixmapItem):
         if self.in_air:
             dv = self.physics.gravity()               #continue air movement
             dy = self.vy-dv
-             
+            
+        elif Qt.Key_Space in keys_pressed:
+            dy = self.jump()                          #iniate jump
+            
         if Qt.Key_A in keys_pressed:
             dx -= self.speed
             if self.x()+dx < 0:

@@ -59,7 +59,9 @@ class Scene(QGraphicsScene):
         self.addText('Kuolit!!')
         
         self.timer.stop()
+        self.view.hide()
         
+        self.death_event()
     
     def death_event(self):
         
@@ -106,7 +108,7 @@ class Scene(QGraphicsScene):
         #if x:
         self.camera_control()
         self.game_update()
-        self.update_items()
+        #self.update_items()
         self.update()
         
         #    x=False
@@ -122,7 +124,7 @@ class Scene(QGraphicsScene):
         self.player.player_movement(self.keys_pressed)
         
     def update_items(self):
-        print("X")
+        
         itemlist = self.view.items()
         for item in itemlist:
             if type(item) == Items.cake.Cake:
