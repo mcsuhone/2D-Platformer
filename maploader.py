@@ -1,9 +1,13 @@
 from io import StringIO
 
-from blockground import BlockGround
-from blockgrass import BlockGrass
-from blockrock import BlockRock
+from Blocks.blockgrass import BlockGrass
+from Blocks.blockground import BlockGround
+from Blocks.blockrock import BlockRock
+from Blocks.spikes import Spikes
 from derbiili import Derbiili
+from Items.cake import Cake
+from Items.grass import Grass
+from Blocks.blockbox import BlockBox
 
 class MapLoader():
     
@@ -109,6 +113,20 @@ class MapLoader():
                             derbiili = Derbiili(self.scene,x,y)
                             self.scene.addItem(derbiili)
                             self.scene.addDerbiili(derbiili)
+                        elif block == "C":
+                            item = Cake(x,y)
+                            self.scene.addItem(item)
+                        elif block == "G":
+                            item = Grass(x,y)
+                            self.scene.addItem(item)
+                        elif block == "M":
+                            block = Spikes(x,y)
+                            self.scene.addItem(block)
+                        elif block == "b":
+                            block = BlockBox(x,y)
+                            self.scene.addItem(block)
+                        
+                            
                         x+=1
         self.map_size['ysize'] = y*32            
         

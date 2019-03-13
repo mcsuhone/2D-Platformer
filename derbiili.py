@@ -1,9 +1,8 @@
-from PyQt5.QtGui import QPixmap,QPainterPath
+from PyQt5.QtGui import QPixmap,QTransform
 from PyQt5.QtWidgets import QGraphicsPixmapItem
 from PyQt5.QtCore import Qt
 
 from physics import Physics
-from PyQt5.Qt import QTransform, QPointF
 
 class Derbiili(QGraphicsPixmapItem):
     
@@ -14,130 +13,113 @@ class Derbiili(QGraphicsPixmapItem):
         self.collision = False
         self.setPos(x*32,y*32)
         
-        self.speed = 4
-        self.jump_height = 12.0
-        self.jump = False
-        self.fall = False
+        self.speed = 3
+        self.jump_height = 6.0
+        self.in_air = False
+
         self.vy = 0.0
-        self.counter = 0
-        #Height = 22
-        #Widght = 26
         
         self.scene = scene
         self.physics = Physics()
         
     def is_collidable(self):
+        
         return self.collision
     
     def player_movement(self, keys_pressed):
-        
-        #(self.x()-32.0),(self.y()-38.0),(self.x()+64.0),(self.y()+54.0)
         dx = 0
+        dy = 0
         
-        #position = self.physics.check_collision_direction(self,nearbyitems)
+        testfall = self.physics.check_collisions_y(self, self.scene, -1)
+        if testfall is None:
+            self.in_air = True
         
-        if Qt.Key_Space in keys_pressed:
+        if self.in_air:
+            dv = self.physics.gravity()               #continue air movement
+            dy = self.vy-dv
             
-            self.jump = True
+        elif Qt.Key_Space in keys_pressed:
+            dy = self.jump()                          #iniate jump
+            
+        if Qt.Key_A in keys_pressed:
+            dx -= self.speed
+            if self.x()+dx < 0:
+                dx = 0
         
-        if self.jump:
-            self.counter += 1
-        if self.counter >= 3:
-            self.jump = False    
-        
-        if not self.fall:   
-            dy = self.Jumping()
-        else:
-            dy = self.Falling()
-        
-        if not self.physics.check_collision_left(self,self.scene):
-            if Qt.Key_A in keys_pressed:
-                dx -= self.speed
-                if self.x()+dx < 0:
-                    dx = 0
-        
-        if not self.physics.check_collision_right(self,self.scene):
-            if Qt.Key_D in keys_pressed:
-                dx += self.speed
-                if self.x()+dx+32 > self.scene.getSceneX():
-                    dx = 0
-        
-        
-        transform = QTransform()
-        pos = self.pos()
-        pos1 = pos + QPointF(0.0,31.0-dy)
-        pos2 = pos + QPointF(31.0,31.0-dy)
-        
-        itemunder1 = self.scene.itemAt(pos1,transform)
-        itemunder2 = self.scene.itemAt(pos2,transform)
-        
-        
-        if itemunder1 != None:
-            self.setPos(self.x()+dx, itemunder1.y()-32)
-        elif itemunder2 != None:
-            self.setPos(self.x()+dx, itemunder2.y()-32)
-        else:
-            self.setPos(self.x()+dx, self.y()-dy)
+        if Qt.Key_D in keys_pressed:
+            dx += self.speed
+            if self.x()+dx+32 > self.scene.getSceneX():
+                dx = 0
+                
+        if dy <= 0:
+            
+            xdetect = self.physics.check_collisions_x(self,self.scene,dx)
+            ydetect = self.physics.check_collisions_y(self,self.scene,dy)
 
-    
-    
-    def Falling(self):
-        
-        if self.physics.check_collision_down(self,self.scene) and self.jump:
-            
-            self.vy = self.jump_height
-            dy = self.vy
-            
-        
-        elif self.physics.check_collision_down(self,self.scene):
-            
-            self.counter = 0
-            self.jump = False
-            self.fall = False
-            dy = 0
-            
-            self.vy = self.physics.reset_gravity()
-            
-        else:
-            
-            self.vy = self.physics.gravity(self.vy)
-            if self.vy <= -self.jump_height*2:
-                dy = -self.jump_height*2
+            if xdetect is None:
+                pass
+
             else:
-                dy = self.vy
+                dx = xdetect    
+                
+            if ydetect is None:
+                pass
+            else:
+                dy = ydetect
+                self.vy = 0.0
+                self.in_air = False
+                self.physics.reset_gravity()
+                
+        elif dy > 0:
+            
+            xdetect = self.physics.check_collisions_x(self,self.scene,dx)
+            ydetect = self.physics.check_collisions_y(self,self.scene,dy)
+            
+            if xdetect is None:
+                pass
+            else:
+                dx = xdetect    
+                
+            if ydetect is None:
+                pass
+            else:
+                dy = ydetect
+                
+        #positive dy moves player up, negative moves down
+        
+        self.pickup_items()
+        self.obstacle_check()
+        
+        self.move(dx,dy)
+        
+    def obstacle_check(self):
+        
+        items = self.scene.collidingItems(self)
+        
+        for item in items:
+            if item.is_obstacle():
+                item.obstacle_effect(self.scene)
+        
+    def pickup_items(self):
+        
+        items = self.scene.collidingItems(self)
+        
+        for item in items:
+            if item.is_pickable():
+                item.effect(self.scene)
+                self.scene.removeItem(item)
+        
+    def jump(self):
+        self.vy = self.jump_height
+        dy = self.vy
+        self.in_air = True
         
         return dy
-    
-    def Jumping(self):
         
-        if self.physics.check_collision_down(self,self.scene) and self.jump:
-            
-            self.vy = self.jump_height
-            dy = self.vy
-            
-        elif self.physics.check_collision_up(self, self.scene):
-            
-            self.vy = self.physics.reset_gravity()
-            dy = self.vy
-            self.fall = True
-            
-        elif self.physics.check_collision_down(self,self.scene):
-            
-            self.counter = 0
-            self.jump = False
-            dy = 0
-            
-            self.vy = self.physics.reset_gravity()
-            
-        else:
-            
-            self.vy = self.physics.gravity(self.vy)
-            if self.vy <= -self.jump_height*2:
-                dy = -self.jump_height*2
-            else:
-                dy = self.vy
+    def move(self,dx,dy):
+
+        self.setPos(self.x()+dx, self.y()-dy)
         
-        return dy
         
         
         

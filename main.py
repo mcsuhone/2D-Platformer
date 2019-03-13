@@ -1,5 +1,4 @@
 import sys
-from scene import Scene
 from menu import Menu
 from PyQt5.QtWidgets import QApplication
 
