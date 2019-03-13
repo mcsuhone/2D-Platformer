@@ -1,14 +1,17 @@
 from PyQt5.QtWidgets import QGraphicsPixmapItem,QGraphicsScene,QGraphicsView
 from PyQt5.QtCore import Qt,QBasicTimer,QRectF,QSizeF
 from PyQt5.QtGui import QBrush,QColor,QLinearGradient,QIcon,QPixmap
-from PyQt5.Qt import QPointF, QTransform
+from PyQt5.Qt import QPointF, QTransform, QGraphicsTextItem, QFont, QLabel,\
+    QGridLayout, QGraphicsRectItem, QPushButton
 
+import Items
+from button import Button
 from maploader import MapLoader
 from CONSTANTS import *
 
 class Scene(QGraphicsScene):
 
-    def __init__(self, parent = None):
+    def __init__(self,menu,mapname, parent = None):
         
         QGraphicsScene.__init__(self, parent)
         
