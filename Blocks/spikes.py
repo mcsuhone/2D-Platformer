@@ -11,4 +11,3 @@ class Spikes(Block):
     def obstacle_effect(self,scene):
         
         scene.death_screen()
-        print("Kuolit!")

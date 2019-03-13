@@ -106,7 +106,7 @@ class Derbiili(QGraphicsPixmapItem):
         
         for item in items:
             if item.is_pickable():
-                item.effect()
+                item.effect(self.scene)
                 self.scene.removeItem(item)
         
     def jump(self):

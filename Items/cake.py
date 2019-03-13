@@ -11,8 +11,9 @@ class Cake(Item):
         self.collision = collision
         self.idle_state = 1
     
-    def effect(self):
-        print("Yummy cake!")
+    def effect(self,scene):
+        
+        scene.add_cake(1)
         
     def update_idle(self):
         if self.idle_state == 1:

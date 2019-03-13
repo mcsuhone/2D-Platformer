@@ -2,8 +2,8 @@ TODO-list
 
 
 -x-acceleration physics
--GUI for tracking score
 -doors to new scenes
 -enemies
 -idle movement
 -npc:s?
+-health system

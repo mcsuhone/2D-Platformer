@@ -7,6 +7,7 @@ from Blocks.spikes import Spikes
 from derbiili import Derbiili
 from Items.cake import Cake
 from Items.grass import Grass
+from Blocks.blockbox import BlockBox
 
 class MapLoader():
     
@@ -121,6 +122,10 @@ class MapLoader():
                         elif block == "M":
                             block = Spikes(x,y)
                             self.scene.addItem(block)
+                        elif block == "b":
+                            block = BlockBox(x,y)
+                            self.scene.addItem(block)
+                        
                             
                         x+=1
         self.map_size['ysize'] = y*32            
