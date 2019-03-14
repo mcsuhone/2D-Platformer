@@ -1,9 +1,10 @@
 TODO-list
 
 
--x-acceleration physics
 -doors to new scenes
 -enemies
 -idle movement
 -npc:s?
 -health system
+-win screen
+-make derbiili -Z (behind of other items)
