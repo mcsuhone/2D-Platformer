@@ -8,10 +8,11 @@ import Items
 from button import Button
 from maploader import MapLoader
 from CONSTANTS import *
+import Enemies
 
 class Scene(QGraphicsScene):
 
-    def __init__(self,menu,mapname, parent = None):
+    def __init__(self, menu, mapname, parent = None):
         
         QGraphicsScene.__init__(self, parent)
         
@@ -27,6 +28,7 @@ class Scene(QGraphicsScene):
         self.maploader = MapLoader()
         self.mapsize = self.maploader.load_map(self,mapname)
         self.cakes = 0
+        
         
         self.addBackGround()
         self.addScoreBoard()
@@ -44,12 +46,27 @@ class Scene(QGraphicsScene):
         x = self.player.x()
         pos = QPointF(x,self.mapsize['ysize'])
         self.view.centerOn(pos)
+        self.list_items()
         
         self.view.show()
         
         self.view.setWindowTitle("Derbiili: Adventures")
         self.view.setWindowIcon(QIcon(QPixmap('Textures\BlockGrass.png')))
     
+    def list_items(self):
+        
+        itemlist = self.view.items()
+        
+        self.idleitems = []
+        self.enemies = []
+        
+        for item in itemlist:
+            if type(item) == Items.cake.Cake:
+                self.idleitems.append(item)
+            elif type(item) == Enemies.snake.Snake:
+                self.enemies.append(item)
+            elif type(item) == Enemies.bat.Bat:
+                self.enemies.append(item)
     
     def add_cake(self,cakes):
         
@@ -87,7 +104,39 @@ class Scene(QGraphicsScene):
         deathtext.setPos(2300+pos.x()-80,200+pos.y()-64)
         self.addItem(deathtext)
         
+        
     def death_event(self):
+        
+        self.view.hide()
+        self.menu.show()
+        self.menu.display_map_menu()
+        
+    def win_screen(self):
+        
+        winscreen = QGraphicsRectItem(0,0,self.mapsize['xsize'],self.mapsize['ysize'])
+        lightbrush = QBrush(QColor(200,220,200))
+        winscreen.setBrush(lightbrush)
+        winscreen.setOpacity(0.4)
+        self.addItem(winscreen)
+        
+        self.timer.stop()
+        
+        pos = self.view.mapToScene(0,0)
+        
+        button1 = Button(300+pos.x()-80,200+pos.y(),160,32, "Next level!")
+        button1.setStyleSheet('''
+                                background-image: url(Textures/Button1.png);
+                                border: none;
+                                ''')
+        button1.clicked.connect(self.next_level)
+        self.addWidget(button1,Qt.Widget)
+        
+        
+        wintext = QGraphicsTextItem("Level completed!")
+        wintext.setPos(2300+pos.x()-80,200+pos.y()-64)
+        self.addItem(wintext)
+        
+    def next_level(self):
         
         self.view.hide()
         self.menu.show()
@@ -129,6 +178,7 @@ class Scene(QGraphicsScene):
         self.camera_control()
         self.game_update()
         #self.update_items()
+        
         self.update()
         
         #    x=False
@@ -141,8 +191,9 @@ class Scene(QGraphicsScene):
         
     def game_update(self):
         
-        self.player.player_movement(self.keys_pressed)
         self.update_GUI()
+        self.update_enemies()
+        self.player.player_movement(self.keys_pressed)
         
     def update_GUI(self):
         
@@ -153,8 +204,11 @@ class Scene(QGraphicsScene):
         
     def update_items(self):
         
-        itemlist = self.view.items()
-        for item in itemlist:
-            if type(item) == Items.cake.Cake:
-                item.update_idle()
+        for item in self.idleitems:
+            item.update_idle()
                 
+    def update_enemies(self):
+        
+        for enemy in self.enemies:
+            enemy.move()
+        

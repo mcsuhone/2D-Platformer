@@ -8,6 +8,9 @@ from derbiili import Derbiili
 from Items.cake import Cake
 from Items.grass import Grass
 from Blocks.blockbox import BlockBox
+from Blocks.portal import Portal
+from Enemies.snake import Snake
+from Enemies.bat import Bat
 
 class MapLoader():
     
@@ -110,7 +113,7 @@ class MapLoader():
                             block = BlockRock(x,y)
                             self.scene.addItem(block)
                         elif block == "X":
-                            derbiili = Derbiili(self.scene,x,y)
+                            derbiili = Derbiili(x,y,self.scene)
                             self.scene.addItem(derbiili)
                             self.scene.addDerbiili(derbiili)
                         elif block == "C":
@@ -125,7 +128,16 @@ class MapLoader():
                         elif block == "b":
                             block = BlockBox(x,y)
                             self.scene.addItem(block)
-                        
+                        elif block == "P":
+                            block = Portal(x,y)
+                            self.scene.addItem(block)
+                        elif block == "1":
+                            enemy = Snake(x,y,self.scene)
+                            self.scene.addItem(enemy)
+                        elif block == "2":
+                            enemy = Bat(x,y,self.scene)
+                            self.scene.addItem(enemy)
+                            
                             
                         x+=1
         self.map_size['ysize'] = y*32            

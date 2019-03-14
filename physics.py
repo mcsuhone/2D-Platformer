@@ -22,11 +22,11 @@ class Physics():
                 
             if item1 is not None:
                 if item1.is_collidable():
-                    return 0
+                    return item1.x()-player.x()-30
                     
             if item2 is not None:
                 if item2.is_collidable():
-                    return 0
+                    return item2.x()-player.x()-30
                     
             if item1 is not None or item2 is not None:
                 return None
@@ -35,8 +35,8 @@ class Physics():
             #tests left side collision
             transform = QTransform()
             pos = player.pos()
-            posleft1 = pos + QPointF(3.0+dx,9.0)
-            posleft2 = pos + QPointF(3.0+dx,31.0)
+            posleft1 = pos + QPointF(6.0+dx,9.0)
+            posleft2 = pos + QPointF(6.0+dx,31.0)
             
             item1 = scene.itemAt(posleft1,transform)
             item2 = scene.itemAt(posleft2,transform)
@@ -46,11 +46,11 @@ class Physics():
                 
             if item1 is not None:
                 if item1.is_collidable():
-                    return 0
+                    return -(player.x()-item1.x()-26)
                     
             if item2 is not None:
                 if item2.is_collidable():
-                    return 0
+                    return -(player.x()-item2.x()-26)
                     
             if item1 is not None or item2 is not None:
                 return None
@@ -64,7 +64,7 @@ class Physics():
             #tests bottom of player collision
             transform = QTransform()
             pos = player.pos()
-            posdown1 = pos + QPointF(3.0,31.0-dy)
+            posdown1 = pos + QPointF(6.0,31.0-dy)
             posdown2 = pos + QPointF(29.0,31.0-dy)
             
             item1 = scene.itemAt(posdown1,transform)
@@ -88,7 +88,7 @@ class Physics():
             #test top of player collisions
             transform = QTransform()
             pos = player.pos()
-            posup1 = pos + QPointF(3.0,9.0-dy)
+            posup1 = pos + QPointF(6.0,9.0-dy)
             posup2 = pos + QPointF(29.0,9.0-dy)
             
             item1 = scene.itemAt(posup1,transform)

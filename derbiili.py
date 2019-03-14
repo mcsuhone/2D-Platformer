@@ -6,17 +6,20 @@ from physics import Physics
 
 class Derbiili(QGraphicsPixmapItem):
     
-    def __init__(self, scene, x, y, parent=None):
+    def __init__(self, x, y, scene, parent=None):
         QGraphicsPixmapItem.__init__(self,parent)
         self.setPixmap(QPixmap("Textures\Derbiili.png"))
         
         self.collision = False
         self.setPos(x*32,y*32)
         
-        self.speed = 3
+        self.speed = 4
         self.jump_height = 6.0
         self.in_air = False
-
+        self.a = 0.5
+        self.friction = 0.5
+        
+        self.vx = 0.0
         self.vy = 0.0
         
         self.scene = scene
@@ -42,15 +45,41 @@ class Derbiili(QGraphicsPixmapItem):
             dy = self.jump()                          #iniate jump
             
         if Qt.Key_A in keys_pressed:
-            dx -= self.speed
+            if self.vx > -self.speed:
+                self.vx -= self.a
+                dx += self.vx
+            else:
+                dx -= self.speed
             if self.x()+dx < 0:
-                dx = 0
+                dx = 0   
         
-        if Qt.Key_D in keys_pressed:
-            dx += self.speed
+        elif Qt.Key_D in keys_pressed:
+            if self.vx < self.speed:
+                self.vx += self.a
+                dx += self.vx
+            else:
+                dx += self.speed
             if self.x()+dx+32 > self.scene.getSceneX():
                 dx = 0
-                
+        else:
+            if self.vx == 0.0:
+                pass
+            elif self.vx > 0:
+                if self.vx - self.friction < 0:
+                    self.vx = 0
+                    dx = 0
+                else:
+                    self.vx -= self.friction
+                    dx = self.vx
+            else:
+                if self.vx + self.friction > 0:
+                    self.vx = 0
+                    dx = 0
+                else:
+                    self.vx += self.friction
+                    dx = self.vx
+        
+            
         if dy <= 0:
             
             xdetect = self.physics.check_collisions_x(self,self.scene,dx)
@@ -99,6 +128,8 @@ class Derbiili(QGraphicsPixmapItem):
         for item in items:
             if item.is_obstacle():
                 item.obstacle_effect(self.scene)
+                
+        
         
     def pickup_items(self):
         
