@@ -16,6 +16,7 @@ class Derbiili(QGraphicsPixmapItem):
         self.speed = 3
         self.jump_height = 6.0
         self.in_air = False
+        self.acceleration = 1.0
 
         self.vy = 0.0
         
