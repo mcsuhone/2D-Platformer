@@ -49,6 +49,10 @@ class Enemy(QGraphicsPixmapItem):
         
         return abs(self.origin.x()-self.x())
     
+    def flip(self,direction):
+        #overwrite this.
+        pass
+    
     def move(self):
         dy = 0
         testfall = self.physics.check_collisions_y(self, self.scene, -1)
@@ -60,6 +64,7 @@ class Enemy(QGraphicsPixmapItem):
             dy = self.vy-dv
         
         if self.direction == -1:
+            self.flip(self.direction)
             dx = self.speed
             xdetect = self.physics.check_collisions_x(self,self.scene,dx)
             ydetect = self.physics.check_collisions_y(self,self.scene,dy)
@@ -75,7 +80,7 @@ class Enemy(QGraphicsPixmapItem):
             
             else:
                 dx = xdetect
-                self.direction = -1
+                self.direction = 1
                 self.speed = -self.speed
             
             if ydetect is None:
@@ -89,6 +94,7 @@ class Enemy(QGraphicsPixmapItem):
             self.setPos(self.x()+dx, self.y()-dy)
             
         else:
+            self.flip(self.direction)
             dx = self.speed
             xdetect = self.physics.check_collisions_x(self,self.scene,dx)
             ydetect = self.physics.check_collisions_y(self,self.scene,dy)

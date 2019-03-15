@@ -11,6 +11,7 @@ from Blocks.blockbox import BlockBox
 from Blocks.portal import Portal
 from Enemies.snake import Snake
 from Enemies.bat import Bat
+from Blocks.blockstonewall import BlockStoneWall
 
 class MapLoader():
     
@@ -137,6 +138,10 @@ class MapLoader():
                         elif block == "2":
                             enemy = Bat(x,y,self.scene)
                             self.scene.addItem(enemy)
+                        elif block == "O":
+                            block = BlockStoneWall(x,y)
+                            self.scene.addItem(block)
+                            
                             
                             
                         x+=1

@@ -11,4 +11,9 @@ class Snake(Enemy):
         self.setPixmap(QPixmap("Textures\Snake2.png"))
         self.addPos(x,y)
     
-    
+    def flip(self,direction):
+        
+        if direction == -1:
+            self.setPixmap(QPixmap("Textures/Snake2.png"))
+        else:
+            self.setPixmap(QPixmap("Textures/Snake2Flipped.png"))
