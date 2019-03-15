@@ -21,7 +21,8 @@ class Derbiili(QGraphicsPixmapItem):
         
         self.vx = 0.0
         self.vy = 0.0
-        
+        self.direction = -1
+    
         self.scene = scene
         self.physics = Physics()
         
@@ -32,6 +33,8 @@ class Derbiili(QGraphicsPixmapItem):
     def player_movement(self, keys_pressed):
         dx = 0
         dy = 0
+        
+        
         
         testfall = self.physics.check_collisions_y(self, self.scene, -1)
         if testfall is None:
@@ -45,6 +48,9 @@ class Derbiili(QGraphicsPixmapItem):
             dy = self.jump()                          #iniate jump
             
         if Qt.Key_A in keys_pressed:
+            self.direction = 1
+            self.flip(self.direction)
+            
             if self.vx > -self.speed:
                 self.vx -= self.a
                 dx += self.vx
@@ -54,6 +60,9 @@ class Derbiili(QGraphicsPixmapItem):
                 dx = 0   
         
         elif Qt.Key_D in keys_pressed:
+            self.direction = -1
+            self.flip(self.direction)
+            
             if self.vx < self.speed:
                 self.vx += self.a
                 dx += self.vx
@@ -151,7 +160,12 @@ class Derbiili(QGraphicsPixmapItem):
 
         self.setPos(self.x()+dx, self.y()-dy)
         
+    def flip(self,direction):
         
+        if direction == -1:
+            self.setPixmap(QPixmap("Textures/Derbiili.png"))
+        else:
+            self.setPixmap(QPixmap("Textures/DerbiiliFlipped.png"))
         
         
         
