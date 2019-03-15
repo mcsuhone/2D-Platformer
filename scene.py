@@ -107,7 +107,7 @@ class Scene(QGraphicsScene):
         
     def death_event(self):
         
-        self.view.hide()
+        self.view.close()
         self.menu.show()
         self.menu.display_map_menu()
         
@@ -138,7 +138,7 @@ class Scene(QGraphicsScene):
         
     def next_level(self):
         
-        self.view.hide()
+        self.view.close()
         self.menu.show()
         self.menu.display_map_menu()
         
