@@ -186,7 +186,8 @@ class Scene(QGraphicsScene):
     def camera_control(self):
         #checks x camera movement
         x = self.player.x()
-        pos = QPointF(x,self.mapsize['ysize'])
+        #pos = QPointF(x,self.mapsize['ysize'])
+        pos = self.player.pos()
         self.view.centerOn(pos)
         
     def game_update(self):
