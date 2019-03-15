@@ -68,6 +68,7 @@ class Bat(Enemy):
                 
             if ydetect is None:
                 pass
+            
             else:
                 dy = ydetect
                 self.vy = 0.0
