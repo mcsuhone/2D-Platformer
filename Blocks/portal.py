@@ -5,7 +5,7 @@ class Portal(Block):
     
     def __init__(self,x,y,collision = False, obstacle = True, parent=None):
         Block.__init__(self,collision,obstacle,parent)
-        self.setPixmap(QPixmap("Textures\Portal_empty.png"))
+        self.setPixmap(QPixmap("Textures\Portal.png"))
         self.addPos(x,y)
         
     def obstacle_effect(self,scene):

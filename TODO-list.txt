@@ -2,9 +2,9 @@ TODO-list
 
 
 -doors to new scenes
--enemies
 -idle movement
 -npc:s?
--health system
--win screen
+-health system, savepoints
 -make derbiili -Z (behind of other items)
+-more blocks
+-saving

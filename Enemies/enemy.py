@@ -1,10 +1,10 @@
-from PyQt5.Qt import QGraphicsPixmapItem
+from PyQt5.Qt import QGraphicsPixmapItem, QPointF
 
 from physics import Physics
 
 class Enemy(QGraphicsPixmapItem):
     
-    def __init__(self, scene, speed = -1.0, collision = True, obstacle = True, parent=None):
+    def __init__(self, scene, speed = -1.0, distance = 1.0, collision = True, obstacle = True, parent=None):
         QGraphicsPixmapItem.__init__(self,parent)
         self.collision = collision
         self.pickable = False
@@ -14,12 +14,14 @@ class Enemy(QGraphicsPixmapItem):
         self.in_air = False
         self.vy = 0.0
         self.direction = -1
+        self.distance = distance
         
         self.physics = Physics()
         self.scene = scene
     
     def addPos(self,x,y):
         self.setPos(x*32,y*32)
+        self.origin = QPointF(x*32,y*32)
         
     def is_collidable(self):
         if self is None:
@@ -43,6 +45,10 @@ class Enemy(QGraphicsPixmapItem):
         
         scene.death_screen()
     
+    def distance_from_origin(self):
+        
+        return abs(self.origin.x()-self.x())
+    
     def move(self):
         dy = 0
         testfall = self.physics.check_collisions_y(self, self.scene, -1)
@@ -57,15 +63,21 @@ class Enemy(QGraphicsPixmapItem):
             dx = self.speed
             xdetect = self.physics.check_collisions_x(self,self.scene,dx)
             ydetect = self.physics.check_collisions_y(self,self.scene,dy)
-                
-            if xdetect is None:
-                pass
-    
-            else:
-                dx = xdetect
+            
+            
+            if self.distance_from_origin() > 32*self.distance:
                 self.direction = 1
                 self.speed = -self.speed
-                
+                dx = self.speed
+            
+            elif xdetect is None:
+                pass
+            
+            else:
+                dx = xdetect
+                self.direction = -1
+                self.speed = -self.speed
+            
             if ydetect is None:
                 pass
             else:
@@ -81,9 +93,14 @@ class Enemy(QGraphicsPixmapItem):
             xdetect = self.physics.check_collisions_x(self,self.scene,dx)
             ydetect = self.physics.check_collisions_y(self,self.scene,dy)
                 
-            if xdetect is None:
+            if self.distance_from_origin() > 32*self.distance:
+                self.direction = -1
+                self.speed = -self.speed
+                dx = self.speed
+            
+            elif xdetect is None:
                 pass
-    
+            
             else:
                 dx = xdetect
                 self.direction = -1

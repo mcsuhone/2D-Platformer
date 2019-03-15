@@ -14,10 +14,10 @@ class Derbiili(QGraphicsPixmapItem):
         self.setPos(x*32,y*32)
         
         self.speed = 4
-        self.jump_height = 6.0
+        self.jump_height = 8.0
         self.in_air = False
         self.a = 0.5
-        self.friction = 0.5
+        self.friction = 0.8
         
         self.vx = 0.0
         self.vy = 0.0
