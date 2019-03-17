@@ -72,15 +72,17 @@ class Menu(QWidget):
         self.map_menu_items = []
         
         button_map1 = Button(200,100,64,64,'Level 1', self)
+        button_map1.clicked.connect(self.map1)
         button_map1.clicked.connect(self.play)
         button_map1.setStyleSheet('''
                                 background-image: url(Textures/MapIcon.png);
                                 border: none;
                                 ''')
-        self.mapname = 'map1.txt'
+        
         self.map_menu_items.append(button_map1)
         
         button_map2 = Button(300,100,64,64,'Level 2', self)
+        button_map2.clicked.connect(self.map2)
         button_map2.clicked.connect(self.play)
         button_map2.setStyleSheet('''
                                 background-image: url(Textures/MapIcon.png);
@@ -107,6 +109,14 @@ class Menu(QWidget):
         
         for item in self.main_menu_items:
             item.show()
+        
+    def map1(self):
+        
+        self.mapname = "Maps/map1.txt"
+        
+    def map2(self):
+        
+        self.mapname = "Maps/map2.txt"
         
     def play(self):
         

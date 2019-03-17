@@ -1,10 +1,13 @@
 TODO-list
 
-
--doors to new scenes
--idle movement
--npc:s?
--health system, savepoints
 -make derbiili -Z (behind of other items)
--more blocks
 -saving
+
+-update physics to have different sized creatures
+-update menu to load different maps
+-update maploader system to make big maps easier
+-health system, savepoints
+-animations
+
+-water blocks
+-ice blocks

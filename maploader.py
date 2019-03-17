@@ -9,9 +9,10 @@ from Items.cake import Cake
 from Items.grass import Grass
 from Blocks.blockbox import BlockBox
 from Blocks.portal import Portal
-from Enemies.snake import Snake
-from Enemies.bat import Bat
+from Creatures.snake import Snake
+from Creatures.bat import Bat
 from Blocks.blockstonewall import BlockStoneWall
+from Blocks.blockice import BlockIce
 
 class MapLoader():
     
@@ -141,7 +142,9 @@ class MapLoader():
                         elif block == "O":
                             block = BlockStoneWall(x,y)
                             self.scene.addItem(block)
-                            
+                        elif block == "I":
+                            block = BlockIce(x,y)
+                            self.scene.addItem(block)
                             
                             
                         x+=1

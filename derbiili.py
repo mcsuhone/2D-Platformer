@@ -3,21 +3,24 @@ from PyQt5.QtWidgets import QGraphicsPixmapItem
 from PyQt5.QtCore import Qt
 
 from physics import Physics
+import Blocks
+from CONSTANTS import *
 
 class Derbiili(QGraphicsPixmapItem):
     
     def __init__(self, x, y, scene, parent=None):
         QGraphicsPixmapItem.__init__(self,parent)
-        self.setPixmap(QPixmap("Textures\Derbiili.png"))
+        self.setPixmap(QPixmap("Textures/Derbiili/Derbiili.png"))
         
         self.collision = False
         self.setPos(x*32,y*32)
         
-        self.speed = 4
-        self.jump_height = 6.0
+        #values can be found in "CONSTANTS"
+        self.speed = PLAYER_SPEED
+        self.jump_height = JUMP_HEIGHT
         self.in_air = False
-        self.a = 0.5
-        self.friction = 0.8
+        self.a = ACCELERATION
+        self.friction = FRICTION
         
         self.vx = 0.0
         self.vy = 0.0
@@ -34,13 +37,10 @@ class Derbiili(QGraphicsPixmapItem):
         dx = 0
         dy = 0
         
-        
-        
-        testfall = self.physics.check_collisions_y(self, self.scene, -1)
-        if testfall is None:
-            self.in_air = True
+        self.is_standing_on()
         
         if self.in_air:
+            
             dv = self.physics.gravity()               #continue air movement
             dy = self.vy-dv
             
@@ -49,7 +49,6 @@ class Derbiili(QGraphicsPixmapItem):
             
         if Qt.Key_A in keys_pressed:
             self.direction = 1
-            self.flip(self.direction)
             
             if self.vx > -self.speed:
                 self.vx -= self.a
@@ -61,7 +60,6 @@ class Derbiili(QGraphicsPixmapItem):
         
         elif Qt.Key_D in keys_pressed:
             self.direction = -1
-            self.flip(self.direction)
             
             if self.vx < self.speed:
                 self.vx += self.a
@@ -128,7 +126,20 @@ class Derbiili(QGraphicsPixmapItem):
         self.pickup_items()
         self.obstacle_check()
         
+        self.update_texture()
+        
         self.move(dx,dy)
+        
+    def is_standing_on(self):
+        
+        block = self.physics.check_collisions_y(self, self.scene, -1)
+        if block is None:
+            self.in_air = True
+            
+        if type(block) == Blocks.blockice.BlockIce:
+            block.stand_on_effect(self)
+        else:
+            self.reset_friction()
         
     def obstacle_check(self):
         
@@ -156,16 +167,30 @@ class Derbiili(QGraphicsPixmapItem):
         
         return dy
         
+    def decrease_friction(self,df):
+        
+        self.friction -= df
+        
+    def reset_friction(self):
+        
+        self.friction = FRICTION
+        
     def move(self,dx,dy):
 
         self.setPos(self.x()+dx, self.y()-dy)
         
-    def flip(self,direction):
+    def update_texture(self):
         
-        if direction == -1:
-            self.setPixmap(QPixmap("Textures/Derbiili.png"))
+        if self.in_air:
+            if self.direction == -1:
+                self.setPixmap(QPixmap("Textures/Derbiili/DerbiiliJumping.png"))
+            else:
+                self.setPixmap(QPixmap("Textures/Derbiili/DerbiiliJumpingFlipped.png"))
         else:
-            self.setPixmap(QPixmap("Textures/DerbiiliFlipped.png"))
+            if self.direction == -1:
+                self.setPixmap(QPixmap("Textures/Derbiili/Derbiili.png"))
+            else:
+                self.setPixmap(QPixmap("Textures/Derbiili/DerbiiliFlipped.png"))
         
         
         

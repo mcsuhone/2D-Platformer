@@ -1,11 +1,11 @@
-from Enemies.enemy import Enemy
+from Creatures.enemy import Enemy
 from PyQt5.Qt import QPixmap, QPointF
 
 
 class Bat(Enemy):
     
     def __init__(self,x,y, scene, parent=None):
-        speed = -0.8
+        speed = -0.4
         distance = 2.0
         Enemy.__init__(self,scene,speed,distance,parent)
         self.setPixmap(QPixmap("Textures\Bat.png"))

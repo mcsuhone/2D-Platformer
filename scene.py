@@ -8,7 +8,7 @@ import Items
 from button import Button
 from maploader import MapLoader
 from CONSTANTS import *
-import Enemies
+import Creatures
 
 class Scene(QGraphicsScene):
 
@@ -19,7 +19,6 @@ class Scene(QGraphicsScene):
         # hold the set of keys we're pressing
         self.keys_pressed = set()
 
-        # use a timer to get 60Hz refresh (hopefully)
         self.timer = QBasicTimer()
         self.timer.start(FRAME_TIME_MS, self)
         
@@ -28,7 +27,6 @@ class Scene(QGraphicsScene):
         self.maploader = MapLoader()
         self.mapsize = self.maploader.load_map(self,mapname)
         self.cakes = 0
-        
         
         self.addBackGround()
         self.addScoreBoard()
@@ -43,9 +41,14 @@ class Scene(QGraphicsScene):
         
         self.view.scale(2,2)
         
-        x = self.player.x()
-        pos = QPointF(x,self.mapsize['ysize'])
-        self.view.centerOn(pos)
+        #camera settings
+        if self.player is None:
+            print("Player is missing from map file.")
+        else:
+            self.camera_y = self.player.y()
+            self.camera_x = self.player.x()
+            self.camera_speed = 4
+        
         self.list_items()
         
         self.view.show()
@@ -63,9 +66,9 @@ class Scene(QGraphicsScene):
         for item in itemlist:
             if type(item) == Items.cake.Cake:
                 self.idleitems.append(item)
-            elif type(item) == Enemies.snake.Snake:
+            elif type(item) == Creatures.snake.Snake:
                 self.enemies.append(item)
-            elif type(item) == Enemies.bat.Bat:
+            elif type(item) == Creatures.bat.Bat:
                 self.enemies.append(item)
     
     def add_cake(self,cakes):
@@ -162,6 +165,7 @@ class Scene(QGraphicsScene):
     
     def addDerbiili(self,derbiili):
         
+        self.save_point = derbiili.pos()
         self.player = derbiili
     
     def keyPressEvent(self, event):
@@ -171,24 +175,40 @@ class Scene(QGraphicsScene):
         self.keys_pressed.remove(event.key())
     
     def timerEvent(self, event):
+        
         #x = False
         #if Qt.Key_Up in self.keys_pressed:
         #    x = True
         #if x:
         self.camera_control()
         self.game_update()
-        #self.update_items()
+        
+        self.update_items()
         
         self.update()
         
         #    x=False
 
     def camera_control(self):
-        #checks x camera movement
+        
         x = self.player.x()
-        #pos = QPointF(x,self.mapsize['ysize'])
-        pos = self.player.pos()
-        self.view.centerOn(pos)
+        y = self.player.y()
+        
+        if self.camera_x+50 < x:
+            self.camera_x += self.camera_speed
+        elif self.camera_x-50 > x:
+            self.camera_x -= self.camera_speed
+        else:
+            pass
+        
+        if self.camera_y+50 < y:
+            self.camera_y += self.camera_speed
+        elif self.camera_y-50 > y:
+            self.camera_y -= self.camera_speed
+        else:
+            pass
+        
+        self.view.centerOn(self.camera_x,self.camera_y)
         
     def game_update(self):
         

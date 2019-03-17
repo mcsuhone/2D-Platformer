@@ -9,23 +9,23 @@ class Cake(Item):
         self.setPixmap(QPixmap("Textures\Cake.png"))
         self.addPos(x,y)
         self.collision = collision
-        self.idle_state = 1
+        self.idle_state = 0.0
     
     def effect(self,scene):
         
         scene.add_cake(1)
         
     def update_idle(self):
-        if self.idle_state == 1:
-            self.idle_state += 1
-            self.setPos(self.x(), self.y()+1)
-        elif self.idle_state == 2:
-            self.idle_state = -1
-            self.setPos(self.x(), self.y()-1)
-        elif self.idle_state == -1:
-            self.idle_state += -1
-            self.setPos(self.x(), self.y()-1)    
-        elif self.idle_state == -2:
-            self.idle_state = 1
-            self.setPos(self.x(), self.y()+1)
+        
+        if 0 <= self.idle_state < 1:
+            self.setPos(self.x(), self.y()+0.05)
+        if 1 <= self.idle_state <= 3:
+            self.setPos(self.x(), self.y()-0.05)
+        if 3 < self.idle_state <= 4:
+            self.setPos(self.x(), self.y()+0.05)
+            
+        if self.idle_state >= 4:
+            self.idle_state = 0.0
+        else:
+            self.idle_state += 0.05
         

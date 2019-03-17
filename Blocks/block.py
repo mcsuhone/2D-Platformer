@@ -30,3 +30,7 @@ class Block(QGraphicsPixmapItem):
         else:
             return self.obstacle
         
+    def stand_on_effect(self,player):
+        
+        pass
+        

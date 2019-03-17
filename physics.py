@@ -118,7 +118,7 @@ class Physics():
     
     def gravity(self):
         
-        self.g += 0.04
+        self.g += 0.01
         if self.v <= 32.0:
             self.v += self.g
         
