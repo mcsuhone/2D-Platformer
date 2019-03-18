@@ -9,5 +9,5 @@ TODO-list
 -health system, savepoints
 -animations
 
--water blocks
--ice blocks
+-make spikes only hit on top
+-standing on obstacles and collision obstacles

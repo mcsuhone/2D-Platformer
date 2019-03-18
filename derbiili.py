@@ -5,6 +5,7 @@ from PyQt5.QtCore import Qt
 from physics import Physics
 import Blocks
 from CONSTANTS import *
+from PyQt5.Qt import QPointF
 
 class Derbiili(QGraphicsPixmapItem):
     
@@ -124,24 +125,40 @@ class Derbiili(QGraphicsPixmapItem):
         #positive dy moves player up, negative moves down
         
         self.pickup_items()
-        self.obstacle_check()
+        #self.is_touching()
         
         self.update_texture()
         
         self.move(dx,dy)
         
+        return dx,dy
+        
     def is_standing_on(self):
         
-        block = self.physics.check_collisions_y(self, self.scene, -1)
-        if block is None:
+        transform = QTransform()
+        pos = self.pos()
+        posdown1 = pos + QPointF(5.0,32.0)
+        posdown2 = pos + QPointF(27.0,32.0)
+        
+        item1 = self.scene.itemAt(posdown1,transform)
+        item2 = self.scene.itemAt(posdown2,transform)
+        
+        
+        if item1 is None and item2 is None:
             self.in_air = True
             
-        if type(block) == Blocks.blockice.BlockIce:
-            block.stand_on_effect(self)
-        else:
-            self.reset_friction()
+        if item1 is not None:
+            if item1.is_obstacle():
+                item1.obstacle_effect(self,self.scene)
+                
+        if item2 is not None:
+            if item2.is_obstacle():
+                item2.obstacle_effect(self,self.scene)
+                
+        if item1 is not None or item2 is not None:
+            pass
         
-    def obstacle_check(self):
+    def is_touching(self):
         
         items = self.scene.collidingItems(self)
         
@@ -167,13 +184,15 @@ class Derbiili(QGraphicsPixmapItem):
         
         return dy
         
-    def decrease_friction(self,df):
+    def set_friction(self,df):
         
-        self.friction -= df
+        self.friction = df
+        self.a = df/2
         
     def reset_friction(self):
         
         self.friction = FRICTION
+        self.a = ACCELERATION
         
     def move(self,dx,dy):
 

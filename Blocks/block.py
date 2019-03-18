@@ -34,3 +34,6 @@ class Block(QGraphicsPixmapItem):
         
         pass
         
+    def obstacle_effect(self,player,scene):
+        
+        pass

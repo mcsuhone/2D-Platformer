@@ -214,7 +214,7 @@ class Scene(QGraphicsScene):
         
         self.update_GUI()
         self.update_enemies()
-        self.player.player_movement(self.keys_pressed)
+        dx,dy = self.player.player_movement(self.keys_pressed)
         
     def update_GUI(self):
         

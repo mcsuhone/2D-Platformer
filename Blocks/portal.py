@@ -8,6 +8,6 @@ class Portal(Block):
         self.setPixmap(QPixmap("Textures\Portal.png"))
         self.addPos(x,y)
         
-    def obstacle_effect(self,scene):
+    def obstacle_effect(self,player,scene):
         
         scene.win_screen()
