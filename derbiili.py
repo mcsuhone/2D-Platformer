@@ -124,17 +124,15 @@ class Derbiili(QGraphicsPixmapItem):
                 
         #positive dy moves player up, negative moves down
         
-        self.pickup_items()
-        #self.is_touching()
-        
+        self.is_touching()
         self.update_texture()
-        
         self.move(dx,dy)
         
         return dx,dy
         
     def is_standing_on(self):
         
+        effect = False
         transform = QTransform()
         pos = self.pos()
         posdown1 = pos + QPointF(5.0,32.0)
@@ -143,40 +141,31 @@ class Derbiili(QGraphicsPixmapItem):
         item1 = self.scene.itemAt(posdown1,transform)
         item2 = self.scene.itemAt(posdown2,transform)
         
-        
         if item1 is None and item2 is None:
             self.in_air = True
             
         if item1 is not None:
-            if item1.is_obstacle():
-                item1.obstacle_effect(self,self.scene)
+            
+            effect = item1.stand_on_effect(self,self.scene)
                 
         if item2 is not None:
-            if item2.is_obstacle():
-                item2.obstacle_effect(self,self.scene)
+            
+            effect = item2.stand_on_effect(self,self.scene)
                 
         if item1 is not None or item2 is not None:
             pass
+        
+        if not effect:
+            self.reset_friction()
         
     def is_touching(self):
         
         items = self.scene.collidingItems(self)
         
         for item in items:
-            if item.is_obstacle():
-                item.obstacle_effect(self.scene)
-                
-        
-        
-    def pickup_items(self):
-        
-        items = self.scene.collidingItems(self)
-        
-        for item in items:
-            if item.is_pickable():
-                item.effect(self.scene)
-                self.scene.removeItem(item)
-        
+            
+            item.touch_effect(self,self.scene)
+    
     def jump(self):
         self.vy = self.jump_height
         dy = self.vy

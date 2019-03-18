@@ -194,13 +194,6 @@ class Scene(QGraphicsScene):
         x = self.player.x()
         y = self.player.y()
         
-        if self.camera_x+50 < x:
-            self.camera_x += self.camera_speed
-        elif self.camera_x-50 > x:
-            self.camera_x -= self.camera_speed
-        else:
-            pass
-        
         if self.camera_y+50 < y:
             self.camera_y += self.camera_speed
         elif self.camera_y-50 > y:
@@ -208,7 +201,7 @@ class Scene(QGraphicsScene):
         else:
             pass
         
-        self.view.centerOn(self.camera_x,self.camera_y)
+        self.view.centerOn(x,self.camera_y)
         
     def game_update(self):
         

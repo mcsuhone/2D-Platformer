@@ -3,17 +3,18 @@ from Items.item import Item
 
 class Cake(Item):
     
-    def __init__(self,x,y, collision = False, pickable = True, parent=None):
+    def __init__(self,x,y, collision = False, parent=None):
         
-        Item.__init__(self,pickable,parent)
+        Item.__init__(self,parent)
         self.setPixmap(QPixmap("Textures\Cake.png"))
         self.addPos(x,y)
         self.collision = collision
         self.idle_state = 0.0
     
-    def effect(self,scene):
+    def touch_effect(self,player,scene):
         
         scene.add_cake(1)
+        scene.removeItem(self)
         
     def update_idle(self):
         

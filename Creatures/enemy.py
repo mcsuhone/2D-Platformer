@@ -4,11 +4,9 @@ from physics import Physics
 
 class Enemy(QGraphicsPixmapItem):
     
-    def __init__(self, scene, speed = -1.0, distance = 1.0, collision = True, obstacle = True, parent=None):
+    def __init__(self, scene, speed = -1.0, distance = 1.0, collision = True, parent=None):
         QGraphicsPixmapItem.__init__(self,parent)
         self.collision = collision
-        self.pickable = False
-        self.obstacle = obstacle
         
         self.speed = speed
         self.in_air = False
@@ -23,27 +21,19 @@ class Enemy(QGraphicsPixmapItem):
         self.setPos(x*32,y*32)
         self.origin = QPointF(x*32,y*32)
         
+    def stand_on_effect(self,player,scene):
+        
+        return False
+    
+    def touch_effect(self,player,scene):
+        
+        scene.death_screen()
+    
     def is_collidable(self):
         if self is None:
             return False
         else:
             return self.collision
-        
-    def is_pickable(self):
-        if self is None:
-            return False
-        else:
-            return self.pickable
-        
-    def is_obstacle(self):
-        if self is None:
-            return False
-        else:
-            return self.obstacle
-        
-    def obstacle_effect(self,scene):
-        
-        scene.death_screen()
     
     def distance_from_origin(self):
         
