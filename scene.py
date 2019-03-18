@@ -25,13 +25,14 @@ class Scene(QGraphicsScene):
         #define menu and load map
         self.menu = menu
         self.maploader = MapLoader()
-        self.mapsize = self.maploader.load_map(self,mapname)
+        self.map_info = self.maploader.load_map(self,mapname)
         self.cakes = 0
-        
+        self.stop = False
         self.addBackGround()
         self.addScoreBoard()
+        print(self.map_info)
         
-        rect = QRectF(QPointF(0,0),QSizeF(self.mapsize['xsize'],self.mapsize['ysize']))
+        rect = QRectF(QPointF(0,0),QSizeF(self.map_info['xsize'],self.map_info['ysize']))
         self.setSceneRect(rect)
         
         self.view = QGraphicsView(self)
@@ -74,55 +75,52 @@ class Scene(QGraphicsScene):
     def add_cake(self,cakes):
         
         self.cakes += cakes
+        
+    def is_stopped(self):
+        
+        return self.stop
     
     def death_screen(self):
         
-        redscreen = QGraphicsRectItem(0,0,self.mapsize['xsize'],self.mapsize['ysize'])
+        redscreen = QGraphicsRectItem(0,0,self.map_info['xsize'],self.map_info['ysize'])
         redbrush = QBrush(QColor(200,100,100))
         redscreen.setBrush(redbrush)
         redscreen.setOpacity(0.4)
         self.addItem(redscreen)
         
-        self.timer.stop()
+        self.stop = True
         
         pos = self.view.mapToScene(0,0)
         
-        button1 = Button(300+pos.x()-80,200+pos.y(),160,32, "Back to map menu")
-        button1.setStyleSheet('''
-                                background-image: url(Textures/Button1.png);
-                                border: none;
-                                ''')
-        button1.clicked.connect(self.death_event)
-        self.addWidget(button1,Qt.Widget)
-        
-        button2 = Button(300+pos.x()-80,200+pos.y()+64,160,32, "Exit")
+        button2 = Button(300+pos.x()-80,200+pos.y()+64,160,32, "Back to map menu")
         button2.setStyleSheet('''
                                 background-image: url(Textures/Button1.png);
                                 border: none;
                                 ''')
-        button2.clicked.connect(self.view.close)
+        button2.clicked.connect(self.back_to_menu)
         self.addWidget(button2,Qt.Widget)
+        
+        button3 = Button(300+pos.x()-80,200+pos.y()+128,160,32, "Exit")
+        button3.setStyleSheet('''
+                                background-image: url(Textures/Button1.png);
+                                border: none;
+                                ''')
+        button3.clicked.connect(self.view.close)
+        self.addWidget(button3,Qt.Widget)
         
         deathtext = QGraphicsTextItem("Out of lives!")
         deathtext.setPos(2300+pos.x()-80,200+pos.y()-64)
         self.addItem(deathtext)
-        
-        
-    def death_event(self):
-        
-        self.view.close()
-        self.menu.show()
-        self.menu.display_map_menu()
-        
+       
     def win_screen(self):
         
-        winscreen = QGraphicsRectItem(0,0,self.mapsize['xsize'],self.mapsize['ysize'])
+        winscreen = QGraphicsRectItem(0,0,self.map_info['xsize'],self.map_info['ysize'])
         lightbrush = QBrush(QColor(200,220,200))
         winscreen.setBrush(lightbrush)
         winscreen.setOpacity(0.4)
         self.addItem(winscreen)
         
-        self.timer.stop()
+        self.stop = True
         
         pos = self.view.mapToScene(0,0)
         
@@ -134,10 +132,31 @@ class Scene(QGraphicsScene):
         button1.clicked.connect(self.next_level)
         self.addWidget(button1,Qt.Widget)
         
+        button2 = Button(300+pos.x()-80,200+pos.y()+64,160,32, "Back to map menu")
+        button2.setStyleSheet('''
+                                background-image: url(Textures/Button1.png);
+                                border: none;
+                                ''')
+        button2.clicked.connect(self.back_to_menu)
+        self.addWidget(button2,Qt.Widget)
+        
+        button3 = Button(300+pos.x()-80,200+pos.y()+128,160,32, "Exit")
+        button3.setStyleSheet('''
+                                background-image: url(Textures/Button1.png);
+                                border: none;
+                                ''')
+        button3.clicked.connect(self.view.close)
+        self.addWidget(button3,Qt.Widget)
         
         wintext = QGraphicsTextItem("Level completed!")
         wintext.setPos(2300+pos.x()-80,200+pos.y()-64)
         self.addItem(wintext)
+        
+    def back_to_menu(self):
+        
+        self.view.close()
+        self.menu.show()
+        self.menu.display_map_menu()
         
     def next_level(self):
         
@@ -153,13 +172,16 @@ class Scene(QGraphicsScene):
         
     def getSceneX(self):
         
-        return self.mapsize['xsize']
+        return self.map_info['xsize']
     
     def addBackGround(self):
+        #gc stands for gradient color
+        gc1 = self.map_info['background'][0]
+        gc2 = self.map_info['background'][1]
         
-        gradient = QLinearGradient(self.mapsize['xsize']/2,0,self.mapsize['xsize']/2,self.mapsize['ysize'])
-        gradient.setColorAt(0,QColor(0,100,200))
-        gradient.setColorAt(1,QColor(200,200,200))
+        gradient = QLinearGradient(self.map_info['xsize']/2,0,self.map_info['xsize']/2,self.map_info['ysize'])
+        gradient.setColorAt(0,QColor(gc1[0],gc1[1],gc1[2]))
+        gradient.setColorAt(1,QColor(gc2[0],gc2[1],gc2[2]))
         
         self.setBackgroundBrush(QBrush(gradient))
     
@@ -176,18 +198,14 @@ class Scene(QGraphicsScene):
     
     def timerEvent(self, event):
         
-        #x = False
-        #if Qt.Key_Up in self.keys_pressed:
-        #    x = True
-        #if x:
         self.camera_control()
-        self.game_update()
-        
         self.update_items()
+        self.game_update()
         
         self.update()
         
-        #    x=False
+        if self.stop:
+            self.timer.stop()
 
     def camera_control(self):
         
@@ -208,6 +226,9 @@ class Scene(QGraphicsScene):
         self.update_GUI()
         self.update_enemies()
         dx,dy = self.player.player_movement(self.keys_pressed)
+        
+        if self.player.y() > self.map_info['ysize']:
+            self.death_screen()
         
     def update_GUI(self):
         

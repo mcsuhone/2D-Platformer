@@ -75,7 +75,7 @@ class Menu(QWidget):
         button_map1.clicked.connect(self.map1)
         button_map1.clicked.connect(self.play)
         button_map1.setStyleSheet('''
-                                background-image: url(Textures/MapIcon.png);
+                                background-image: url(Textures/MapIcon1.png);
                                 border: none;
                                 ''')
         
@@ -85,7 +85,8 @@ class Menu(QWidget):
         button_map2.clicked.connect(self.map2)
         button_map2.clicked.connect(self.play)
         button_map2.setStyleSheet('''
-                                background-image: url(Textures/MapIcon.png);
+                                color: rgb(255,255,255);
+                                background-image: url(Textures/MapIcon2.png);
                                 border: none;
                                 ''')
         

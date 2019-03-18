@@ -6,6 +6,7 @@ class BlockIce(Block):
     def __init__(self,x,y,collision = True, parent = None):
         Block.__init__(self,collision,parent)
         self.setPixmap(QPixmap("Textures\BlockIce.png"))
+        self.setOpacity(0.8)
         self.addPos(x,y)
         
     def stand_on_effect(self,player,scene):

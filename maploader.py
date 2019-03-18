@@ -24,8 +24,7 @@ class MapLoader():
         self.map = False
         self.title = False
         
-        self.map_name = ""
-        self.map_size = {'xsize':0,'ysize':0}
+        self.map_info = {'xsize':0,'ysize':0}
         
         self.current_line = ''
         
@@ -57,7 +56,7 @@ class MapLoader():
             
             
         if self.map and self.title:
-            return self.map_size
+            return self.map_info
         else:
             print("Map information missing.")
                 
@@ -80,10 +79,16 @@ class MapLoader():
                         pass
                     else:
                         if info[0].strip() == "name":
-                            self.map_name = info[1].strip()
-                
-        
-        
+                            self.map_info['name'] = info[1].strip()
+                        if info[0].strip() == "backgroundgradient":
+                            gradients = info[1].split("-")
+                            gradient1 = gradients[0].split(",")
+                            gradient2 = gradients[1].split(",")
+                            
+                            gradient1 = list(map(int, gradient1))
+                            gradient2 = list(map(int, gradient2))
+                            
+                            self.map_info['background'] = [gradient1,gradient2]
         
     def mapreader(self):
         
@@ -100,7 +105,7 @@ class MapLoader():
                 else:
                     y+=1
                     row = self.current_line.split(":")
-                    self.map_size['xsize'] = len(row)*32
+                    self.map_info['xsize'] = len(row)*32
                     x=0
                     for block in row:
                         if block == "0":
@@ -148,5 +153,5 @@ class MapLoader():
                             
                             
                         x+=1
-        self.map_size['ysize'] = y*32            
+        self.map_info['ysize'] = y*32            
         

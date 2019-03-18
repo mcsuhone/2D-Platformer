@@ -38,7 +38,7 @@ class Derbiili(QGraphicsPixmapItem):
         dx = 0
         dy = 0
         
-        self.is_standing_on()
+        
         
         if self.in_air:
             
@@ -97,7 +97,8 @@ class Derbiili(QGraphicsPixmapItem):
                 pass
 
             else:
-                dx = xdetect    
+                dx = xdetect
+                self.vx = 0.0  
                 
             if ydetect is None:
                 pass
@@ -115,7 +116,8 @@ class Derbiili(QGraphicsPixmapItem):
             if xdetect is None:
                 pass
             else:
-                dx = xdetect    
+                dx = xdetect
+                self.vx = 0.0   
                 
             if ydetect is None:
                 pass
@@ -125,6 +127,13 @@ class Derbiili(QGraphicsPixmapItem):
         #positive dy moves player up, negative moves down
         
         self.is_touching()
+        if self.scene.is_stopped():
+            return 0,0
+        
+        self.is_standing_on()
+        if self.scene.is_stopped():
+            return 0,0
+        
         self.update_texture()
         self.move(dx,dy)
         
@@ -143,6 +152,7 @@ class Derbiili(QGraphicsPixmapItem):
         
         if item1 is None and item2 is None:
             self.in_air = True
+            effect = True
             
         if item1 is not None:
             
