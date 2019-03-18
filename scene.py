@@ -189,6 +189,7 @@ class Scene(QGraphicsScene):
         
         self.save_point = derbiili.pos()
         self.player = derbiili
+        self.player.setZValue(0)
     
     def keyPressEvent(self, event):
         self.keys_pressed.add(event.key())
@@ -225,7 +226,7 @@ class Scene(QGraphicsScene):
         
         self.update_GUI()
         self.update_enemies()
-        dx,dy = self.player.player_movement(self.keys_pressed)
+        self.player.player_movement(self.keys_pressed)
         
         if self.player.y() > self.map_info['ysize']:
             self.death_screen()

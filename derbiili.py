@@ -34,11 +34,17 @@ class Derbiili(QGraphicsPixmapItem):
         
         return self.collision
     
+    def stand_on_effect(self,player,scene):
+        
+        return False
+        
+    def touch_effect(self,player,scene):
+        
+        pass
+    
     def player_movement(self, keys_pressed):
         dx = 0
         dy = 0
-        
-        
         
         if self.in_air:
             
@@ -87,7 +93,6 @@ class Derbiili(QGraphicsPixmapItem):
                     self.vx += self.friction
                     dx = self.vx
         
-            
         if dy <= 0:
             
             xdetect = self.physics.check_collisions_x(self,self.scene,dx)
@@ -124,22 +129,19 @@ class Derbiili(QGraphicsPixmapItem):
             else:
                 dy = ydetect
                 
-        #positive dy moves player up, negative moves down
-        
         self.is_touching()
         if self.scene.is_stopped():
             return 0,0
         
-        self.is_standing_on()
+        self.is_standing_on(dy)
         if self.scene.is_stopped():
             return 0,0
         
         self.update_texture()
+        #positive dy moves player up, negative moves down
         self.move(dx,dy)
-        
-        return dx,dy
-        
-    def is_standing_on(self):
+    
+    def is_standing_on(self,dy):
         
         effect = False
         transform = QTransform()
@@ -175,6 +177,7 @@ class Derbiili(QGraphicsPixmapItem):
         for item in items:
             
             item.touch_effect(self,self.scene)
+            
     
     def jump(self):
         self.vy = self.jump_height

@@ -73,14 +73,14 @@ class Physics():
             if item1 is None and item2 is None:
                 return None
                 
-            if item1 is not None:
-                if item1.is_collidable():
-                    return -(item1.y()-player.y()-32)
-                    
             if item2 is not None:
                 if item2.is_collidable():
                     return -(item2.y()-player.y()-32)
-                    
+                
+            if item1 is not None:
+                if item1.is_collidable():
+                    return -(item1.y()-player.y()-32)
+               
             if item1 is not None or item2 is not None:
                 return None
             
