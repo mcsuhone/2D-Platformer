@@ -48,7 +48,7 @@ class Scene(QGraphicsScene):
         else:
             self.camera_y = self.player.y()
             self.camera_x = self.player.x()
-            self.camera_speed = 4
+            self.camera_speed = 2
         
         self.list_items()
         

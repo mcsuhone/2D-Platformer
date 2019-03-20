@@ -10,6 +10,7 @@ TODO-list
 -update maploader system to make big maps easier
 -health system, savepoints
 -animations
+-death animation
 
 
 -fix bug with hitting spikes on corner

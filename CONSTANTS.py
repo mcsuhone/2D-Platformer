@@ -6,4 +6,4 @@ FRAME_TIME_MS           = 8
 PLAYER_SPEED            = 2.5
 JUMP_HEIGHT             = 4.0
 ACCELERATION            = 0.15
-FRICTION                = 0.5
+FRICTION                = 0.7
