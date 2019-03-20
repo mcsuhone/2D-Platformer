@@ -11,8 +11,8 @@ TODO-list
 -health system, savepoints
 -animations
 -death animation
+-upside down spikes
 
 
 -fix bug with hitting spikes on corner
--fix hitting roof
 -fix holding a or d on wall

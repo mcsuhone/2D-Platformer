@@ -100,11 +100,11 @@ class Physics():
                 
             if item1 is not None:
                 if item1.is_collidable():
-                    return 0
+                    return -(item1.y()-player.y()+23)
                     
             if item2 is not None:
                 if item2.is_collidable():
-                    return 0
+                    return -(item2.y()-player.y()+23)
                     
             if item1 is not None or item2 is not None:
                 return None
