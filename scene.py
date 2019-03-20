@@ -9,10 +9,11 @@ from button import Button
 from maploader import MapLoader
 from CONSTANTS import *
 import Creatures
+from Items.heart import Heart
 
 class Scene(QGraphicsScene):
 
-    def __init__(self, menu, mapname, parent = None):
+    def __init__(self, menu, maps, mapnumber, parent = None):
         
         QGraphicsScene.__init__(self, parent)
         
@@ -21,15 +22,16 @@ class Scene(QGraphicsScene):
 
         self.timer = QBasicTimer()
         self.timer.start(FRAME_TIME_MS, self)
-        
         #define menu and load map
         self.menu = menu
         self.maploader = MapLoader()
-        self.map_info = self.maploader.load_map(self,mapname)
+        self.map_info = self.maploader.load_map(self,maps,mapnumber)
         self.cakes = 0
         self.stop = False
         self.addBackGround()
         self.addScoreBoard()
+        self.health = 5
+        self.addHealthBar()
         print(self.map_info)
         
         rect = QRectF(QPointF(0,0),QSizeF(self.map_info['xsize'],self.map_info['ysize']))
@@ -71,14 +73,31 @@ class Scene(QGraphicsScene):
                 self.enemies.append(item)
             elif type(item) == Creatures.bat.Bat:
                 self.enemies.append(item)
-    
-    def add_cake(self,cakes):
         
-        self.cakes += cakes
+    def addBackGround(self):
+        #gc stands for gradient color
+        gc1 = self.map_info['background'][0]
+        gc2 = self.map_info['background'][1]
+        
+        gradient = QLinearGradient(self.map_info['xsize']/2,0,self.map_info['xsize']/2,self.map_info['ysize'])
+        gradient.setColorAt(0,QColor(gc1[0],gc1[1],gc1[2]))
+        gradient.setColorAt(1,QColor(gc2[0],gc2[1],gc2[2]))
+        
+        self.setBackgroundBrush(QBrush(gradient))
+    
+    def addDerbiili(self,derbiili):
+        
+        self.save_point = derbiili.pos()
+        self.player = derbiili
+        self.player.setZValue(0)
         
     def is_stopped(self):
         
         return self.stop
+    
+    def getSceneX(self):
+        
+        return self.map_info['xsize']
     
     def death_screen(self):
         
@@ -161,8 +180,7 @@ class Scene(QGraphicsScene):
     def next_level(self):
         
         self.view.close()
-        self.menu.show()
-        self.menu.display_map_menu()
+        self.menu.next_level(self.map_info['currentlevel'])
         
     def addScoreBoard(self):
         
@@ -170,26 +188,45 @@ class Scene(QGraphicsScene):
         self.scoreboard = QGraphicsTextItem(str)
         self.addItem(self.scoreboard)
         
-    def getSceneX(self):
+    def addCake(self,cakes):
         
-        return self.map_info['xsize']
+        self.cakes += cakes
+        
+        if self.cakes >= 10:
+            self.addHealth(1)
+            self.cakes -= 10
+        
+    def addHealthBar(self):
+        
+        self.hearts = []
+        
+        for i in range(self.health):
+            heart = Heart()
+            self.addItem(heart)
+            self.hearts.append(heart)
     
-    def addBackGround(self):
-        #gc stands for gradient color
-        gc1 = self.map_info['background'][0]
-        gc2 = self.map_info['background'][1]
+    def addHealth(self,amount):
         
-        gradient = QLinearGradient(self.map_info['xsize']/2,0,self.map_info['xsize']/2,self.map_info['ysize'])
-        gradient.setColorAt(0,QColor(gc1[0],gc1[1],gc1[2]))
-        gradient.setColorAt(1,QColor(gc2[0],gc2[1],gc2[2]))
+        for i in range(amount):
+            heart = Heart()
+            self.addItem(heart)
+            self.hearts.append(heart)
+            self.health += 1
         
-        self.setBackgroundBrush(QBrush(gradient))
-    
-    def addDerbiili(self,derbiili):
+    def removeHealth(self,amount):
         
-        self.save_point = derbiili.pos()
-        self.player = derbiili
-        self.player.setZValue(0)
+        for i in range(amount):
+            self.removeItem(self.hearts[-1-i])
+            self.hearts.pop(-1-i)
+            self.health -= 1
+        
+    def backToSavePoint(self):
+        
+        self.removeHealth(1)
+        if self.health == 0:
+            self.death_screen()
+        else:
+            self.player.setPos(self.save_point)
     
     def keyPressEvent(self, event):
         self.keys_pressed.add(event.key())
@@ -229,7 +266,7 @@ class Scene(QGraphicsScene):
         self.player.player_movement(self.keys_pressed)
         
         if self.player.y() > self.map_info['ysize']:
-            self.death_screen()
+            self.backToSavePoint()
         
     def update_GUI(self):
         
@@ -237,6 +274,11 @@ class Scene(QGraphicsScene):
         self.scoreboard.setPos(pos)
         str = "Cake collected: " + "{:}".format(self.cakes)
         self.scoreboard.setPlainText(str)
+        
+        pos += QPointF(568,0)
+        for i in range(len(self.hearts)):
+            pos1 = pos - QPointF(32*i,0)
+            self.hearts[i].setPos(pos1)
         
     def update_items(self):
         

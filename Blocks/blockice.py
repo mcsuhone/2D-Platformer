@@ -11,6 +11,6 @@ class BlockIce(Block):
         
     def stand_on_effect(self,player,scene):
         
-        player.set_friction(0.01)
+        player.set_friction(0.015)
         
         return True

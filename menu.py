@@ -19,10 +19,15 @@ class Menu(QWidget):
         
         self.show()
         
+        self.import_maps()
         self.main_menu()
         self.map_menu()
         
         self.display_main_menu()
+        
+    def import_maps(self):
+        
+        self.maps = {1:'Maps/map1.txt',2:'Maps/map2.txt',3:None}
         
     def setup(self):
         
@@ -113,17 +118,28 @@ class Menu(QWidget):
         
     def map1(self):
         
-        self.mapname = "Maps/map1.txt"
+        self.mapnumber = 1
         
     def map2(self):
         
-        self.mapname = "Maps/map2.txt"
+        self.mapnumber = 2
         
     def play(self):
         
         self.close()
-        scene = Scene(self,self.mapname)
+        scene = Scene(self,self.maps,self.mapnumber)
 
+    def next_level(self,number):
+        
+        self.mapnumber = number+1
+        
+        if self.maps[self.mapnumber] is None:
+            print("X")
+            self.setup()
+            self.show()
+            self.display_main_menu()
+        else:
+            scene = Scene(self,self.maps,self.mapnumber)
         
         
         

@@ -5,8 +5,8 @@ from PyQt5.Qt import QPixmap, QPointF
 class Bat(Enemy):
     
     def __init__(self,x,y, scene, parent=None):
-        speed = -0.4
-        distance = 5
+        speed = -0.6
+        distance = 10
         Enemy.__init__(self,scene,speed,distance,parent)
         self.setPixmap(QPixmap("Textures\Bat.png"))
         self.addPos(x,y)

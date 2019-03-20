@@ -13,7 +13,7 @@ class Cake(Item):
     
     def touch_effect(self,player,scene):
         
-        scene.add_cake(1)
+        scene.addCake(1)
         scene.removeItem(self)
         
     def update_idle(self):

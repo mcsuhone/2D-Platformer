@@ -12,7 +12,7 @@ class Spikes(Block):
         
     def stand_on_effect(self,player,scene):
         
-        scene.death_screen()
+        scene.backToSavePoint()
         
         return True
     

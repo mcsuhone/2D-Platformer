@@ -27,7 +27,7 @@ class Enemy(QGraphicsPixmapItem):
     
     def touch_effect(self,player,scene):
         
-        scene.death_screen()
+        scene.backToSavePoint()
     
     def is_collidable(self):
         if self is None:

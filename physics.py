@@ -1,4 +1,5 @@
 from PyQt5.Qt import QTransform, QPointF
+from CONSTANTS import *
 
 class Physics():
     
@@ -118,7 +119,7 @@ class Physics():
     
     def gravity(self):
         
-        self.g += 0.01
+        self.g += GRAVITY
         if self.v <= 32.0:
             self.v += self.g
         

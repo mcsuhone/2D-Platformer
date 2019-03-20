@@ -16,15 +16,15 @@ from Blocks.blockice import BlockIce
 
 class MapLoader():
     
-    def load_map(self,scene,mapname):
+    def load_map(self,scene,maps,number):
         
-        self.file = open(mapname,"r")
+        self.file = open(maps[number],"r")
         self.scene = scene
         
         self.map = False
         self.title = False
         
-        self.map_info = {'xsize':0,'ysize':0}
+        self.map_info = {'xsize':0,'ysize':0,'currentlevel':number}
         
         self.current_line = ''
         
@@ -52,8 +52,6 @@ class MapLoader():
                 
             else:
                 pass
-            
-            
             
         if self.map and self.title:
             return self.map_info

@@ -25,7 +25,7 @@ class Derbiili(QGraphicsPixmapItem):
         
         self.vx = 0.0
         self.vy = 0.0
-        self.direction = -1
+        self.direction = 1
     
         self.scene = scene
         self.physics = Physics()
@@ -55,24 +55,33 @@ class Derbiili(QGraphicsPixmapItem):
             dy = self.jump()                          #iniate jump
             
         if Qt.Key_A in keys_pressed:
-            self.direction = 1
+            self.direction = -1
             
-            if self.vx > -self.speed:
+            if self.vx > 0:
+                self.vx -= self.friction
+                dx += self.vx
+                
+            elif self.vx > -self.speed:
                 self.vx -= self.a
                 dx += self.vx
             else:
                 dx -= self.speed
+                
             if self.x()+dx < 0:
                 dx = 0   
         
         elif Qt.Key_D in keys_pressed:
-            self.direction = -1
+            self.direction = 1
             
-            if self.vx < self.speed:
+            if self.vx < 0:
+                self.vx += self.friction
+                dx += self.vx
+            elif self.vx < self.speed:
                 self.vx += self.a
                 dx += self.vx
             else:
                 dx += self.speed
+                
             if self.x()+dx+32 > self.scene.getSceneX():
                 dx = 0
         else:
@@ -189,7 +198,7 @@ class Derbiili(QGraphicsPixmapItem):
     def set_friction(self,df):
         
         self.friction = df
-        self.a = df/2
+        self.a = df*2
         
     def reset_friction(self):
         
@@ -203,12 +212,12 @@ class Derbiili(QGraphicsPixmapItem):
     def update_texture(self):
         
         if self.in_air:
-            if self.direction == -1:
+            if self.direction == 1:
                 self.setPixmap(QPixmap("Textures/Derbiili/DerbiiliJumping.png"))
             else:
                 self.setPixmap(QPixmap("Textures/Derbiili/DerbiiliJumpingFlipped.png"))
         else:
-            if self.direction == -1:
+            if self.direction == 1:
                 self.setPixmap(QPixmap("Textures/Derbiili/Derbiili.png"))
             else:
                 self.setPixmap(QPixmap("Textures/Derbiili/DerbiiliFlipped.png"))
