@@ -134,7 +134,7 @@ class Menu(QWidget):
         self.mapnumber = number+1
         
         if self.maps[self.mapnumber] is None:
-            print("X")
+            
             self.setup()
             self.show()
             self.display_main_menu()
