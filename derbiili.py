@@ -20,6 +20,7 @@ class Derbiili(QGraphicsPixmapItem):
         self.speed = PLAYER_SPEED
         self.jump_height = JUMP_HEIGHT
         self.in_air = False
+        self.crouching = False
         self.a = ACCELERATION
         self.friction = FRICTION
         
@@ -45,6 +46,21 @@ class Derbiili(QGraphicsPixmapItem):
     def player_movement(self, keys_pressed):
         dx = 0
         dy = 0
+        
+        self.is_touching()
+        if self.scene.is_stopped():
+            return 0,0
+        
+        self.is_standing_on(dy)
+        if self.scene.is_stopped():
+            return 0,0
+        
+        if Qt.Key_S in keys_pressed:
+            self.crouching = True
+            self.speed = 2
+        else:
+            self.crouching = False
+            self.speed = PLAYER_SPEED
         
         if self.in_air:
             
@@ -137,14 +153,8 @@ class Derbiili(QGraphicsPixmapItem):
                 pass
             else:
                 dy = ydetect
-                
-        self.is_touching()
-        if self.scene.is_stopped():
-            return 0,0
-        
-        self.is_standing_on(dy)
-        if self.scene.is_stopped():
-            return 0,0
+                self.vy = 0.0
+                self.physics.reset_gravity()
         
         self.update_texture()
         #positive dy moves player up, negative moves down
@@ -210,17 +220,22 @@ class Derbiili(QGraphicsPixmapItem):
         self.setPos(self.x()+dx, self.y()-dy)
         
     def update_texture(self):
-        
-        if self.in_air:
+        if self.crouching:
             if self.direction == 1:
-                self.setPixmap(QPixmap("Textures/Derbiili/DerbiiliJumping.png"))
+                self.setPixmap(QPixmap("Textures/Derbiili/DerbiiliCrouching.png"))
             else:
-                self.setPixmap(QPixmap("Textures/Derbiili/DerbiiliJumpingFlipped.png"))
+                self.setPixmap(QPixmap("Textures/Derbiili/DerbiiliCrouchingFlipped.png"))
         else:
-            if self.direction == 1:
-                self.setPixmap(QPixmap("Textures/Derbiili/Derbiili.png"))
+            if self.in_air:
+                if self.direction == 1:
+                    self.setPixmap(QPixmap("Textures/Derbiili/DerbiiliJumping.png"))
+                else:
+                    self.setPixmap(QPixmap("Textures/Derbiili/DerbiiliJumpingFlipped.png"))
             else:
-                self.setPixmap(QPixmap("Textures/Derbiili/DerbiiliFlipped.png"))
+                if self.direction == 1:
+                    self.setPixmap(QPixmap("Textures/Derbiili/Derbiili.png"))
+                else:
+                    self.setPixmap(QPixmap("Textures/Derbiili/DerbiiliFlipped.png"))
         
         
         
