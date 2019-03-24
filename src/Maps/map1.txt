@@ -1,7 +1,8 @@
 #title
 name = Grassy Land
 difficulty = 5
-backgroundgradient = 0,100,200-200,200,200
+backgroundgradient = 0,255,255-102,178,255
+backgroundpixmap = background1.png
 
 #map
 

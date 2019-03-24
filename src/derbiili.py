@@ -2,9 +2,9 @@ from PyQt5.QtGui import QPixmap,QTransform
 from PyQt5.QtWidgets import QGraphicsPixmapItem
 from PyQt5.QtCore import Qt
 
-from physics import Physics
-import Blocks
-from CONSTANTS import *
+from src.physics import Physics
+import src.Blocks
+from src.CONSTANTS import *
 from PyQt5.Qt import QPointF
 
 class Derbiili(QGraphicsPixmapItem):
@@ -43,7 +43,7 @@ class Derbiili(QGraphicsPixmapItem):
         
         pass
     
-    def player_movement(self, keys_pressed):
+    def player_movement(self, keys_pressed,keybindings):
         dx = 0
         dy = 0
         
@@ -55,7 +55,7 @@ class Derbiili(QGraphicsPixmapItem):
         if self.scene.is_stopped():
             return 0,0
         
-        if Qt.Key_S in keys_pressed:
+        if keybindings['crouch'] in keys_pressed:
             self.crouching = True
             self.speed = 2
         else:
@@ -67,10 +67,10 @@ class Derbiili(QGraphicsPixmapItem):
             dv = self.physics.gravity()               #continue air movement
             dy = self.vy-dv
             
-        elif Qt.Key_Space in keys_pressed:
+        elif keybindings['jump'] in keys_pressed:
             dy = self.jump()                          #iniate jump
             
-        if Qt.Key_A in keys_pressed:
+        if keybindings['left'] in keys_pressed:
             self.direction = -1
             
             if self.vx > 0:
@@ -86,7 +86,7 @@ class Derbiili(QGraphicsPixmapItem):
             if self.x()+dx < 0:
                 dx = 0   
         
-        elif Qt.Key_D in keys_pressed:
+        elif keybindings['right'] in keys_pressed:
             self.direction = 1
             
             if self.vx < 0:

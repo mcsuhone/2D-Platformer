@@ -1,18 +1,18 @@
 from io import StringIO
 
-from Blocks.blockgrass import BlockGrass
-from Blocks.blockground import BlockGround
-from Blocks.blockrock import BlockRock
-from Blocks.spikes import Spikes
-from derbiili import Derbiili
-from Items.cake import Cake
-from Items.grass import Grass
-from Blocks.blockbox import BlockBox
-from Blocks.portal import Portal
-from Creatures.snake import Snake
-from Creatures.bat import Bat
-from Blocks.blockstonewall import BlockStoneWall
-from Blocks.blockice import BlockIce
+from src.Blocks.blockgrass import BlockGrass
+from src.Blocks.blockground import BlockGround
+from src.Blocks.blockrock import BlockRock
+from src.Blocks.spikes import Spikes
+from src.derbiili import Derbiili
+from src.Items.cake import Cake
+from src.Items.grass import Grass
+from src.Blocks.blockbox import BlockBox
+from src.Blocks.portal import Portal
+from src.Creatures.snake import Snake
+from src.Creatures.bat import Bat
+from src.Blocks.blockstonewall import BlockStoneWall
+from src.Blocks.blockice import BlockIce
 
 class MapLoader():
     
@@ -78,7 +78,7 @@ class MapLoader():
                     else:
                         if info[0].strip() == "name":
                             self.map_info['name'] = info[1].strip()
-                        if info[0].strip() == "backgroundgradient":
+                        elif info[0].strip() == "backgroundgradient":
                             gradients = info[1].split("-")
                             gradient1 = gradients[0].split(",")
                             gradient2 = gradients[1].split(",")
@@ -87,6 +87,8 @@ class MapLoader():
                             gradient2 = list(map(int, gradient2))
                             
                             self.map_info['background'] = [gradient1,gradient2]
+                        elif info[0].strip() == "backgroundpixmap":
+                            self.map_info['backgroundpixmap'] = info[1].strip()
         
     def mapreader(self):
         

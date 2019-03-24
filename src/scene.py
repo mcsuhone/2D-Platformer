@@ -4,31 +4,30 @@ from PyQt5.QtGui import QBrush,QColor,QLinearGradient,QIcon,QPixmap
 from PyQt5.Qt import QPointF, QTransform, QGraphicsTextItem, QFont, QLabel,\
     QGridLayout, QGraphicsRectItem, QPushButton
 
-import Items
-from button import Button
-from maploader import MapLoader
-from CONSTANTS import *
-import Creatures
-from Items.heart import Heart
+import src.Items
+from src.button import Button
+from src.maploader import MapLoader
+from src.CONSTANTS import *
+import src.Creatures
+from src.Items.heart import Heart
 
 class Scene(QGraphicsScene):
 
-    def __init__(self, menu, maps, mapnumber, parent = None):
+    def __init__(self, menu, maps, mapnumber, options, parent = None):
         
         QGraphicsScene.__init__(self, parent)
-        
         # hold the set of keys we're pressing
         self.keys_pressed = set()
-
         self.timer = QBasicTimer()
         self.timer.start(FRAME_TIME_MS, self)
         #define menu and load map
         self.menu = menu
         self.maploader = MapLoader()
         self.map_info = self.maploader.load_map(self,maps,mapnumber)
+        self.options = options
+        self.keybindings = self.options['keybindings']
         self.cakes = 0
         self.stop = False
-        self.addBackGround()
         self.addScoreBoard()
         self.health = 5
         self.addHealthBar()
@@ -43,6 +42,8 @@ class Scene(QGraphicsScene):
         self.view.setFixedSize(WINDOW_WIDTH*1.5,WINDOW_HEIGHT*1.5)
         
         self.view.scale(2,2)
+        
+        self.addBackGround()
         
         #camera settings
         if self.player is None:
@@ -67,23 +68,38 @@ class Scene(QGraphicsScene):
         self.enemies = []
         
         for item in itemlist:
-            if type(item) == Items.cake.Cake:
+            if type(item) == src.Items.cake.Cake:
                 self.idleitems.append(item)
-            elif type(item) == Creatures.snake.Snake:
+            elif type(item) == src.Creatures.snake.Snake:
                 self.enemies.append(item)
-            elif type(item) == Creatures.bat.Bat:
+            elif type(item) == src.Creatures.bat.Bat:
                 self.enemies.append(item)
         
     def addBackGround(self):
         #gc stands for gradient color
-        gc1 = self.map_info['background'][0]
-        gc2 = self.map_info['background'][1]
-        
         gradient = QLinearGradient(self.map_info['xsize']/2,0,self.map_info['xsize']/2,self.map_info['ysize'])
-        gradient.setColorAt(0,QColor(gc1[0],gc1[1],gc1[2]))
-        gradient.setColorAt(1,QColor(gc2[0],gc2[1],gc2[2]))
+        if self.map_info['currentlevel'] == 1:
+            
+            gc1 = self.map_info['background'][0]
+            gc2 = self.map_info['background'][1]
+            gradient.setColorAt(0,QColor(gc1[0],gc1[1],gc1[2]))
+            gradient.setColorAt(1,QColor(gc2[0],gc2[1],gc2[2]))
+            self.setBackgroundBrush(QBrush(gradient))
+            
+            '''
+            brush = QBrush()
+            brush.setTexture(QPixmap("Textures/Background1.png"))
+            self.view.setBackgroundBrush(brush)
+            '''     
+        elif self.map_info['currentlevel'] == 2:
+            
+            gc1 = self.map_info['background'][0]
+            gc2 = self.map_info['background'][1]
+            gradient.setColorAt(0,QColor(gc1[0],gc1[1],gc1[2]))
+            gradient.setColorAt(1,QColor(gc2[0],gc2[1],gc2[2]))
+            self.setBackgroundBrush(QBrush(gradient))
         
-        self.setBackgroundBrush(QBrush(gradient))
+        
     
     def addDerbiili(self,derbiili):
         
@@ -263,7 +279,7 @@ class Scene(QGraphicsScene):
         
         self.update_GUI()
         self.update_enemies()
-        self.player.player_movement(self.keys_pressed)
+        self.player.player_movement(self.keys_pressed,self.keybindings)
         
         if self.player.y() > self.map_info['ysize']:
             self.backToSavePoint()

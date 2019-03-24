@@ -6,12 +6,11 @@ TODO-list
 -update physics to have different sized creatures
 -update physics to include all kinds of movement
 
--update menu to load different maps
--update maploader system to make big maps easier
--health system, savepoints
 -animations
 -death animation
 -upside down spikes
+-death splash
+-falling stuff
 
 
 -fix bug with hitting spikes on corner

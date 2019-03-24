@@ -1,12 +1,12 @@
 from PyQt5.QtGui import QPixmap
-from Blocks.block import Block
+from src.Blocks.block import Block
 from PyQt5.Qt import QPainterPath, QRectF
 
 class Spikes(Block):
     
     def __init__(self,x,y,collision = True, parent=None):
         Block.__init__(self,collision,parent)
-        self.setPixmap(QPixmap("Textures\Spikes.png"))
+        self.setPixmap(QPixmap("Textures/Blocks/Spikes.png"))
         self.addPos(x,y)
         self.ypos = y*32
         
