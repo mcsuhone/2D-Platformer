@@ -127,7 +127,7 @@ class Scene(QGraphicsScene):
         
         pos = self.view.mapToScene(0,0)
         
-        button2 = Button(300+pos.x()-80,200+pos.y()+64,160,32, "Back to map menu")
+        button2 = Button(300+pos.x(),200+pos.y()+64,160,32, "Back to map menu")
         button2.setStyleSheet('''
                                 background-image: url(Textures/Button1.png);
                                 border: none;
@@ -135,7 +135,7 @@ class Scene(QGraphicsScene):
         button2.clicked.connect(self.back_to_menu)
         self.addWidget(button2,Qt.Widget)
         
-        button3 = Button(300+pos.x()-80,200+pos.y()+128,160,32, "Exit")
+        button3 = Button(300+pos.x(),200+pos.y()+128,160,32, "Exit")
         button3.setStyleSheet('''
                                 background-image: url(Textures/Button1.png);
                                 border: none;
@@ -144,7 +144,7 @@ class Scene(QGraphicsScene):
         self.addWidget(button3,Qt.Widget)
         
         deathtext = QGraphicsTextItem("Out of lives!")
-        deathtext.setPos(2300+pos.x()-80,200+pos.y()-64)
+        deathtext.setPos(300+pos.x()-80,200+pos.y()-64)
         self.addItem(deathtext)
        
     def win_screen(self):
@@ -159,7 +159,7 @@ class Scene(QGraphicsScene):
         
         pos = self.view.mapToScene(0,0)
         
-        button1 = Button(300+pos.x()-80,200+pos.y(),160,32, "Next level!")
+        button1 = Button(300+pos.x(),200+pos.y(),160,32, "Next level!")
         button1.setStyleSheet('''
                                 background-image: url(Textures/Button1.png);
                                 border: none;
@@ -167,7 +167,7 @@ class Scene(QGraphicsScene):
         button1.clicked.connect(self.next_level)
         self.addWidget(button1,Qt.Widget)
         
-        button2 = Button(300+pos.x()-80,200+pos.y()+64,160,32, "Back to map menu")
+        button2 = Button(300+pos.x(),200+pos.y()+64,160,32, "Back to map menu")
         button2.setStyleSheet('''
                                 background-image: url(Textures/Button1.png);
                                 border: none;
@@ -175,7 +175,7 @@ class Scene(QGraphicsScene):
         button2.clicked.connect(self.back_to_menu)
         self.addWidget(button2,Qt.Widget)
         
-        button3 = Button(300+pos.x()-80,200+pos.y()+128,160,32, "Exit")
+        button3 = Button(300+pos.x(),200+pos.y()+128,160,32, "Exit")
         button3.setStyleSheet('''
                                 background-image: url(Textures/Button1.png);
                                 border: none;
@@ -184,7 +184,7 @@ class Scene(QGraphicsScene):
         self.addWidget(button3,Qt.Widget)
         
         wintext = QGraphicsTextItem("Level completed!")
-        wintext.setPos(2300+pos.x()-80,200+pos.y()-64)
+        wintext.setPos(300+pos.x()-80,200+pos.y()-64)
         self.addItem(wintext)
         
     def back_to_menu(self):

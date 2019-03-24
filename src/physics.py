@@ -120,7 +120,7 @@ class Physics():
     def gravity(self):
         
         self.g += GRAVITY
-        if self.v <= 32.0:
+        if self.v <= MAX_FALL_VELOCITY:
             self.v += self.g
         
         return self.v

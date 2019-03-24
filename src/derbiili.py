@@ -216,7 +216,7 @@ class Derbiili(QGraphicsPixmapItem):
         self.a = ACCELERATION
         
     def move(self,dx,dy):
-
+        
         self.setPos(self.x()+dx, self.y()-dy)
         
     def update_texture(self):
