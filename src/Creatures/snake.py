@@ -1,5 +1,6 @@
-from Creatures.enemy import Enemy
+from src.Creatures.enemy import Enemy
 from PyQt5.Qt import QPixmap
+from src.animation import Animation
 
 
 class Snake(Enemy):
@@ -8,12 +9,6 @@ class Snake(Enemy):
         speed = -0.4
         distance = 10
         Enemy.__init__(self,scene,speed,distance,parent)
-        self.setPixmap(QPixmap("Textures\Snake2.png"))
+        self.animation = Animation(self,"Textures/Snake",15)
         self.addPos(x,y)
     
-    def flip(self,direction):
-        
-        if direction == -1:
-            self.setPixmap(QPixmap("Textures/Snake2.png"))
-        else:
-            self.setPixmap(QPixmap("Textures/Snake2Flipped.png"))

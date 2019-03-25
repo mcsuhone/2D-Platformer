@@ -11,32 +11,60 @@ class Animation():
         self.current_frame = 0
         self.delay = delay
         self.timer = 0
-        self.load_animation_frames(folder)
+        self.load_animations(folder)
         object.setPixmap(self.frames[0])
         
-    def load_animation_frames(self,folder):
+    def load_animations(self,folder):
         self.frames = []
+        self.flippedframes = []
         
         for file in os.listdir(folder):
             if file.endswith(".png"):
-                str = folder + "/" + file
-                pixmap = QPixmap(str)
-                self.frames.append(pixmap)
-    
-    def next_frame(self):
+                if 'Flipped' in file:
+                    str = folder + "/" + file
+                    pixmap = QPixmap(str)
+                    self.flippedframes.append(pixmap)
+                else:
+                    str = folder + "/" + file
+                    pixmap = QPixmap(str)
+                    self.frames.append(pixmap)
+            elif file == 'anim1':
+                self.anim1 = []
+        
+        
+    def next_frame(self,direction):
         
         self.current_frame += 1
-        if len(self.frames) <= self.current_frame:
-            self.current_frame = 0
+        if direction is None:
+            if len(self.frames) <= self.current_frame:
+                self.current_frame = 0
+                    
+            return self.frames[self.current_frame]
         
-        return self.frames[self.current_frame]
-    
-    def animate(self,object):
+        else:
+            if direction == 1:
+                if len(self.frames) <= self.current_frame:
+                    self.current_frame = 0
+                    
+                return self.frames[self.current_frame]
+            
+            elif direction == -1:
+                if len(self.frames) <= self.current_frame:
+                    self.current_frame = 0
+                    
+                return self.flippedframes[self.current_frame]
+                
+                
+    def animate(self,object,direction=None):
         
         self.timer += 1
         if self.timer == self.delay:
             self.timer = 0
-            object.setPixmap(self.next_frame())
+            object.setPixmap(self.next_frame(direction))
+        
+            
+            
+            
         
         
         

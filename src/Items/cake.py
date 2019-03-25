@@ -20,16 +20,3 @@ class Cake(Item):
     def update_idle(self):
         self.animation.animate(self)
         
-        '''
-        if 0 <= self.idle_state < 1:
-            self.setPos(self.x(), self.y()+0.05)
-        if 1 <= self.idle_state <= 3:
-            self.setPos(self.x(), self.y()-0.05)
-        if 3 < self.idle_state <= 4:
-            self.setPos(self.x(), self.y()+0.05)
-            
-        if self.idle_state >= 4:
-            self.idle_state = 0.0
-        else:
-            self.idle_state += 0.05
-        '''

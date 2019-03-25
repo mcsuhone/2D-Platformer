@@ -253,7 +253,6 @@ class Scene(QGraphicsScene):
     def timerEvent(self, event):
         
         self.camera_control()
-        self.update_items()
         self.game_update()
         
         self.update()
@@ -277,6 +276,7 @@ class Scene(QGraphicsScene):
         
     def game_update(self):
         
+        self.update_items()
         self.update_GUI()
         self.update_enemies()
         self.player.player_movement(self.keys_pressed,self.keybindings)

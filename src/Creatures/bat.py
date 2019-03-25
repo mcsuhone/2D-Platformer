@@ -1,5 +1,6 @@
-from Creatures.enemy import Enemy
+from src.Creatures.enemy import Enemy
 from PyQt5.Qt import QPixmap, QPointF
+from src.animation import Animation
 
 
 class Bat(Enemy):
@@ -8,7 +9,7 @@ class Bat(Enemy):
         speed = -0.6
         distance = 10
         Enemy.__init__(self,scene,speed,distance,parent)
-        self.setPixmap(QPixmap("Textures\Bat.png"))
+        self.animation = Animation(self,"Textures/Bat",10)
         self.addPos(x,y)
     
     def addPos(self,x,y):
@@ -19,19 +20,11 @@ class Bat(Enemy):
         
         return abs(self.origin.x()-self.x())
     
-    def flip(self,direction):
-        
-        if direction == -1:
-            self.setPixmap(QPixmap("Textures/Bat.png"))
-        else:
-            self.setPixmap(QPixmap("Textures/BatFlipped.png"))
-    
     def move(self):
         dx = 0
         dy = 0
         
         if self.direction == -1:
-            self.flip(self.direction)
             dx = self.speed
             xdetect = self.physics.check_collisions_x(self,self.scene,dx)
             ydetect = self.physics.check_collisions_y(self,self.scene,dy)
@@ -60,17 +53,15 @@ class Bat(Enemy):
                 self.vy = 0.0
                 self.in_air = False
                 self.physics.reset_gravity()
-                
+            
+            self.animation.animate(self,self.direction)
             self.setPos(self.x()+dx, self.y()-dy)
             
         else:
-            self.flip(self.direction)
             dx = self.speed
             xdetect = self.physics.check_collisions_x(self,self.scene,dx)
             ydetect = self.physics.check_collisions_y(self,self.scene,dy)
-                
-            
-            
+
             if self.distance_from_origin() > 32*self.distance:
                 self.direction = -1
                 self.speed = -self.speed
@@ -92,6 +83,7 @@ class Bat(Enemy):
                 self.vy = 0.0
                 self.in_air = False
                 self.physics.reset_gravity()
-                
+            
+            self.animation.animate(self,self.direction)
             self.setPos(self.x()+dx, self.y())
             

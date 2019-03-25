@@ -1,6 +1,6 @@
 from PyQt5.Qt import QGraphicsPixmapItem, QPointF
 
-from physics import Physics
+from src.physics import Physics
 
 class Enemy(QGraphicsPixmapItem):
     
@@ -54,7 +54,6 @@ class Enemy(QGraphicsPixmapItem):
             dy = self.vy-dv
         
         if self.direction == -1:
-            self.flip(self.direction)
             dx = self.speed
             xdetect = self.physics.check_collisions_x(self,self.scene,dx)
             ydetect = self.physics.check_collisions_y(self,self.scene,dy)
@@ -80,11 +79,11 @@ class Enemy(QGraphicsPixmapItem):
                 self.vy = 0.0
                 self.in_air = False
                 self.physics.reset_gravity()
-                
+            
+            self.animation.animate(self,self.direction)
             self.setPos(self.x()+dx, self.y()-dy)
             
         else:
-            self.flip(self.direction)
             dx = self.speed
             xdetect = self.physics.check_collisions_x(self,self.scene,dx)
             ydetect = self.physics.check_collisions_y(self,self.scene,dy)
@@ -109,7 +108,8 @@ class Enemy(QGraphicsPixmapItem):
                 self.vy = 0.0
                 self.in_air = False
                 self.physics.reset_gravity()
-                
+            
+            self.animation.animate(self,self.direction)
             self.setPos(self.x()+dx, self.y())
             
             
