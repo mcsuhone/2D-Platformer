@@ -1,5 +1,5 @@
 from PyQt5.Qt import QTransform, QPointF
-from src.CONSTANTS import *
+from CONSTANTS import *
 
 class Physics():
     

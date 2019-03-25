@@ -1,5 +1,5 @@
 from PyQt5.QtGui import QPixmap
-from Items.item import Item
+from .item import Item
 
 class Grass(Item):
     

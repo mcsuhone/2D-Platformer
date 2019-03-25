@@ -1,4 +1,4 @@
-from src.Creatures.enemy import Enemy
+from .enemy import Enemy
 from PyQt5.Qt import QPixmap, QPointF
 from src.animation import Animation
 

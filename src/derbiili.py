@@ -175,15 +175,15 @@ class Derbiili(QGraphicsPixmapItem):
             self.in_air = True
             effect = True
             
-        if item1 is not None:
+        elif item1 is not None:
             
             effect = item1.stand_on_effect(self,self.scene)
                 
-        if item2 is not None:
+        elif item2 is not None:
             
             effect = item2.stand_on_effect(self,self.scene)
                 
-        if item1 is not None or item2 is not None:
+        elif item1 is not None or item2 is not None:
             pass
         
         if not effect:
