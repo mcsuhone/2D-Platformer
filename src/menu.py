@@ -4,11 +4,11 @@ from PyQt5.QtCore import Qt,QBasicTimer
 from PyQt5.QtWidgets import QWidget
 from PyQt5.QtGui import QPalette,QPixmap
 
-from src.button import Button
-from src.scene import Scene
-from src.CONSTANTS import *
+from button import Button
+from scene import Scene
+from CONSTANTS import *
 from PyQt5.Qt import QLabel
-from src.menuitem import MenuItem
+from menuitem import MenuItem
 
 
 class Menu(QWidget):

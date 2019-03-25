@@ -1,8 +1,7 @@
 from PyQt5.QtWidgets import QGraphicsPixmapItem,QGraphicsScene,QGraphicsView
 from PyQt5.QtCore import Qt,QBasicTimer,QRectF,QSizeF
 from PyQt5.QtGui import QBrush,QColor,QLinearGradient,QIcon,QPixmap
-from PyQt5.Qt import QPointF, QTransform, QGraphicsTextItem, QFont, QLabel,\
-    QGridLayout, QGraphicsRectItem, QPushButton
+from PyQt5.Qt import *
 
 import src.Items
 from src.button import Button
@@ -10,6 +9,7 @@ from src.maploader import MapLoader
 from src.CONSTANTS import *
 import src.Creatures
 from src.Items.heart import Heart
+from src.Items.cake import Cake
 
 class Scene(QGraphicsScene):
 
@@ -24,9 +24,18 @@ class Scene(QGraphicsScene):
         self.menu = menu
         self.maploader = MapLoader()
         self.map_info = self.maploader.load_map(self,maps,mapnumber)
+        self.addMenuButton()
+        
+        self.view = QGraphicsView(self)
+        self.view.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.view.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.view.setFixedSize(WINDOW_WIDTH*1.5,WINDOW_HEIGHT*1.5)
+        
+        self.view.scale(2,2)
+        self.view.centerOn(self.player.pos())
+        
         self.options = options
         self.keybindings = self.options['keybindings']
-        self.cakes = 0
         self.stop = False
         self.addScoreBoard()
         self.health = 5
@@ -35,13 +44,6 @@ class Scene(QGraphicsScene):
         
         rect = QRectF(QPointF(0,0),QSizeF(self.map_info['xsize'],self.map_info['ysize']))
         self.setSceneRect(rect)
-        
-        self.view = QGraphicsView(self)
-        self.view.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        self.view.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        self.view.setFixedSize(WINDOW_WIDTH*1.5,WINDOW_HEIGHT*1.5)
-        
-        self.view.scale(2,2)
         
         self.addBackGround()
         
@@ -106,6 +108,16 @@ class Scene(QGraphicsScene):
         self.save_point = derbiili.pos()
         self.player = derbiili
         self.player.setZValue(0)
+        
+    def addMenuButton(self):
+        
+        self.menu_button = Button(0,0,80,20,"Main menu")
+        self.menu_button.clicked.connect(self.back_to_main_menu)
+        self.menu_button.setStyleSheet('''
+                                background-image: url(Textures/Button3.png);
+                                border: none;
+                                ''')
+        self.addWidget(self.menu_button,Qt.Widget)
         
     def is_stopped(self):
         
@@ -187,6 +199,12 @@ class Scene(QGraphicsScene):
         wintext.setPos(300+pos.x()-80,200+pos.y()-64)
         self.addItem(wintext)
         
+    def back_to_main_menu(self):
+        
+        self.view.close()
+        self.menu.show()
+        self.menu.display_main_menu()
+        
     def back_to_menu(self):
         
         self.view.close()
@@ -200,17 +218,19 @@ class Scene(QGraphicsScene):
         
     def addScoreBoard(self):
         
-        str = "Cake collected: " + "{:}".format(self.cakes)
-        self.scoreboard = QGraphicsTextItem(str)
-        self.addItem(self.scoreboard)
+        self.cakes = []
         
     def addCake(self,cakes):
         
-        self.cakes += cakes
+        for i in range(cakes):
+            cake = Cake(0,0)
+            self.addItem(cake)
+            self.cakes.append(cake)
         
-        if self.cakes >= 10:
+        if len(self.cakes) >= 10:
             self.addHealth(1)
-            self.cakes -= 10
+            for cake in self.cakes:
+                self.removeItem(cake)
         
     def addHealthBar(self):
         
@@ -243,6 +263,7 @@ class Scene(QGraphicsScene):
             self.death_screen()
         else:
             self.player.setPos(self.save_point)
+            self.view.centerOn(self.player.pos())
     
     def keyPressEvent(self, event):
         self.keys_pressed.add(event.key())
@@ -264,15 +285,15 @@ class Scene(QGraphicsScene):
         
         x = self.player.x()
         y = self.player.y()
-        
-        if self.camera_y+50 < y:
-            self.camera_y += self.camera_speed
-        elif self.camera_y-50 > y:
-            self.camera_y -= self.camera_speed
-        else:
-            pass
-        
-        self.view.centerOn(x,self.camera_y)
+        for i in range(4):
+            if self.camera_y+50 < y:
+                self.camera_y += self.camera_speed
+            elif self.camera_y-50 > y:
+                self.camera_y -= self.camera_speed
+            else:
+                pass
+            
+            self.view.centerOn(x,self.camera_y)
         
     def game_update(self):
         
@@ -287,14 +308,18 @@ class Scene(QGraphicsScene):
     def update_GUI(self):
         
         pos = self.view.mapToScene(0,0)
-        self.scoreboard.setPos(pos)
-        str = "Cake collected: " + "{:}".format(self.cakes)
-        self.scoreboard.setPlainText(str)
         
-        pos += QPointF(568,0)
+        pos1 = pos + QPointF(284,0)
+        self.menu_button.move(pos1.toPoint())
+
+        pos0 = pos + QPointF(568,0)
         for i in range(len(self.hearts)):
-            pos1 = pos - QPointF(32*i,0)
-            self.hearts[i].setPos(pos1)
+            pos2 = pos0 - QPointF(32*i,0)
+            self.hearts[i].setPos(pos2)
+            
+        for i in range(len(self.cakes)):
+            pos3 = pos0 + QPointF(-128+12.8*i,32)
+            self.cakes[i].setPos(pos3)
         
     def update_items(self):
         

@@ -1,5 +1,5 @@
 from PyQt5.QtGui import QPixmap
-from src.Items.item import Item
+from .item import Item
 from src.animation import Animation
 
 class Cake(Item):
