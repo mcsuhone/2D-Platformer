@@ -42,7 +42,7 @@ class Scene(QGraphicsScene):
         self.addHealthBar()
         print(self.map_info)
         
-        rect = QRectF(QPointF(0,0),QSizeF(self.map_info['xsize'],self.map_info['ysize']))
+        rect = QRectF(QPointF(0,0),QSizeF(self.map_info['xsize'],self.map_info['ysize']+32))
         self.setSceneRect(rect)
         
         self.addBackGround()

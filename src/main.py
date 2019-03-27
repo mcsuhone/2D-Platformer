@@ -1,5 +1,5 @@
 import sys
-from menu import Menu
+from src.menu import Menu
 from PyQt5.QtWidgets import QApplication
 
 
