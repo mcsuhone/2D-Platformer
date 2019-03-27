@@ -3,13 +3,13 @@ from PyQt5.QtCore import Qt,QBasicTimer,QRectF,QSizeF
 from PyQt5.QtGui import QBrush,QColor,QLinearGradient,QIcon,QPixmap
 from PyQt5.Qt import *
 
-import src.Items
-from src.button import Button
-from src.maploader import MapLoader
-from src.CONSTANTS import *
-import src.Creatures
-from src.Items.heart import Heart
-from src.Items.cake import Cake
+import Items
+from button import Button
+from maploader import MapLoader
+from CONSTANTS import *
+import Creatures
+from Items.heart import Heart
+from Items.cake import Cake
 
 class Scene(QGraphicsScene):
 
@@ -70,13 +70,13 @@ class Scene(QGraphicsScene):
         self.enemies = []
         
         for item in itemlist:
-            if type(item) == src.Items.cake.Cake:
+            if type(item) == Items.cake.Cake:
                 self.idleitems.append(item)
-            elif type(item) == src.Creatures.snake.Snake:
+            elif type(item) == Creatures.snake.Snake:
                 self.enemies.append(item)
-            elif type(item) == src.Creatures.bat.Bat:
+            elif type(item) == Creatures.bat.Bat:
                 self.enemies.append(item)
-            elif type(item) == src.Creatures.cavebug.CaveBug:
+            elif type(item) == Creatures.cavebug.CaveBug:
                 self.enemies.append(item)
         
     def addBackGround(self):

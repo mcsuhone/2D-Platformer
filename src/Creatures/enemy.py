@@ -1,6 +1,6 @@
 from PyQt5.Qt import QGraphicsPixmapItem, QPointF
 
-from src.physics import Physics
+from physics import Physics
 
 class Enemy(QGraphicsPixmapItem):
     

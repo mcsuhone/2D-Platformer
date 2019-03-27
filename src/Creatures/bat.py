@@ -1,6 +1,6 @@
 from .enemy import Enemy
 from PyQt5.Qt import QPixmap, QPointF
-from src.animation import Animation
+from animation import Animation
 
 
 class Bat(Enemy):

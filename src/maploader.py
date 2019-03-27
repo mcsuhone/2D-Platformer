@@ -1,19 +1,19 @@
 from io import StringIO
 
-from src.Blocks.blockgrass import BlockGrass
-from src.Blocks.blockground import BlockGround
-from src.Blocks.blockrock import BlockRock
-from src.Blocks.spikes import Spikes
-from src.derbiili import Derbiili
-from src.Items.cake import Cake
-from src.Items.grass import Grass
-from src.Blocks.blockbox import BlockBox
-from src.Blocks.portal import Portal
-from src.Creatures.snake import Snake
-from src.Creatures.bat import Bat
-from src.Blocks.blockstonewall import BlockStoneWall
-from src.Blocks.blockice import BlockIce
-from src.Creatures.cavebug import CaveBug
+from Blocks.blockgrass import BlockGrass
+from Blocks.blockground import BlockGround
+from Blocks.blockrock import BlockRock
+from Blocks.spikes import Spikes
+from derbiili import Derbiili
+from Items.cake import Cake
+from Items.grass import Grass
+from Blocks.blockbox import BlockBox
+from Blocks.portal import Portal
+from Creatures.snake import Snake
+from Creatures.bat import Bat
+from Blocks.blockstonewall import BlockStoneWall
+from Blocks.blockice import BlockIce
+from Creatures.cavebug import CaveBug
 
 class MapLoader():
     

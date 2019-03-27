@@ -1,5 +1,5 @@
 from PyQt5.QtGui import QPixmap
-from src.Blocks.block import Block
+from Blocks.block import Block
 
 class Portal(Block):
     

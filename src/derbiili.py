@@ -2,9 +2,9 @@ from PyQt5.QtGui import QPixmap,QTransform
 from PyQt5.QtWidgets import QGraphicsPixmapItem
 from PyQt5.QtCore import Qt
 
-from src.physics import Physics
-import src.Blocks
-from src.CONSTANTS import *
+from physics import Physics
+import Blocks
+from CONSTANTS import *
 from PyQt5.Qt import QPointF
 
 class Derbiili(QGraphicsPixmapItem):
