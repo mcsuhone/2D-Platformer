@@ -13,6 +13,7 @@ from src.Creatures.snake import Snake
 from src.Creatures.bat import Bat
 from src.Blocks.blockstonewall import BlockStoneWall
 from src.Blocks.blockice import BlockIce
+from src.Creatures.cavebug import CaveBug
 
 class MapLoader():
     
@@ -143,6 +144,9 @@ class MapLoader():
                             self.scene.addItem(enemy)
                         elif block == "2":
                             enemy = Bat(x,y,self.scene)
+                            self.scene.addItem(enemy)
+                        elif block == "3":
+                            enemy = CaveBug(x,y,self.scene)
                             self.scene.addItem(enemy)
                         elif block == "O":
                             block = BlockStoneWall(x,y)
