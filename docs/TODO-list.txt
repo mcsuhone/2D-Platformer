@@ -4,14 +4,17 @@ TODO-list
 -saving
 
 -update physics to have different sized creatures
--update physics to include all kinds of movement
 
--animations
+
+
+
 -death animation
 -upside down spikes
 -death splash
--falling stuff
+-more obstacles
+-new kinds of enemies
 
 
 -fix bug with hitting spikes on corner
 -fix holding a or d on wall
+-fix view displaying outside the scene

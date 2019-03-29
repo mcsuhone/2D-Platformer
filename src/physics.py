@@ -3,10 +3,27 @@ from CONSTANTS import *
 
 class Physics():
     
-    def __init__(self):
+    def __init__(self, height = 22, width = 23, offset = 5, weight = 1.0):
         self.g = 0.0
         self.v = 0.0
-    
+        
+        self.right_side = width + offset - 1
+        self.left_side = offset
+        self.top_side = self.calculate_top(height)
+        self.bottom_side = self.calculate_bottom(height)
+        
+    def calculate_top(self,height):
+        
+        a = (height//32 + 1)*32
+        
+        return a - height - 1
+        
+    def calculate_bottom(self,height):
+
+        a = (height//32 + 1)*32
+        
+        return a - 1
+        
     def check_collisions_x(self,player,scene,dx):
         if dx > 0:
             #tests right side collision

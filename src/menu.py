@@ -76,6 +76,16 @@ class Menu(QWidget):
         
         self.main_menu_items.append(button_exit)
         
+        test_button = Button(80,16,160,32,'Test',self)
+        test_button.clicked.connect(self.test)
+        
+        self.main_menu_items.append(test_button)
+        
+    def test(self):
+        
+        a = 22//32
+        
+        print(a)
         
     def map_menu(self):
         
