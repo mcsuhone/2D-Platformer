@@ -3,13 +3,13 @@ from CONSTANTS import *
 
 class Physics():
     
-    def __init__(self, height = 22, width = 23, offset = 6, weight = 1.0):
+    def __init__(self, height = 22, width = 22, offset = 7, weight = 1.0):
         self.g = 0.0
         self.v = 0.0
         
         self.w,self.h = self.calculate_size(width, height)
         
-        self.right_side = width + offset - 2
+        self.right_side = width + offset - 2 
         self.left_side = offset
         self.top_side = self.calculate_top(height)
         self.bottom_side = self.calculate_bottom(height)

@@ -113,8 +113,8 @@ class Menu(QWidget):
         self.map_menu_items.append(button_map2)
         
         button_map3 = Button(WINDOW_WIDTH/2+128,WINDOW_HEIGHT/2,64,64,'Level 3', self)
-        #button_map3.clicked.connect(self.map3)
-        #button_map3.clicked.connect(self.play)
+        button_map3.clicked.connect(self.map3)
+        button_map3.clicked.connect(self.play)
         button_map3.setStyleSheet('''
                                 color: rgb(255,255,255);
                                 background-image: url(Textures/MapIcon3.png);
@@ -205,6 +205,10 @@ class Menu(QWidget):
     def map2(self):
         
         self.mapnumber = 2
+        
+    def map3(self):
+        
+        self.mapnumber = 3
         
     def play(self):
         

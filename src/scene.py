@@ -78,6 +78,9 @@ class Scene(QGraphicsScene):
                 self.enemies.append(item)
             elif type(item) == Creatures.cavebug.CaveBug:
                 self.enemies.append(item)
+            elif type(item) == Creatures.ghost.Ghost:
+                self.enemies.append(item)
+                
         
     def addBackGround(self):
         #gc stands for gradient color
