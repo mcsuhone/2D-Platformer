@@ -10,5 +10,5 @@ class CaveBug(Enemy):
         distance = 10
         Enemy.__init__(self,scene,speed,distance,parent)
         self.animation = Animation(self,"Textures/CaveBug",15)
-        self.addPos(x,y)
+        self.set_pos(x,y)
     

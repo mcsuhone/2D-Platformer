@@ -14,10 +14,14 @@ class Enemy(QGraphicsPixmapItem):
         self.direction = -1
         self.distance = distance
         
-        self.physics = Physics()
+        self.set_physics()
         self.scene = scene
     
-    def addPos(self,x,y):
+    def set_physics(self):
+        
+        self.physics = Physics()
+    
+    def set_pos(self,x,y):
         self.setPos(x*32,y*32)
         self.origin = QPointF(x*32,y*32)
         

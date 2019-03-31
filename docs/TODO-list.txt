@@ -5,8 +5,8 @@ TODO-list
 
 -update physics to have different sized creatures
 
-
-
+-make enemies not fall off from blocks by default
+-ghosts are not working
 
 -death animation
 -upside down spikes

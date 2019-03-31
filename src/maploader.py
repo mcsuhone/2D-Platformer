@@ -14,6 +14,7 @@ from Creatures.bat import Bat
 from Blocks.blockstonewall import BlockStoneWall
 from Blocks.blockice import BlockIce
 from Creatures.cavebug import CaveBug
+from Creatures.ghost import Ghost
 
 class MapLoader():
     
@@ -147,6 +148,9 @@ class MapLoader():
                             self.scene.addItem(enemy)
                         elif block == "3":
                             enemy = CaveBug(x,y,self.scene)
+                            self.scene.addItem(enemy)
+                        elif block == "4":
+                            enemy = Ghost(x,y,self.scene)
                             self.scene.addItem(enemy)
                         elif block == "O":
                             block = BlockStoneWall(x,y)

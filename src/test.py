@@ -1,5 +1,7 @@
 import unittest
 from physics import Physics
+from PyQt5.Qt import QGraphicsPixmapItem
+from texture import Texture
 
 
 class Test(unittest.TestCase):
@@ -40,5 +42,20 @@ class Test(unittest.TestCase):
         self.assertEqual(rightside1,rightside0, "Right side is calculated wrong.")
         self.assertEqual(leftside1,leftside0, "Left side is calculated wrong.")
 
+    '''
+    def test_textures(self):
+        
+        object = QGraphicsPixmapItem()
+        texture = Texture(object, "Textures/Derbiili/Derbiili.png")
+        
+        w = 1
+        h = 1
+        
+        width = texture.width()
+        height = texture.height()
+        
+        self.assertEqual(w, width, "Width was not correct.")
+        self.assertEqual(h, height, "Height was not correct.")
+    '''  
 if __name__ == '__main__':
     unittest.main()

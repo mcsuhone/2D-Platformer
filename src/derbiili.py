@@ -6,12 +6,13 @@ from physics import Physics
 import Blocks
 from CONSTANTS import *
 from PyQt5.Qt import QPointF
+from texture import Texture
 
 class Derbiili(QGraphicsPixmapItem):
     
     def __init__(self, x, y, scene, parent=None):
         QGraphicsPixmapItem.__init__(self,parent)
-        self.setPixmap(QPixmap("Textures/Derbiili/Derbiili.png"))
+        self.texture = Texture(self,"Textures/Derbiili/Derbiili.png")
         
         self.collision = False
         self.setPos(x*32,y*32)

@@ -10,11 +10,7 @@ class Bat(Enemy):
         distance = 10
         Enemy.__init__(self,scene,speed,distance,parent)
         self.animation = Animation(self,"Textures/Bat",10)
-        self.addPos(x,y)
-    
-    def addPos(self,x,y):
-        self.setPos(x*32,y*32)
-        self.origin = QPointF(x*32,y*32)
+        self.set_pos(x,y)
     
     def distance_from_origin(self):
         

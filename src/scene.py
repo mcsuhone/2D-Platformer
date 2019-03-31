@@ -233,6 +233,8 @@ class Scene(QGraphicsScene):
             self.addHealth(1)
             for cake in self.cakes:
                 self.removeItem(cake)
+            self.cakes.clear()
+            
         
     def addHealthBar(self):
         

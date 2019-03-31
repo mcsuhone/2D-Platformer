@@ -2,8 +2,6 @@ import os
 from PyQt5.Qt import QPixmap
 
 
-
-
 class Animation():
     
     def __init__(self,object,folder,delay):
@@ -13,6 +11,17 @@ class Animation():
         self.timer = 0
         self.load_animations(folder)
         object.setPixmap(self.frames[0])
+        
+        self.width = self.frames[0].width()
+        self.height = self.frames[0].height()
+        
+    def get_width(self):
+        
+        return self.width/32
+    
+    def get_height(self):
+        
+        return self.height/32
         
     def load_animations(self,folder):
         self.frames = []

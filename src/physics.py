@@ -3,14 +3,23 @@ from CONSTANTS import *
 
 class Physics():
     
-    def __init__(self, height = 22, width = 23, offset = 5, weight = 1.0):
+    def __init__(self, height = 22, width = 23, offset = 6, weight = 1.0):
         self.g = 0.0
         self.v = 0.0
         
-        self.right_side = width + offset - 1
+        self.w,self.h = self.calculate_size(width, height)
+        
+        self.right_side = width + offset - 2
         self.left_side = offset
         self.top_side = self.calculate_top(height)
         self.bottom_side = self.calculate_bottom(height)
+        
+    def calculate_size(self,width,height):
+        
+        w = width//32 + 1
+        h = height//32 + 1
+        
+        return w,h 
         
     def calculate_top(self,height):
         
@@ -19,7 +28,7 @@ class Physics():
         return a - height - 1
         
     def calculate_bottom(self,height):
-
+        
         a = (height//32 + 1)*32
         
         return a - 1
@@ -29,8 +38,8 @@ class Physics():
             #tests right side collision
             transform = QTransform()
             pos = player.pos()
-            posright1 = pos + QPointF(27.0+dx,9.0)
-            posright2 = pos + QPointF(27.0+dx,31.0)
+            posright1 = pos + QPointF(self.right_side+dx,self.top_side)
+            posright2 = pos + QPointF(self.right_side+dx,self.bottom_side)
             
             item1 = scene.itemAt(posright1,transform)
             item2 = scene.itemAt(posright2,transform)
@@ -40,11 +49,11 @@ class Physics():
                 
             if item1 is not None:
                 if item1.is_collidable():
-                    return item1.x()-player.x()-28
+                    return item1.x()-player.x()-self.right_side-1
                     
             if item2 is not None:
                 if item2.is_collidable():
-                    return item2.x()-player.x()-28
+                    return item2.x()-player.x()-self.right_side-1
                     
             if item1 is not None or item2 is not None:
                 return None
@@ -53,8 +62,8 @@ class Physics():
             #tests left side collision
             transform = QTransform()
             pos = player.pos()
-            posleft1 = pos + QPointF(5.0+dx,9.0)
-            posleft2 = pos + QPointF(5.0+dx,31.0)
+            posleft1 = pos + QPointF(self.left_side+dx,self.top_side)
+            posleft2 = pos + QPointF(self.left_side+dx,self.bottom_side)
             
             item1 = scene.itemAt(posleft1,transform)
             item2 = scene.itemAt(posleft2,transform)
@@ -64,11 +73,11 @@ class Physics():
                 
             if item1 is not None:
                 if item1.is_collidable():
-                    return -(player.x()-item1.x()-28)
+                    return -(player.x()-item1.x()-self.right_side)
                     
             if item2 is not None:
                 if item2.is_collidable():
-                    return -(player.x()-item2.x()-28)
+                    return -(player.x()-item2.x()-self.right_side)
                     
             if item1 is not None or item2 is not None:
                 return None
@@ -82,8 +91,8 @@ class Physics():
             #tests bottom of player collision
             transform = QTransform()
             pos = player.pos()
-            posdown1 = pos + QPointF(5.0,31.0-dy)
-            posdown2 = pos + QPointF(27.0,31.0-dy)
+            posdown1 = pos + QPointF(self.left_side,self.bottom_side-dy)
+            posdown2 = pos + QPointF(self.right_side,self.bottom_side-dy)
             
             item1 = scene.itemAt(posdown1,transform)
             item2 = scene.itemAt(posdown2,transform)
@@ -93,11 +102,11 @@ class Physics():
                 
             if item2 is not None:
                 if item2.is_collidable():
-                    return -(item2.y()-player.y()-32)
+                    return -(item2.y()-player.y()-32*self.h)
                 
             if item1 is not None:
                 if item1.is_collidable():
-                    return -(item1.y()-player.y()-32)
+                    return -(item1.y()-player.y()-32*self.h)
                
             if item1 is not None or item2 is not None:
                 return None
@@ -106,8 +115,8 @@ class Physics():
             #test top of player collisions
             transform = QTransform()
             pos = player.pos()
-            posup1 = pos + QPointF(5.0,9.0-dy)
-            posup2 = pos + QPointF(27.0,9.0-dy)
+            posup1 = pos + QPointF(self.left_side,self.top_side-dy)
+            posup2 = pos + QPointF(self.right_side,self.top_side-dy)
             
             item1 = scene.itemAt(posup1,transform)
             item2 = scene.itemAt(posup2,transform)
@@ -117,11 +126,11 @@ class Physics():
                 
             if item1 is not None:
                 if item1.is_collidable():
-                    return -(item1.y()-player.y()+23)
+                    return -(item1.y()-player.y()+(self.h*32-self.top_side))
                     
             if item2 is not None:
                 if item2.is_collidable():
-                    return -(item2.y()-player.y()+23)
+                    return -(item2.y()-player.y()+(self.h*32-self.top_side))
                     
             if item1 is not None or item2 is not None:
                 return None
