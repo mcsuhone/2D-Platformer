@@ -1,6 +1,8 @@
 from PyQt5.Qt import QGraphicsPixmapItem, QPointF
 
 from physics import Physics
+import math
+from CONSTANTS import *
 
 class Enemy(QGraphicsPixmapItem):
     
@@ -11,11 +13,23 @@ class Enemy(QGraphicsPixmapItem):
         self.speed = speed
         self.in_air = False
         self.vy = 0.0
-        self.direction = -1
+        self.direction = 'left'
         self.distance = distance
+        self.player_tracker = set()
         
+        self.setZValue(-1)
         self.set_physics()
         self.scene = scene
+    
+    def calculate_size(self):
+        
+        size = {'width':0,'height':0}
+        pixmap = self.pixmap()
+        
+        size['width'] = pixmap.width()
+        size['height'] = pixmap.height()
+        
+        return size
     
     def set_physics(self):
         
@@ -31,21 +45,68 @@ class Enemy(QGraphicsPixmapItem):
     
     def touch_effect(self,player,scene):
         
-        scene.backToSavePoint()
+        scene.back_to_checkpoint()
     
     def is_collidable(self):
-        if self is None:
-            return False
-        else:
-            return self.collision
+        
+        return self.collision
+        
+    def update(self,scene,player):
+        
+        self.move()
+    
+    def flip(self,direction):
+        #overwrite this.
+        pass
     
     def distance_from_origin(self):
         
         return abs(self.origin.x()-self.x())
     
-    def flip(self,direction):
-        #overwrite this.
-        pass
+    def player_direction(self,player):
+        
+        if player.x() < self.x():
+            self.player_tracker.add('left')
+        elif 'left' in self.player_tracker:
+            self.player_tracker.remove('left')
+        
+        if player.x() > self.x():
+            self.player_tracker.add('right')
+        elif 'right' in self.player_tracker:
+            self.player_tracker.remove('right')
+        
+        if self.y()+self.size['height'] > player.y() > self.y()-30:
+            self.player_tracker.add('infront')
+        elif 'infront' in self.player_tracker:
+            self.player_tracker.remove('infront')
+        
+        if player.y() < self.y()-32:
+            self.player_tracker.add('above')
+        elif 'above' in self.player_tracker:
+            self.player_tracker.remove('above')
+            
+        if player.y() > self.y()+self.size['height']:
+            self.player_tracker.add('below')
+        elif 'below' in self.player_tracker:
+            self.player_tracker.remove('below')
+        
+    def distance_from_player(self,player):
+        
+        xdistance = abs(self.x()-player.x())
+        ydistance = abs(self.y()-player.y())
+        
+        distance = math.sqrt(xdistance**2+ydistance**2)
+        
+        return distance
+    
+    def change_direction(self):
+        
+        if self.direction == 'left':
+            self.direction = 'right'
+            self.speed = -self.speed
+        else:
+            self.direction = 'left'
+            self.speed = -self.speed
     
     def move(self):
         dy = 0
@@ -54,18 +115,21 @@ class Enemy(QGraphicsPixmapItem):
             self.in_air = True
         
         if self.in_air:
-            dv = self.physics.gravity()               #continue air movement
+            dv = self.physics.gravity()
             dy = self.vy-dv
         
-        if self.direction == -1:
+            
+        if self.direction == 'left':
             dx = self.speed
             xdetect = self.physics.check_collisions_x(self,self.scene,dx)
             ydetect = self.physics.check_collisions_y(self,self.scene,dy)
             
-            
             if self.distance_from_origin() > 32*self.distance:
-                self.direction = 1
-                self.speed = -self.speed
+                self.change_direction()
+                dx = self.speed
+                
+            elif self.physics.check_edge(self,self.scene):
+                self.change_direction()
                 dx = self.speed
             
             elif xdetect is None:
@@ -73,8 +137,7 @@ class Enemy(QGraphicsPixmapItem):
             
             else:
                 dx = xdetect
-                self.direction = 1
-                self.speed = -self.speed
+                self.change_direction()
             
             if ydetect is None:
                 pass
@@ -93,17 +156,19 @@ class Enemy(QGraphicsPixmapItem):
             ydetect = self.physics.check_collisions_y(self,self.scene,dy)
                 
             if self.distance_from_origin() > 32*self.distance:
-                self.direction = -1
-                self.speed = -self.speed
+                self.change_direction()
                 dx = self.speed
-            
+                
+            elif self.physics.check_edge(self,self.scene):
+                self.change_direction()
+                dx = self.speed
+                
             elif xdetect is None:
                 pass
             
             else:
                 dx = xdetect
-                self.direction = -1
-                self.speed = -self.speed
+                self.change_direction()
                 
             if ydetect is None:
                 pass
@@ -115,11 +180,5 @@ class Enemy(QGraphicsPixmapItem):
             
             self.animation.animate(self,self.direction)
             self.setPos(self.x()+dx, self.y())
-            
-            
-            
-            
-            
-            
             
             

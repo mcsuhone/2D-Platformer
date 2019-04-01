@@ -27,7 +27,7 @@ class Derbiili(QGraphicsPixmapItem):
         
         self.vx = 0.0
         self.vy = 0.0
-        self.direction = 1
+        self.direction = 'right'
     
         self.scene = scene
         self.physics = Physics()
@@ -72,7 +72,7 @@ class Derbiili(QGraphicsPixmapItem):
             dy = self.jump()                          #iniate jump
             
         if keybindings['left'] in keys_pressed:
-            self.direction = -1
+            self.direction = 'left'
             
             if self.vx > 0:
                 self.vx -= self.friction
@@ -88,7 +88,7 @@ class Derbiili(QGraphicsPixmapItem):
                 dx = 0   
         
         elif keybindings['right'] in keys_pressed:
-            self.direction = 1
+            self.direction = 'right'
             
             if self.vx < 0:
                 self.vx += self.friction
@@ -203,6 +203,7 @@ class Derbiili(QGraphicsPixmapItem):
         self.vy = self.jump_height
         dy = self.vy
         self.in_air = True
+        self.physics.reset_gravity()
         
         return dy
         
@@ -222,18 +223,18 @@ class Derbiili(QGraphicsPixmapItem):
         
     def update_texture(self):
         if self.crouching:
-            if self.direction == 1:
+            if self.direction == 'right':
                 self.setPixmap(QPixmap("Textures/Derbiili/DerbiiliCrouching.png"))
             else:
                 self.setPixmap(QPixmap("Textures/Derbiili/DerbiiliCrouchingFlipped.png"))
         else:
             if self.in_air:
-                if self.direction == 1:
+                if self.direction == 'right':
                     self.setPixmap(QPixmap("Textures/Derbiili/DerbiiliJumping.png"))
                 else:
                     self.setPixmap(QPixmap("Textures/Derbiili/DerbiiliJumpingFlipped.png"))
             else:
-                if self.direction == 1:
+                if self.direction == 'right':
                     self.setPixmap(QPixmap("Textures/Derbiili/Derbiili.png"))
                 else:
                     self.setPixmap(QPixmap("Textures/Derbiili/DerbiiliFlipped.png"))

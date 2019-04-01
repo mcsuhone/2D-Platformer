@@ -12,7 +12,7 @@ class Spikes(Block):
         
     def stand_on_effect(self,player,scene):
         
-        scene.backToSavePoint()
+        scene.back_to_checkpoint()
         
         return True
     

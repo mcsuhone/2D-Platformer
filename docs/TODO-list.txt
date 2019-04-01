@@ -1,20 +1,26 @@
 TODO-list
 
--make derbiili -Z (behind of other items)
 -saving
-
--update physics to have different sized creatures
-
--make enemies not fall off from blocks by default
--ghosts are not working
 
 -death animation
 -upside down spikes
 -death splash
 -more obstacles
--new kinds of enemies
 
 
 -fix bug with hitting spikes on corner
 -fix holding a or d on wall
--fix view displaying outside the scene
+-fix view displaying outside the scene!!
+-cavebugs sometimes kill you even if you jump on top
+-sometimes crashing when spawning from checkpoint
+-crash when going to map menu and then choosing new keybinds
+
+
+-make bats more functional
+-finish checkpoints
+-add animations to ghosts
+-make the levels better
+-make cavebugs collidable
+-remove distance turning from default enemy
+
+-add self.object to animations

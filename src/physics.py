@@ -1,5 +1,6 @@
-from PyQt5.Qt import QTransform, QPointF
+from PyQt5.Qt import QTransform, QPointF, QGraphicsRectItem
 from CONSTANTS import *
+import Creatures
 
 class Physics():
     
@@ -138,6 +139,20 @@ class Physics():
         else:
             return None
     
+    def check_edge(self,enemy,scene):
+        
+        transform = QTransform()
+        pos = enemy.pos()
+        posdown1 = pos + QPointF(self.left_side,self.bottom_side+2)
+        posdown2 = pos + QPointF(self.right_side,self.bottom_side+2)
+        
+        item1 = scene.itemAt(posdown1,transform)
+        item2 = scene.itemAt(posdown2,transform)
+        
+        if item1 is None or item2 is None:
+            return True
+        else:
+            return False
         
     def reset_gravity(self):
         self.g = 0.0

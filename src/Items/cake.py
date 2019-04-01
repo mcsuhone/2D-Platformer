@@ -17,6 +17,6 @@ class Cake(Item):
         scene.addCake(1)
         scene.removeItem(self)
         
-    def update_idle(self):
+    def update(self):
         self.animation.animate(self)
         

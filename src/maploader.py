@@ -15,6 +15,7 @@ from Blocks.blockstonewall import BlockStoneWall
 from Blocks.blockice import BlockIce
 from Creatures.cavebug import CaveBug
 from Creatures.ghost import Ghost
+from Blocks.checkpoint import Checkpoint
 
 class MapLoader():
     
@@ -137,8 +138,17 @@ class MapLoader():
                         elif block == "b":
                             block = BlockBox(x,y)
                             self.scene.addItem(block)
+                        elif block == "O":
+                            block = BlockStoneWall(x,y)
+                            self.scene.addItem(block)
+                        elif block == "I":
+                            block = BlockIce(x,y)
+                            self.scene.addItem(block)
                         elif block == "P":
                             block = Portal(x,y)
+                            self.scene.addItem(block)
+                        elif block == "&":
+                            block = Checkpoint(x,y)
                             self.scene.addItem(block)
                         elif block == "1":
                             enemy = Snake(x,y,self.scene)
@@ -152,14 +162,9 @@ class MapLoader():
                         elif block == "4":
                             enemy = Ghost(x,y,self.scene)
                             self.scene.addItem(enemy)
-                        elif block == "O":
-                            block = BlockStoneWall(x,y)
-                            self.scene.addItem(block)
-                        elif block == "I":
-                            block = BlockIce(x,y)
-                            self.scene.addItem(block)
+                        
                             
                             
                         x+=1
-        self.map_info['ysize'] = y*32            
+        self.map_info['ysize'] = y*32+32            
         

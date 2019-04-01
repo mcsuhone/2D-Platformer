@@ -4,6 +4,7 @@ from PyQt5.QtGui import QBrush,QColor,QLinearGradient,QIcon,QPixmap
 from PyQt5.Qt import *
 
 import Items
+import Blocks
 from button import Button
 from maploader import MapLoader
 from CONSTANTS import *
@@ -42,7 +43,7 @@ class Scene(QGraphicsScene):
         self.addHealthBar()
         print(self.map_info)
         
-        rect = QRectF(QPointF(0,0),QSizeF(self.map_info['xsize'],self.map_info['ysize']+32))
+        rect = QRectF(QPointF(0,0),QSizeF(self.map_info['xsize'],self.map_info['ysize']))
         self.setSceneRect(rect)
         
         self.addBackGround()
@@ -71,6 +72,8 @@ class Scene(QGraphicsScene):
         
         for item in itemlist:
             if type(item) == Items.cake.Cake:
+                self.idleitems.append(item)
+            elif type(item) == Blocks.checkpoint.Checkpoint:
                 self.idleitems.append(item)
             elif type(item) == Creatures.snake.Snake:
                 self.enemies.append(item)
@@ -110,7 +113,7 @@ class Scene(QGraphicsScene):
     
     def addDerbiili(self,derbiili):
         
-        self.save_point = derbiili.pos()
+        self.checkpoint = derbiili.pos()
         self.player = derbiili
         self.player.setZValue(0)
         
@@ -263,13 +266,17 @@ class Scene(QGraphicsScene):
             self.hearts.pop(-1-i)
             self.health -= 1
         
-    def backToSavePoint(self):
+    def set_checkpoint(self,pos):
+        
+        self.checkpoint = pos
+        
+    def back_to_checkpoint(self):
         
         self.removeHealth(1)
         if self.health == 0:
             self.death_screen()
         else:
-            self.player.setPos(self.save_point)
+            self.player.setPos(self.checkpoint)
             self.view.centerOn(self.player.pos())
     
     def keyPressEvent(self, event):
@@ -310,7 +317,7 @@ class Scene(QGraphicsScene):
         self.player.player_movement(self.keys_pressed,self.keybindings)
         
         if self.player.y() > self.map_info['ysize']:
-            self.backToSavePoint()
+            self.back_to_checkpoint()
         
     def update_GUI(self):
         
@@ -331,10 +338,10 @@ class Scene(QGraphicsScene):
     def update_items(self):
         
         for item in self.idleitems:
-            item.update_idle()
+            item.update()
                 
     def update_enemies(self):
         
         for enemy in self.enemies:
-            enemy.move()
+            enemy.update(self,self.player)
         
