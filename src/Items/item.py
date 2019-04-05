@@ -6,9 +6,14 @@ class Item(QGraphicsPixmapItem):
     def __init__(self, collision = False, parent=None):
         QGraphicsPixmapItem.__init__(self,parent)
         self.collision = collision
+        self.GUIitem = False
         
-    def addPos(self,x,y):
+    def set_pos(self,x,y):
         self.setPos(x*32,y*32)
+        
+    def set_GUIitem(self, value):
+        
+        self.GUIitem = value
         
     def is_collidable(self):
         if self is None:

@@ -4,13 +4,13 @@ import Creatures
 
 class Physics():
     
-    def __init__(self, height = 22, width = 22, offset = 7, weight = 1.0):
+    def __init__(self, height = 22, width = 25, offset = 3, weight = 1.0):
         self.g = 0.0
         self.v = 0.0
         
         self.w,self.h = self.calculate_size(width, height)
         
-        self.right_side = width + offset - 2 
+        self.right_side = width + offset
         self.left_side = offset
         self.top_side = self.calculate_top(height)
         self.bottom_side = self.calculate_bottom(height)
@@ -50,11 +50,11 @@ class Physics():
                 
             if item1 is not None:
                 if item1.is_collidable():
-                    return item1.x()-player.x()-self.right_side-1
+                    return item1.x()-player.x()-self.right_side
                     
             if item2 is not None:
                 if item2.is_collidable():
-                    return item2.x()-player.x()-self.right_side-1
+                    return item2.x()-player.x()-self.right_side
                     
             if item1 is not None or item2 is not None:
                 return None
@@ -74,11 +74,11 @@ class Physics():
                 
             if item1 is not None:
                 if item1.is_collidable():
-                    return -(player.x()-item1.x()-self.right_side)
+                    return -(player.x()-item1.x()-self.right_side-1)
                     
             if item2 is not None:
                 if item2.is_collidable():
-                    return -(player.x()-item2.x()-self.right_side)
+                    return -(player.x()-item2.x()-self.right_side-1)
                     
             if item1 is not None or item2 is not None:
                 return None
@@ -93,7 +93,7 @@ class Physics():
             transform = QTransform()
             pos = player.pos()
             posdown1 = pos + QPointF(self.left_side,self.bottom_side-dy)
-            posdown2 = pos + QPointF(self.right_side,self.bottom_side-dy)
+            posdown2 = pos + QPointF(self.right_side-1,self.bottom_side-dy)
             
             item1 = scene.itemAt(posdown1,transform)
             item2 = scene.itemAt(posdown2,transform)
@@ -117,7 +117,7 @@ class Physics():
             transform = QTransform()
             pos = player.pos()
             posup1 = pos + QPointF(self.left_side,self.top_side-dy)
-            posup2 = pos + QPointF(self.right_side,self.top_side-dy)
+            posup2 = pos + QPointF(self.right_side-1,self.top_side-dy)
             
             item1 = scene.itemAt(posup1,transform)
             item2 = scene.itemAt(posup2,transform)

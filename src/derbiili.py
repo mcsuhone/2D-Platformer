@@ -7,12 +7,13 @@ import Blocks
 from CONSTANTS import *
 from PyQt5.Qt import QPointF
 from texture import Texture
+from animation import Animation
 
 class Derbiili(QGraphicsPixmapItem):
     
     def __init__(self, x, y, scene, parent=None):
         QGraphicsPixmapItem.__init__(self,parent)
-        self.texture = Texture(self,"Textures/Derbiili/Derbiili.png")
+        self.animation = Animation(self, "Textures/Derbiili",1)
         
         self.collision = False
         self.setPos(x*32,y*32)
@@ -31,6 +32,10 @@ class Derbiili(QGraphicsPixmapItem):
     
         self.scene = scene
         self.physics = Physics()
+        
+    def get_direction(self):
+        
+        return self.direction
         
     def is_collidable(self):
         
@@ -123,10 +128,10 @@ class Derbiili(QGraphicsPixmapItem):
             
             xdetect = self.physics.check_collisions_x(self,self.scene,dx)
             ydetect = self.physics.check_collisions_y(self,self.scene,dy)
-
+            
             if xdetect is None:
                 pass
-
+            
             else:
                 dx = xdetect
                 self.vx = 0.0  
@@ -224,20 +229,17 @@ class Derbiili(QGraphicsPixmapItem):
     def update_texture(self):
         if self.crouching:
             if self.direction == 'right':
-                self.setPixmap(QPixmap("Textures/Derbiili/DerbiiliCrouching.png"))
+                self.setPixmap(QPixmap("Textures/Derbiili/Other/DerbiiliCrouching.png"))
             else:
-                self.setPixmap(QPixmap("Textures/Derbiili/DerbiiliCrouchingFlipped.png"))
+                self.setPixmap(QPixmap("Textures/Derbiili/Other/DerbiiliCrouchingFlipped.png"))
         else:
             if self.in_air:
                 if self.direction == 'right':
-                    self.setPixmap(QPixmap("Textures/Derbiili/DerbiiliJumping.png"))
+                    self.setPixmap(QPixmap("Textures/Derbiili/Other/DerbiiliJumping.png"))
                 else:
-                    self.setPixmap(QPixmap("Textures/Derbiili/DerbiiliJumpingFlipped.png"))
+                    self.setPixmap(QPixmap("Textures/Derbiili/Other/DerbiiliJumpingFlipped.png"))
             else:
-                if self.direction == 'right':
-                    self.setPixmap(QPixmap("Textures/Derbiili/Derbiili.png"))
-                else:
-                    self.setPixmap(QPixmap("Textures/Derbiili/DerbiiliFlipped.png"))
+                self.animation.animate(self, self.direction)
         
         
         

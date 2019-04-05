@@ -4,23 +4,17 @@ TODO-list
 
 -death animation
 -upside down spikes
--death splash
+-death animation
 -more obstacles
 
-
 -fix bug with hitting spikes on corner
--fix holding a or d on wall
 -fix view displaying outside the scene!!
 -cavebugs sometimes kill you even if you jump on top
--sometimes crashing when spawning from checkpoint
+
 -crash when going to map menu and then choosing new keybinds
 
-
 -make bats more functional
--finish checkpoints
 -add animations to ghosts
--make the levels better
 -make cavebugs collidable
 -remove distance turning from default enemy
-
 -add self.object to animations

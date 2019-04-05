@@ -1,8 +1,8 @@
 from PyQt5.Qt import QGraphicsPixmapItem, QPixmap
+from .item import Item
 
 
-
-class Heart(QGraphicsPixmapItem):
+class Heart(Item):
     
     def __init__(self, parent=None):
         

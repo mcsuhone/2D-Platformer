@@ -6,6 +6,6 @@ class Button(QPushButton):
         QPushButton.__init__(self,text,parent)
         self.setFixedSize(W,H)
         self.move(x-W/2,y-H/2)
-       
-        
+        self.collision = False
+    
         

@@ -11,6 +11,7 @@ from CONSTANTS import *
 import Creatures
 from Items.heart import Heart
 from Items.cake import Cake
+from pause import Pause
 
 class Scene(QGraphicsScene):
 
@@ -41,6 +42,7 @@ class Scene(QGraphicsScene):
         self.addScoreBoard()
         self.health = 5
         self.addHealthBar()
+        self.pause = Pause()
         print(self.map_info)
         
         rect = QRectF(QPointF(0,0),QSizeF(self.map_info['xsize'],self.map_info['ysize']))
@@ -83,7 +85,6 @@ class Scene(QGraphicsScene):
                 self.enemies.append(item)
             elif type(item) == Creatures.ghost.Ghost:
                 self.enemies.append(item)
-                
         
     def addBackGround(self):
         #gc stands for gradient color
@@ -100,7 +101,8 @@ class Scene(QGraphicsScene):
             brush = QBrush()
             brush.setTexture(QPixmap("Textures/Background1.png"))
             self.view.setBackgroundBrush(brush)
-            '''     
+            '''
+            
         elif self.map_info['currentlevel'] == 2:
             
             gc1 = self.map_info['background'][0]
@@ -240,7 +242,6 @@ class Scene(QGraphicsScene):
             for cake in self.cakes:
                 self.removeItem(cake)
             self.cakes.clear()
-            
         
     def addHealthBar(self):
         
@@ -272,6 +273,11 @@ class Scene(QGraphicsScene):
         
     def back_to_checkpoint(self):
         
+        self.pause.begin(200)
+        self.pause.pause_end.connect(self.respawn)
+        
+    def respawn(self):
+        
         self.removeHealth(1)
         if self.health == 0:
             self.death_screen()
@@ -280,20 +286,40 @@ class Scene(QGraphicsScene):
             self.view.centerOn(self.player.pos())
     
     def keyPressEvent(self, event):
+        
         self.keys_pressed.add(event.key())
 
     def keyReleaseEvent(self, event):
+        
         self.keys_pressed.remove(event.key())
+    
+    def keyEvents(self):
+        
+        if Qt.Key_Escape in self.keys_pressed:
+            self.menu_button.show()
+        else:
+            self.menu_button.hide()
     
     def timerEvent(self, event):
         
-        self.camera_control()
-        self.game_update()
+        self.keyEvents()
         
-        self.update()
-        
-        if self.stop:
-            self.timer.stop()
+        if self.pause.pause_state():
+            value = self.pause.calculate_pause()
+            self.player.animation.set_animation('anim1')
+            self.player.animation.animate(self.player,self.player.get_direction())
+            if value:
+                self.pause.pause_end.emit()
+                self.player.animation.set_animation('default')
+            
+        else:
+            self.camera_control()
+            self.game_update()
+            
+            self.update()
+            
+            if self.stop:
+                self.timer.stop()
 
     def camera_control(self):
         
@@ -323,7 +349,7 @@ class Scene(QGraphicsScene):
         
         pos = self.view.mapToScene(0,0)
         
-        pos1 = pos + QPointF(284,0)
+        pos1 = pos + QPointF(518.0,64.0)
         self.menu_button.move(pos1.toPoint())
 
         pos0 = pos + QPointF(568,0)

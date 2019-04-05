@@ -7,6 +7,6 @@ class Grass(Item):
         
         Item.__init__(self,touchable,parent)
         self.setPixmap(QPixmap("Textures/Blocks/Flower.png"))
-        self.addPos(x,y)
+        self.set_pos(x,y)
         self.collision = collision
     
