@@ -147,7 +147,7 @@ class Enemy(QGraphicsPixmapItem):
                 self.in_air = False
                 self.physics.reset_gravity()
             
-            self.animation.animate(self,self.direction)
+            self.animation.animate(self.direction)
             self.setPos(self.x()+dx, self.y()-dy)
             
         else:
@@ -178,7 +178,7 @@ class Enemy(QGraphicsPixmapItem):
                 self.in_air = False
                 self.physics.reset_gravity()
             
-            self.animation.animate(self,self.direction)
+            self.animation.animate(self.direction)
             self.setPos(self.x()+dx, self.y())
             
             

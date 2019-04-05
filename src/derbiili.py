@@ -5,15 +5,16 @@ from PyQt5.QtCore import Qt
 from physics import Physics
 import Blocks
 from CONSTANTS import *
-from PyQt5.Qt import QPointF
+from PyQt5.Qt import QPointF, pyqtSignal, QObject
 from texture import Texture
 from animation import Animation
+from signals import Signals
 
 class Derbiili(QGraphicsPixmapItem):
     
     def __init__(self, x, y, scene, parent=None):
         QGraphicsPixmapItem.__init__(self,parent)
-        self.animation = Animation(self, "Textures/Derbiili",1)
+        self.animation = Animation(self, "Textures/Derbiili",20)
         
         self.collision = False
         self.setPos(x*32,y*32)
@@ -32,6 +33,8 @@ class Derbiili(QGraphicsPixmapItem):
     
         self.scene = scene
         self.physics = Physics()
+        self.signals = Signals()
+        self.signals.direction_changed.connect(self.direction_changed_update)
         
     def get_direction(self):
         
@@ -62,6 +65,8 @@ class Derbiili(QGraphicsPixmapItem):
             return 0,0
         
         if keybindings['crouch'] in keys_pressed:
+            if not self.crouching:
+                self.signals.direction_changed.emit()
             self.crouching = True
             self.speed = 2
         else:
@@ -69,14 +74,16 @@ class Derbiili(QGraphicsPixmapItem):
             self.speed = PLAYER_SPEED
         
         if self.in_air:
-            
-            dv = self.physics.gravity()               #continue air movement
+            dv = self.physics.gravity()
             dy = self.vy-dv
             
         elif keybindings['jump'] in keys_pressed:
-            dy = self.jump()                          #iniate jump
-            
+            dy = self.jump()
+        
         if keybindings['left'] in keys_pressed:
+            if self.direction == 'right':
+                self.signals.direction_changed.emit()
+                
             self.direction = 'left'
             
             if self.vx > 0:
@@ -93,6 +100,9 @@ class Derbiili(QGraphicsPixmapItem):
                 dx = 0   
         
         elif keybindings['right'] in keys_pressed:
+            if self.direction == 'left':
+                self.signals.direction_changed.emit()
+                
             self.direction = 'right'
             
             if self.vx < 0:
@@ -139,6 +149,7 @@ class Derbiili(QGraphicsPixmapItem):
             if ydetect is None:
                 pass
             else:
+                self.signals.direction_changed.emit()
                 dy = ydetect
                 self.vy = 0.0
                 self.in_air = False
@@ -158,6 +169,7 @@ class Derbiili(QGraphicsPixmapItem):
             if ydetect is None:
                 pass
             else:
+                self.signals.direction_changed.emit()
                 dy = ydetect
                 self.vy = 0.0
                 self.physics.reset_gravity()
@@ -227,19 +239,25 @@ class Derbiili(QGraphicsPixmapItem):
         self.setPos(self.x()+dx, self.y()-dy)
         
     def update_texture(self):
+        
         if self.crouching:
-            if self.direction == 'right':
-                self.setPixmap(QPixmap("Textures/Derbiili/Other/DerbiiliCrouching.png"))
-            else:
-                self.setPixmap(QPixmap("Textures/Derbiili/Other/DerbiiliCrouchingFlipped.png"))
+            self.animation.set_animation('anim2')
+            self.animation.animate(self.direction)
         else:
             if self.in_air:
-                if self.direction == 'right':
-                    self.setPixmap(QPixmap("Textures/Derbiili/Other/DerbiiliJumping.png"))
-                else:
-                    self.setPixmap(QPixmap("Textures/Derbiili/Other/DerbiiliJumpingFlipped.png"))
+                self.animation.set_animation('anim1')
+                self.animation.animate(self.direction)
             else:
-                self.animation.animate(self, self.direction)
+                self.animation.set_animation('default')
+                self.animation.animate(self.direction)
         
-        
+    def direction_changed_update(self):
+        print(self.animation.get_animations())
+        if self.crouching:
+            self.animation.instantanimate('anim2',self.direction)
+        else:
+            if self.in_air:
+                self.animation.instantanimate('anim1',self.direction)
+            else:
+                self.animation.instantanimate('default',self.direction)
         

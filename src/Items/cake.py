@@ -20,5 +20,5 @@ class Cake(Item):
             scene.removeItem(self)
         
     def update(self):
-        self.animation.animate(self)
+        self.animation.animate()
         

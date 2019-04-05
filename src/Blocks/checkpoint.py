@@ -17,4 +17,4 @@ class Checkpoint(Block):
         
     def update(self):
         
-        self.animation.animate(self)
+        self.animation.animate()

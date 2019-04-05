@@ -36,7 +36,7 @@ class CaveBug(Enemy):
         if self.shelled:
             self.counter += 1
             self.animation.set_animation('anim1')
-            self.animation.animate(self,self.direction)
+            self.animation.animate(self.direction)
             if self.counter >= 300:
                 self.counter = 0
                 self.shelled = False

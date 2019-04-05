@@ -43,6 +43,8 @@ class Scene(QGraphicsScene):
         self.health = 5
         self.addHealthBar()
         self.pause = Pause()
+        
+        self.connections()
         print(self.map_info)
         
         rect = QRectF(QPointF(0,0),QSizeF(self.map_info['xsize'],self.map_info['ysize']))
@@ -64,6 +66,10 @@ class Scene(QGraphicsScene):
         
         self.view.setWindowTitle("Derbiili: Adventures")
         self.view.setWindowIcon(QIcon(QPixmap('Textures\BlockGrass.png')))
+    
+    def connections(self):
+        
+        self.pause.pause_end.connect(self.respawn)
     
     def list_items(self):
         
@@ -273,8 +279,8 @@ class Scene(QGraphicsScene):
         
     def back_to_checkpoint(self):
         
-        self.pause.begin(200)
-        self.pause.pause_end.connect(self.respawn)
+        self.pause.begin(120)
+        
         
     def respawn(self):
         
@@ -299,6 +305,7 @@ class Scene(QGraphicsScene):
             self.menu_button.show()
         else:
             self.menu_button.hide()
+    #*********************************************************************************************************
     
     def timerEvent(self, event):
         
@@ -307,7 +314,8 @@ class Scene(QGraphicsScene):
         if self.pause.pause_state():
             value = self.pause.calculate_pause()
             self.player.animation.set_animation('anim1')
-            self.player.animation.animate(self.player,self.player.get_direction())
+            self.player.animation.animate(self.player.get_direction())
+            
             if value:
                 self.pause.pause_end.emit()
                 self.player.animation.set_animation('default')
@@ -320,6 +328,8 @@ class Scene(QGraphicsScene):
             
             if self.stop:
                 self.timer.stop()
+                
+    #*********************************************************************************************************
 
     def camera_control(self):
         
