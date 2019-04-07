@@ -32,7 +32,7 @@ class Menu(QWidget):
         
     def import_maps(self):
         
-        self.maps = {1:'Maps/map1.txt',2:'Maps/map2.txt',3:None}
+        self.maps = {1:'Maps/map1.txt',2:'Maps/map2.txt',3:'Maps/testmap.txt',4:None}
         
     def setup(self):
         

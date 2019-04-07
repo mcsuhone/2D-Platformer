@@ -9,7 +9,7 @@ class Ghost(FlyingEnemy):
         speed = -0.15
         distance = 10
         FlyingEnemy.__init__(self,scene,speed,distance,parent)
-        self.animation = Animation(self,"Textures/Ghost",25)
+        self.animation = Animation(self,"Textures/Ghost",300)
         self.size = self.calculate_size()
         self.set_pos(x,y-1)
         

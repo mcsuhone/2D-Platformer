@@ -9,7 +9,7 @@ class Snake(Enemy):
         speed = -0.4
         distance = 10
         Enemy.__init__(self,scene,speed,distance,parent)
-        self.animation = Animation(self,"Textures/Snake",15)
+        self.animation = Animation(self,"Textures/Snake",300)
         self.size = self.calculate_size()
         self.set_pos(x,y)
     

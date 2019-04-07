@@ -17,15 +17,7 @@ class FlyingEnemy(Enemy):
             xdetect = self.physics.check_collisions_x(self,self.scene,dx)
             ydetect = self.physics.check_collisions_y(self,self.scene,dy)
             
-            
-            
-            if self.distance_from_origin() > 32*self.distance:
-                
-                self.direction = 'right'
-                self.speed = -self.speed
-                dx = self.speed
-                
-            elif xdetect is None:
+            if xdetect is None:
                 pass 
             
             else:
@@ -42,20 +34,14 @@ class FlyingEnemy(Enemy):
                 self.in_air = False
                 self.physics.reset_gravity()
             
-            self.animation.animate(self.direction)
             self.setPos(self.x()+dx, self.y()-dy)
             
         else:
             dx = self.speed
             xdetect = self.physics.check_collisions_x(self,self.scene,dx)
             ydetect = self.physics.check_collisions_y(self,self.scene,dy)
-
-            if self.distance_from_origin() > 32*self.distance:
-                self.direction = 'left'
-                self.speed = -self.speed
-                dx = self.speed
             
-            elif xdetect is None:
+            if xdetect is None:
                 pass
             
             else:
@@ -72,6 +58,5 @@ class FlyingEnemy(Enemy):
                 self.in_air = False
                 self.physics.reset_gravity()
             
-            self.animation.animate(self.direction)
             self.setPos(self.x()+dx, self.y())
             

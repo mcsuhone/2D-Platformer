@@ -1,7 +1,7 @@
 from PyQt5.QtGui import QPixmap
 from .item import Item
 
-class Grass(Item):
+class Flower(Item):
     
     def __init__(self,x,y, collision = False, touchable = False, parent=None):
         

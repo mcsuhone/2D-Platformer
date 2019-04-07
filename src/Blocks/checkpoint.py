@@ -6,7 +6,7 @@ class Checkpoint(Block):
     
     def __init__(self,x,y,collision = False, parent=None):
         Block.__init__(self,collision,parent)
-        self.animation = Animation(self,"Textures/Checkpoint",8)
+        self.animation = Animation(self,"Textures/Checkpoint",150)
         self.addPos(x,y)
         self.setOpacity(0.8)
         self.setZValue(1)
@@ -15,6 +15,3 @@ class Checkpoint(Block):
         
         scene.set_checkpoint(self.pos())
         
-    def update(self):
-        
-        self.animation.animate()

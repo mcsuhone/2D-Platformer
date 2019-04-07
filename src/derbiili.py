@@ -14,7 +14,7 @@ class Derbiili(QGraphicsPixmapItem):
     
     def __init__(self, x, y, scene, parent=None):
         QGraphicsPixmapItem.__init__(self,parent)
-        self.animation = Animation(self, "Textures/Derbiili",20)
+        self.animation = Animation(self, "Textures/Derbiili",500)
         
         self.collision = False
         self.setPos(x*32,y*32)
@@ -66,26 +66,28 @@ class Derbiili(QGraphicsPixmapItem):
         
         if keybindings['crouch'] in keys_pressed:
             if not self.crouching:
+                self.crouching = True
                 self.signals.direction_changed.emit()
-            self.crouching = True
             self.speed = 2
         else:
-            self.crouching = False
-            self.speed = PLAYER_SPEED
+            if self.crouching:
+                self.crouching = False
+                self.signals.direction_changed.emit()
+                self.speed = PLAYER_SPEED
         
         if self.in_air:
             dv = self.physics.gravity()
             dy = self.vy-dv
-            
+        
         elif keybindings['jump'] in keys_pressed:
             dy = self.jump()
+            self.signals.direction_changed.emit()
         
         if keybindings['left'] in keys_pressed:
             if self.direction == 'right':
+                self.direction = 'left'
                 self.signals.direction_changed.emit()
                 
-            self.direction = 'left'
-            
             if self.vx > 0:
                 self.vx -= self.friction
                 dx += self.vx
@@ -101,10 +103,9 @@ class Derbiili(QGraphicsPixmapItem):
         
         elif keybindings['right'] in keys_pressed:
             if self.direction == 'left':
+                self.direction = 'right'
                 self.signals.direction_changed.emit()
                 
-            self.direction = 'right'
-            
             if self.vx < 0:
                 self.vx += self.friction
                 dx += self.vx
@@ -149,11 +150,11 @@ class Derbiili(QGraphicsPixmapItem):
             if ydetect is None:
                 pass
             else:
-                self.signals.direction_changed.emit()
                 dy = ydetect
                 self.vy = 0.0
                 self.in_air = False
                 self.physics.reset_gravity()
+                self.signals.direction_changed.emit()
                 
         elif dy > 0:
             
@@ -174,7 +175,6 @@ class Derbiili(QGraphicsPixmapItem):
                 self.vy = 0.0
                 self.physics.reset_gravity()
         
-        self.update_texture()
         #positive dy moves player up, negative moves down
         self.move(dx,dy)
     
@@ -214,8 +214,7 @@ class Derbiili(QGraphicsPixmapItem):
         for item in items:
             
             item.touch_effect(self,self.scene)
-            
-    
+        
     def jump(self):
         self.vy = self.jump_height
         dy = self.vy
@@ -237,27 +236,16 @@ class Derbiili(QGraphicsPixmapItem):
     def move(self,dx,dy):
         
         self.setPos(self.x()+dx, self.y()-dy)
-        
-    def update_texture(self):
+    
+    def direction_changed_update(self):
         
         if self.crouching:
             self.animation.set_animation('anim2')
-            self.animation.animate(self.direction)
         else:
             if self.in_air:
                 self.animation.set_animation('anim1')
-                self.animation.animate(self.direction)
             else:
                 self.animation.set_animation('default')
-                self.animation.animate(self.direction)
         
-    def direction_changed_update(self):
-        print(self.animation.get_animations())
-        if self.crouching:
-            self.animation.instantanimate('anim2',self.direction)
-        else:
-            if self.in_air:
-                self.animation.instantanimate('anim1',self.direction)
-            else:
-                self.animation.instantanimate('default',self.direction)
+        self.animation.refresh_animation()
         

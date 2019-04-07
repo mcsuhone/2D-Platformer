@@ -3,6 +3,7 @@ from PyQt5.Qt import QGraphicsPixmapItem, QPointF
 from physics import Physics
 import math
 from CONSTANTS import *
+from signals import Signals
 
 class Enemy(QGraphicsPixmapItem):
     
@@ -20,7 +21,13 @@ class Enemy(QGraphicsPixmapItem):
         self.setZValue(-1)
         self.set_physics()
         self.scene = scene
+        self.signals = Signals()
+        self.signals.direction_changed.connect(self.direction_changed_update)
     
+    def get_direction(self):
+        
+        return self.direction
+
     def calculate_size(self):
         
         size = {'width':0,'height':0}
@@ -107,7 +114,13 @@ class Enemy(QGraphicsPixmapItem):
         else:
             self.direction = 'left'
             self.speed = -self.speed
-    
+            
+        self.signals.direction_changed.emit()
+        
+    def direction_changed_update(self):
+        
+        self.animation.refresh_animation()
+        
     def move(self):
         dy = 0
         testfall = self.physics.check_collisions_y(self, self.scene, -1)
@@ -120,15 +133,12 @@ class Enemy(QGraphicsPixmapItem):
         
             
         if self.direction == 'left':
+            
             dx = self.speed
             xdetect = self.physics.check_collisions_x(self,self.scene,dx)
             ydetect = self.physics.check_collisions_y(self,self.scene,dy)
             
-            if self.distance_from_origin() > 32*self.distance:
-                self.change_direction()
-                dx = self.speed
-                
-            elif self.physics.check_edge(self,self.scene):
+            if self.physics.check_edge(self,self.scene):
                 self.change_direction()
                 dx = self.speed
             
@@ -147,19 +157,14 @@ class Enemy(QGraphicsPixmapItem):
                 self.in_air = False
                 self.physics.reset_gravity()
             
-            self.animation.animate(self.direction)
             self.setPos(self.x()+dx, self.y()-dy)
             
         else:
             dx = self.speed
             xdetect = self.physics.check_collisions_x(self,self.scene,dx)
             ydetect = self.physics.check_collisions_y(self,self.scene,dy)
-                
-            if self.distance_from_origin() > 32*self.distance:
-                self.change_direction()
-                dx = self.speed
-                
-            elif self.physics.check_edge(self,self.scene):
+            
+            if self.physics.check_edge(self,self.scene):
                 self.change_direction()
                 dx = self.speed
                 
@@ -178,7 +183,6 @@ class Enemy(QGraphicsPixmapItem):
                 self.in_air = False
                 self.physics.reset_gravity()
             
-            self.animation.animate(self.direction)
             self.setPos(self.x()+dx, self.y())
             
             

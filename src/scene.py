@@ -12,6 +12,7 @@ import Creatures
 from Items.heart import Heart
 from Items.cake import Cake
 from pause import Pause
+from Items.flower import Flower
 
 class Scene(QGraphicsScene):
 
@@ -26,7 +27,7 @@ class Scene(QGraphicsScene):
         self.menu = menu
         self.maploader = MapLoader()
         self.map_info = self.maploader.load_map(self,maps,mapnumber)
-        self.addMenuButton()
+        
         
         self.view = QGraphicsView(self)
         self.view.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
@@ -42,10 +43,10 @@ class Scene(QGraphicsScene):
         self.addScoreBoard()
         self.health = 5
         self.addHealthBar()
+        self.addMenuButton()
         self.pause = Pause()
         
         self.connections()
-        print(self.map_info)
         
         rect = QRectF(QPointF(0,0),QSizeF(self.map_info['xsize'],self.map_info['ysize']))
         self.setSceneRect(rect)
@@ -65,8 +66,13 @@ class Scene(QGraphicsScene):
         self.view.show()
         
         self.view.setWindowTitle("Derbiili: Adventures")
-        self.view.setWindowIcon(QIcon(QPixmap('Textures\BlockGrass.png')))
-    
+        self.view.setWindowIcon(QIcon(QPixmap('Textures/Blocks/BlockGrass.png')))
+        
+        rose = Flower(0, 0,parent=self.player)
+        rose.setPos(0,-20)
+        rose.setZValue(-5)
+        
+        
     def connections(self):
         
         self.pause.pause_end.connect(self.respawn)
@@ -127,13 +133,12 @@ class Scene(QGraphicsScene):
         
     def addMenuButton(self):
         
-        self.menu_button = Button(0,0,80,20,"Main menu")
+        self.menu_button = Button(100,20,80,20,"Main menu",self.view)
         self.menu_button.clicked.connect(self.back_to_main_menu)
         self.menu_button.setStyleSheet('''
                                 background-image: url(Textures/Button3.png);
                                 border: none;
                                 ''')
-        self.addWidget(self.menu_button,Qt.Widget)
         
     def is_stopped(self):
         
@@ -240,6 +245,7 @@ class Scene(QGraphicsScene):
         
         for i in range(cakes):
             cake = Cake(0,0)
+            cake.animation.stop_animation()
             self.addItem(cake)
             self.cakes.append(cake)
         
@@ -279,8 +285,8 @@ class Scene(QGraphicsScene):
         
     def back_to_checkpoint(self):
         
-        self.pause.begin(120)
-        
+        self.pause.begin(20)
+        self.player.animation.set_animation('animdeath')
         
     def respawn(self):
         
@@ -305,6 +311,7 @@ class Scene(QGraphicsScene):
             self.menu_button.show()
         else:
             self.menu_button.hide()
+            
     #*********************************************************************************************************
     
     def timerEvent(self, event):
@@ -313,20 +320,18 @@ class Scene(QGraphicsScene):
         
         if self.pause.pause_state():
             value = self.pause.calculate_pause()
-            self.player.animation.set_animation('anim1')
-            self.player.animation.animate(self.player.get_direction())
-            
+            self.player.animation.set_animation('animdeath')
             if value:
                 self.pause.pause_end.emit()
                 self.player.animation.set_animation('default')
-            
+                
         else:
             self.camera_control()
             self.game_update()
             
             self.update()
             
-            if self.stop:
+        if self.stop:
                 self.timer.stop()
                 
     #*********************************************************************************************************
@@ -359,9 +364,6 @@ class Scene(QGraphicsScene):
         
         pos = self.view.mapToScene(0,0)
         
-        pos1 = pos + QPointF(518.0,64.0)
-        self.menu_button.move(pos1.toPoint())
-
         pos0 = pos + QPointF(568,0)
         for i in range(len(self.hearts)):
             pos2 = pos0 - QPointF(32*i,0)

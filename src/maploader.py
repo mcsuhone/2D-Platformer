@@ -6,7 +6,6 @@ from Blocks.blockrock import BlockRock
 from Blocks.spikes import Spikes
 from derbiili import Derbiili
 from Items.cake import Cake
-from Items.grass import Grass
 from Blocks.blockbox import BlockBox
 from Blocks.portal import Portal
 from Creatures.snake import Snake
@@ -16,6 +15,7 @@ from Blocks.blockice import BlockIce
 from Creatures.cavebug import CaveBug
 from Creatures.ghost import Ghost
 from Blocks.checkpoint import Checkpoint
+from Items.flower import Flower
 
 class MapLoader():
     
@@ -130,7 +130,7 @@ class MapLoader():
                             item = Cake(x,y)
                             self.scene.addItem(item)
                         elif block == "G":
-                            item = Grass(x,y)
+                            item = Flower(x,y)
                             self.scene.addItem(item)
                         elif block == "M":
                             block = Spikes(x,y)

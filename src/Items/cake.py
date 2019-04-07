@@ -10,7 +10,7 @@ class Cake(Item):
         self.set_pos(x,y)
         self.collision = collision
         self.idle_state = 0.0
-        self.animation = Animation(self,"Textures/Cake",40)
+        self.animation = Animation(self,"Textures/Cake",400)
     
     def touch_effect(self,player,scene):
         if self.GUIitem:
@@ -18,7 +18,5 @@ class Cake(Item):
         else:
             scene.addCake(1)
             scene.removeItem(self)
-        
-    def update(self):
-        self.animation.animate()
+    
         
