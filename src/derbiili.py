@@ -9,6 +9,8 @@ from PyQt5.Qt import QPointF, pyqtSignal, QObject
 from texture import Texture
 from animation import Animation
 from signals import Signals
+from Items.equipment import Equipment
+from Particles.particleeffects import ParticleEffects
 
 class Derbiili(QGraphicsPixmapItem):
     
@@ -34,7 +36,10 @@ class Derbiili(QGraphicsPixmapItem):
         self.scene = scene
         self.physics = Physics()
         self.signals = Signals()
+        self.equipment = {}
         self.signals.direction_changed.connect(self.direction_changed_update)
+        #self.particleeffects = ParticleEffects(self,self.scene)
+        #self.signals.player_moved.connect(self.particleeffects.player_run_init)
         
     def get_direction(self):
         
@@ -51,6 +56,12 @@ class Derbiili(QGraphicsPixmapItem):
     def touch_effect(self,player,scene):
         
         pass
+    
+    def add_equipment(self,equipment,type):
+        
+        if type == 'Crown':
+            self.equipment['Crown'] = equipment
+            self.signals.direction_changed.connect(equipment.update)
     
     def player_movement(self, keys_pressed,keybindings):
         dx = 0
@@ -80,7 +91,7 @@ class Derbiili(QGraphicsPixmapItem):
             dy = self.vy-dv
         
         elif keybindings['jump'] in keys_pressed:
-            dy = self.jump()
+            dy = self.jump(self.jump_height)
             self.signals.direction_changed.emit()
         
         if keybindings['left'] in keys_pressed:
@@ -176,6 +187,11 @@ class Derbiili(QGraphicsPixmapItem):
                 self.physics.reset_gravity()
         
         #positive dy moves player up, negative moves down
+        '''
+        if dx != 0 or dy != 0:
+            if not self.in_air:
+                self.signals.player_moved.emit()
+        '''
         self.move(dx,dy)
     
     def is_standing_on(self,dy):
@@ -212,11 +228,10 @@ class Derbiili(QGraphicsPixmapItem):
         items = self.scene.collidingItems(self)
         
         for item in items:
-            
             item.touch_effect(self,self.scene)
         
-    def jump(self):
-        self.vy = self.jump_height
+    def jump(self,jump_height):
+        self.vy = jump_height
         dy = self.vy
         self.in_air = True
         self.physics.reset_gravity()

@@ -13,6 +13,7 @@ from Items.heart import Heart
 from Items.cake import Cake
 from pause import Pause
 from Items.flower import Flower
+from Particles.particle import Particle
 
 class Scene(QGraphicsScene):
 
@@ -43,7 +44,7 @@ class Scene(QGraphicsScene):
         self.addScoreBoard()
         self.health = 5
         self.addHealthBar()
-        self.addMenuButton()
+        #self.addMenuButton()
         self.pause = Pause()
         
         self.connections()
@@ -67,11 +68,6 @@ class Scene(QGraphicsScene):
         
         self.view.setWindowTitle("Derbiili: Adventures")
         self.view.setWindowIcon(QIcon(QPixmap('Textures/Blocks/BlockGrass.png')))
-        
-        rose = Flower(0, 0,parent=self.player)
-        rose.setPos(0,-20)
-        rose.setZValue(-5)
-        
         
     def connections(self):
         
@@ -285,7 +281,7 @@ class Scene(QGraphicsScene):
         
     def back_to_checkpoint(self):
         
-        self.pause.begin(20)
+        self.pause.begin(120)
         self.player.animation.set_animation('animdeath')
         
     def respawn(self):
@@ -308,9 +304,8 @@ class Scene(QGraphicsScene):
     def keyEvents(self):
         
         if Qt.Key_Escape in self.keys_pressed:
-            self.menu_button.show()
-        else:
-            self.menu_button.hide()
+            
+            self.back_to_main_menu()
             
     #*********************************************************************************************************
     
