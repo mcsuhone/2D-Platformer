@@ -7,17 +7,19 @@ TODO-list
 -cavebugs sometimes kill you even if you jump on top
 -crash when going to map menu and then choosing new keybinds
 
+-make physics work with different sizes collision objects
+
 ### changes ###
 
 -make portals 2 blocks tall
 -make bats more functional
 -add animations to ghosts
--make cavebugs collidable
 -remove list_items from scene class and replace with Qtimers on each enemy
 -code pause again with QTimers
 -use self.view as parent for GUI
 -add timer for all enemies
 	movement class??
+-make 1 time playing animations - signal when animation ends
 	
 ### features ###
 

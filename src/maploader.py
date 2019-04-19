@@ -16,6 +16,7 @@ from Creatures.cavebug import CaveBug
 from Creatures.ghost import Ghost
 from Blocks.checkpoint import Checkpoint
 from Items.flower import Flower
+from Items.crown import Crown
 
 class MapLoader():
     
@@ -149,6 +150,9 @@ class MapLoader():
                             self.scene.addItem(block)
                         elif block == "&":
                             block = Checkpoint(x,y)
+                            self.scene.addItem(block)
+                        elif block == "K":
+                            block = Crown(x,y)
                             self.scene.addItem(block)
                         elif block == "1":
                             enemy = Snake(x,y,self.scene)

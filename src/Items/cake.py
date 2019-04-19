@@ -13,6 +13,7 @@ class Cake(Item):
         self.animation = Animation(self,"Textures/Cake",400)
     
     def touch_effect(self,player,scene):
+        
         if self.GUIitem:
             pass
         else:

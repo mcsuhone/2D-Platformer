@@ -57,7 +57,7 @@ class Menu(QWidget):
         
         self.main_menu_items = []
         
-        title = MenuItem(WINDOW_WIDTH/2+24,WINDOW_HEIGHT/2-128,'Textures/Title.png',self)
+        title = MenuItem(WINDOW_WIDTH/2,WINDOW_HEIGHT/2-128,'Textures/Title2.png',self)
         
         self.main_menu_items.append(title)
         

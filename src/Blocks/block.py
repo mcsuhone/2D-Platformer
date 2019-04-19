@@ -7,6 +7,18 @@ class Block(QGraphicsPixmapItem):
         QGraphicsPixmapItem.__init__(self,parent)
         self.collision = collision
         
+    def X0(self):
+        
+        return self.x()
+    
+    def Y0(self):
+        
+        return self.y()
+        
+    def right_side(self):
+        
+        return 0
+        
     def addPos(self,x,y):
         self.setPos(x*32,y*32)
         

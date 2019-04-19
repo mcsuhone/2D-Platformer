@@ -8,3 +8,18 @@ class Heart(Item):
         
         QGraphicsPixmapItem.__init__(self,parent)
         self.setPixmap(QPixmap("Textures\Heart.png"))
+        self.collision = False
+        
+    def is_collidable(self):
+        if self is None:
+            return False
+        else:
+            return self.collision
+        
+    def stand_on_effect(self,player,scene):
+        
+        return False
+        
+    def touch_effect(self,player,scene):
+        
+        pass

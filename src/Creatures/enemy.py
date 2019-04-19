@@ -1,4 +1,4 @@
-from PyQt5.Qt import QGraphicsPixmapItem, QPointF
+from PyQt5.Qt import QGraphicsPixmapItem, QPointF, QPainterPath
 
 from physics import Physics
 import math
@@ -7,10 +7,10 @@ from signals import Signals
 
 class Enemy(QGraphicsPixmapItem):
     
-    def __init__(self, scene, speed = -1.0, distance = 1.0, collision = True, parent=None):
+    def __init__(self, scene, speed = -1.0, distance = 1.0, collision = False, size = {'height':22,'width':23,'offset':4}, parent=None):
         QGraphicsPixmapItem.__init__(self,parent)
-        self.collision = collision
         
+        self.size = size
         self.speed = speed
         self.in_air = False
         self.vy = 0.0
@@ -18,11 +18,24 @@ class Enemy(QGraphicsPixmapItem):
         self.distance = distance
         self.player_tracker = set()
         
+        self.collision = collision
         self.setZValue(-1)
         self.set_physics()
         self.scene = scene
         self.signals = Signals()
         self.signals.direction_changed.connect(self.direction_changed_update)
+    
+    def X0(self):
+        
+        return self.x()
+        
+    def Y0(self):
+        
+        return self.y()
+    
+    def right_side(self):
+        
+        return 0
     
     def get_direction(self):
         
@@ -40,9 +53,10 @@ class Enemy(QGraphicsPixmapItem):
     
     def set_physics(self):
         
-        self.physics = Physics()
+        self.physics = Physics(self.size['height'],self.size['width'],self.size['offset'])
     
     def set_pos(self,x,y):
+        
         self.setPos(x*32,y*32)
         self.origin = QPointF(x*32,y*32)
         

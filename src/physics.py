@@ -4,23 +4,25 @@ import Creatures
 
 class Physics():
     
-    def __init__(self, height = 22, width = 25, offset = 3, weight = 1.0):
+    def __init__(self, height = 22, width = 23, offset = 4, weight = 1.0):
         self.g = 0.0
         self.v = 0.0
         
         self.w,self.h = self.calculate_size(width, height)
         
-        self.right_side = width + offset
+        self.right_side = width + offset + 1
         self.left_side = offset
         self.top_side = self.calculate_top(height)
         self.bottom_side = self.calculate_bottom(height)
+        
+        self.weight = weight
         
     def calculate_size(self,width,height):
         
         w = width//32 + 1
         h = height//32 + 1
         
-        return w,h 
+        return w,h
         
     def calculate_top(self,height):
         
@@ -50,11 +52,11 @@ class Physics():
                 
             if item1 is not None:
                 if item1.is_collidable():
-                    return item1.x()-player.x()-self.right_side
+                    return item1.X0()-player.x()-self.right_side
                     
             if item2 is not None:
                 if item2.is_collidable():
-                    return item2.x()-player.x()-self.right_side
+                    return item2.X0()-player.x()-self.right_side
                     
             if item1 is not None or item2 is not None:
                 return None
@@ -74,11 +76,11 @@ class Physics():
                 
             if item1 is not None:
                 if item1.is_collidable():
-                    return -(player.x()-item1.x()-self.right_side-1)
+                    return -(player.x()-item1.X0()-self.right_side+item1.right_side())
                     
             if item2 is not None:
                 if item2.is_collidable():
-                    return -(player.x()-item2.x()-self.right_side-1)
+                    return -(player.x()-item2.X0()-self.right_side+item2.right_side())
                     
             if item1 is not None or item2 is not None:
                 return None
@@ -103,11 +105,11 @@ class Physics():
                 
             if item2 is not None:
                 if item2.is_collidable():
-                    return -(item2.y()-player.y()-32*self.h)
+                    return -(item2.Y0()-player.y()-32*self.h)
                 
             if item1 is not None:
                 if item1.is_collidable():
-                    return -(item1.y()-player.y()-32*self.h)
+                    return -(item1.Y0()-player.y()-32*self.h)
                
             if item1 is not None or item2 is not None:
                 return None
@@ -127,11 +129,11 @@ class Physics():
                 
             if item1 is not None:
                 if item1.is_collidable():
-                    return -(item1.y()-player.y()+(self.h*32-self.top_side))
+                    return -(item1.Y0()-player.y()+(self.h*32-self.top_side))
                     
             if item2 is not None:
                 if item2.is_collidable():
-                    return -(item2.y()-player.y()+(self.h*32-self.top_side))
+                    return -(item2.Y0()-player.y()+(self.h*32-self.top_side))
                     
             if item1 is not None or item2 is not None:
                 return None
@@ -162,7 +164,7 @@ class Physics():
         
         self.g += GRAVITY
         if self.v <= MAX_FALL_VELOCITY:
-            self.v += self.g
+            self.v += self.g*self.weight
         
         return self.v
         
