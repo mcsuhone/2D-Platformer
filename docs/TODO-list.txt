@@ -4,10 +4,8 @@ TODO-list
 
 -fix bug with hitting spikes on corner
 -fix view displaying outside the scene!!
--cavebugs sometimes kill you even if you jump on top
 -crash when going to map menu and then choosing new keybinds
-
--make physics work with different sizes collision objects
+-gravity is defined wrong, if starting speed is too high, gravity can never overcome that.
 
 ### changes ###
 
@@ -16,10 +14,9 @@ TODO-list
 -add animations to ghosts
 -remove list_items from scene class and replace with Qtimers on each enemy
 -code pause again with QTimers
--use self.view as parent for GUI
 -add timer for all enemies
 	movement class??
--make 1 time playing animations - signal when animation ends
+
 	
 ### features ###
 
