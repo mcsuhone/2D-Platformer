@@ -29,7 +29,6 @@ class Scene(QGraphicsScene):
         self.maploader = MapLoader()
         self.map_info = self.maploader.load_map(self,maps,mapnumber)
         
-        
         self.view = QGraphicsView(self)
         self.view.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.view.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
@@ -97,30 +96,13 @@ class Scene(QGraphicsScene):
     def addBackGround(self):
         #gc stands for gradient color
         gradient = QLinearGradient(self.map_info['xsize']/2,0,self.map_info['xsize']/2,self.map_info['ysize'])
-        if self.map_info['currentlevel'] == 1:
-            
-            gc1 = self.map_info['background'][0]
-            gc2 = self.map_info['background'][1]
-            gradient.setColorAt(0,QColor(gc1[0],gc1[1],gc1[2]))
-            gradient.setColorAt(1,QColor(gc2[0],gc2[1],gc2[2]))
-            self.setBackgroundBrush(QBrush(gradient))
-            
-            '''
-            brush = QBrush()
-            brush.setTexture(QPixmap("Textures/Background1.png"))
-            self.view.setBackgroundBrush(brush)
-            '''
-            
-        elif self.map_info['currentlevel'] == 2:
-            
-            gc1 = self.map_info['background'][0]
-            gc2 = self.map_info['background'][1]
-            gradient.setColorAt(0,QColor(gc1[0],gc1[1],gc1[2]))
-            gradient.setColorAt(1,QColor(gc2[0],gc2[1],gc2[2]))
-            self.setBackgroundBrush(QBrush(gradient))
         
+        gc1 = self.map_info['background'][0]
+        gc2 = self.map_info['background'][1]
+        gradient.setColorAt(0,QColor(gc1[0],gc1[1],gc1[2]))
+        gradient.setColorAt(1,QColor(gc2[0],gc2[1],gc2[2]))
+        self.setBackgroundBrush(QBrush(gradient))
         
-    
     def addDerbiili(self,derbiili):
         
         self.checkpoint = derbiili.pos()

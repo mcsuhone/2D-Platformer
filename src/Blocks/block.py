@@ -3,9 +3,10 @@ from PyQt5.QtWidgets import QGraphicsPixmapItem
 
 class Block(QGraphicsPixmapItem):
     
-    def __init__(self, collision = True, parent=None):
+    def __init__(self, scene, collision = True, parent=None):
         QGraphicsPixmapItem.__init__(self,parent)
         self.collision = collision
+        scene.addItem(self)
         
     def X0(self):
         

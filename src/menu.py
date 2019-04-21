@@ -32,7 +32,7 @@ class Menu(QWidget):
         
     def import_maps(self):
         
-        self.maps = {1:'Maps/map1.txt',2:'Maps/map2.txt',3:'Maps/testmap.txt',4:None}
+        self.maps = {1:'Maps/map1.txt',2:'Maps/map2.txt',3:'Maps/map3.txt',4:None}
         
     def setup(self):
         
@@ -57,7 +57,7 @@ class Menu(QWidget):
         
         self.main_menu_items = []
         
-        title = MenuItem(WINDOW_WIDTH/2,WINDOW_HEIGHT/2-128,'Textures/Title2.png',self)
+        title = MenuItem(WINDOW_WIDTH/2+24,WINDOW_HEIGHT/2-128,'Textures/Title.png',self)
         
         self.main_menu_items.append(title)
         

@@ -33,6 +33,7 @@ class Derbiili(QGraphicsPixmapItem):
         self.vy = 0.0
         self.direction = 'right'
     
+        self.setZValue(2)
         self.scene = scene
         self.physics = Physics()
         self.signals = Signals()

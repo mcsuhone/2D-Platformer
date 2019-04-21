@@ -3,8 +3,8 @@ from Blocks.block import Block
 
 class BlockIce(Block):
     
-    def __init__(self,x,y,collision = True, parent = None):
-        Block.__init__(self,collision,parent)
+    def __init__(self,x,y, scene, collision = True, parent = None):
+        Block.__init__(self,scene,collision,parent)
         self.setPixmap(QPixmap("Textures/Blocks/BlockIce.png"))
         self.setOpacity(0.8)
         self.addPos(x,y)

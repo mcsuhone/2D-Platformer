@@ -6,7 +6,7 @@ class Animation():
     
     ANIMATION_TYPES = ['default','anim1','anim2','animdeath','animattack']
     
-    def __init__(self,object,folder,delay):
+    def __init__(self,object,folder,delay, lava = False):
         
         self.timer = QTimer()
         self.timer.setInterval(delay)
@@ -15,12 +15,32 @@ class Animation():
         
         self.current_frame = 0
         self.object = object
-        self.load_animations(folder)
+        if not lava:
+            self.load_animations(folder)
+        else:
+            self.load_lava(folder)
         self.current_animation = 'default'
         self.signals = Signals()
         self.signals.animation_changed.connect(self.refresh_animation)
         
         self.object.setPixmap(self.defaultanim['frames'][0])
+        
+    def load_lava(self,folder):
+        
+        self.defaultanim = {}
+        frames = []
+        
+        for file in os.listdir(folder):
+            if file.endswith(".png"):
+                str = folder + "/" + file
+                mainpixmap = QPixmap(str)
+        
+        for x in range(32):
+            frame = mainpixmap.copy(x,0,32,32)
+            frames.append(frame)
+            
+        self.defaultanim['frames'] = frames
+        self.defaultanim['animation'] = 'default'
         
     def load_animations(self,folder):
         self.defaultanim = {}
@@ -129,7 +149,7 @@ class Animation():
                         
                 self.animattack['frames'] = animattackframes
                 self.animattack['flippedframes'] = animattackflippedframes
-                self.animattack['animation':'attack']
+                self.animattack['animation'] = 'attack'
                 
             self.defaultanim['frames'] = frames
             self.defaultanim['flippedframes'] = flippedframes
@@ -142,6 +162,11 @@ class Animation():
     def stop_animation(self):
         
         self.timer.stop()
+        
+    def reset_animation(self):
+        
+        self.timer.stop()
+        self.timer.start()
     
     def animate(self):
         

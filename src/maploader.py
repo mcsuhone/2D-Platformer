@@ -17,6 +17,8 @@ from Creatures.ghost import Ghost
 from Blocks.checkpoint import Checkpoint
 from Items.flower import Flower
 from Items.crown import Crown
+from Blocks.blockdeadgrass import BlockDeadGrass
+from Blocks.lava import Lava
 
 class MapLoader():
     
@@ -29,6 +31,7 @@ class MapLoader():
         self.title = False
         
         self.map_info = {'xsize':0,'ysize':0,'currentlevel':number}
+        self.lava_group = []
         
         self.current_line = ''
         
@@ -58,6 +61,9 @@ class MapLoader():
                 pass
             
         if self.map and self.title:
+            for lava in self.lava_group:
+                lava.animation.reset_animation()
+            
             return self.map_info
         else:
             print("Map information missing.")
@@ -91,9 +97,10 @@ class MapLoader():
                             gradient2 = list(map(int, gradient2))
                             
                             self.map_info['background'] = [gradient1,gradient2]
+                            
                         elif info[0].strip() == "backgroundpixmap":
                             self.map_info['backgroundpixmap'] = info[1].strip()
-        
+                            
     def mapreader(self):
         
         y=0
@@ -115,14 +122,11 @@ class MapLoader():
                         if block == "0":
                             pass
                         elif block == "g":
-                            block = BlockGrass(x,y)
-                            self.scene.addItem(block)
+                            block = BlockGrass(x,y,self.scene)
                         elif block == "d":
-                            block = BlockGround(x,y)
-                            self.scene.addItem(block)
+                            block = BlockGround(x,y,self.scene)
                         elif block == "s":
-                            block = BlockRock(x,y)
-                            self.scene.addItem(block)
+                            block = BlockRock(x,y,self.scene)
                         elif block == "X":
                             derbiili = Derbiili(x,y,self.scene)
                             self.scene.addItem(derbiili)
@@ -134,23 +138,22 @@ class MapLoader():
                             item = Flower(x,y)
                             self.scene.addItem(item)
                         elif block == "M":
-                            block = Spikes(x,y)
-                            self.scene.addItem(block)
+                            block = Spikes(x,y,self.scene)
                         elif block == "b":
-                            block = BlockBox(x,y)
-                            self.scene.addItem(block)
+                            block = BlockBox(x,y,self.scene)
                         elif block == "O":
-                            block = BlockStoneWall(x,y)
-                            self.scene.addItem(block)
+                            block = BlockStoneWall(x,y,self.scene)
                         elif block == "I":
-                            block = BlockIce(x,y)
-                            self.scene.addItem(block)
+                            block = BlockIce(x,y,self.scene)
+                        elif block == "D":
+                            block = BlockDeadGrass(x,y,self.scene)
                         elif block == "P":
-                            block = Portal(x,y)
-                            self.scene.addItem(block)
+                            block = Portal(x,y,self.scene)
+                        elif block == "L":
+                            block = Lava(x,y,self.scene)
+                            self.lava_group.append(block)
                         elif block == "&":
-                            block = Checkpoint(x,y)
-                            self.scene.addItem(block)
+                            block = Checkpoint(x,y,self.scene)
                         elif block == "K":
                             block = Crown(x,y)
                             self.scene.addItem(block)
@@ -167,8 +170,8 @@ class MapLoader():
                             enemy = Ghost(x,y,self.scene)
                             self.scene.addItem(enemy)
                         
-                            
-                            
+                        
+                        
                         x+=1
-        self.map_info['ysize'] = y*32+32            
+        self.map_info['ysize'] = y*32+32
         

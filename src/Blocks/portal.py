@@ -3,8 +3,8 @@ from Blocks.block import Block
 
 class Portal(Block):
     
-    def __init__(self,x,y,collision = False, parent=None):
-        Block.__init__(self,collision,parent)
+    def __init__(self,x,y, scene, collision = False, parent=None):
+        Block.__init__(self,scene,collision,parent)
         self.setPixmap(QPixmap("Textures/Blocks/Portal.png"))
         self.addPos(x,y)
         self.setOpacity(0.6)
