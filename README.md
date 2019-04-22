@@ -1,4 +1,26 @@
-1. Mitä ominaisuuksia olet jo toteuttanut projektiisi?
+# Projektin nimi
+
+## Esittely
+
+## Tiedosto- ja kansiorakenne
+
+  - Mitä eri kansioiden alta löytyy
+  - Mistä löytyy omat koodit, onko muiden tekemää koodia yms
+  - Yksittäisiä tiedostoja ei välttämättä tarvitse käydä läpi
+
+## Asennusohje
+
+  - Mitä kirjastoja ohjelma tarvitsee (PyQt, numpy, ...)
+  - Kirjastojen asennusohje:
+      - Esim "pip install numpy"
+      - Tai tarvittaessa tarkempi selitys linkkeineen
+      - PyQt5:n asennusta ei tarvitse tarkemmin opastaa
+
+## Käyttöohje
+
+  - Miten ohjelmaa ajetaan
+  - Mahdolliset muut komentoriviltä käytettävät komennot
+  - Mahdolliset asetustiedostot ja niiden käyttö1. Mitä ominaisuuksia olet jo toteuttanut projektiisi?
 
 Toimiva tasohyppeli peli, jossa on kaksi tasoa. Pelissä on toimivat fysiikat jotka sisältävät putoamiskiihtyvyyden, törmäyksen sekä kiihtyvän liikkeen sivusuunnassa. Lisä fysiikoihin sisältyy vielä jääpalikat joiden päällä voi liukua.
 Pelissä on vihollisia joihin osuessa menettää elämän ja pelaaja joutuu tason alkuun. Elämiä on 5 ja niitä saa lisää keräämällä 10 kakkua joita löytyy tasoista.

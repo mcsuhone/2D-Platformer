@@ -96,8 +96,8 @@ class Physics():
             #tests bottom of player collision
             transform = QTransform()
             pos = player.pos()
-            posdown1 = pos + QPointF(self.left_side,self.bottom_side-dy)
-            posdown2 = pos + QPointF(self.right_side-1,self.bottom_side-dy)
+            posdown1 = pos + QPointF(self.left_side,self.bottom_side+1-dy)
+            posdown2 = pos + QPointF(self.right_side-1,self.bottom_side+1-dy)
             
             item1 = scene.itemAt(posdown1,transform)
             item2 = scene.itemAt(posdown2,transform)

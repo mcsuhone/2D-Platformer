@@ -6,7 +6,7 @@ from animation import Animation
 class CaveBug(Enemy):
     
     def __init__(self,x,y, scene, parent=None):
-        size = {'height':17,'width':25,'offset':4}
+        size = {'height':17,'width':25,'offset':4,'weight':0.1}
         speed = -0.4
         distance = 10
         Enemy.__init__(self,scene,speed,distance,collision=True,size=size,parent=parent)
@@ -41,7 +41,7 @@ class CaveBug(Enemy):
         
         if not self.shelled:
             self.shelled = True
-            player.jump(8)
+            player.jump(7)
         
     def touch_effect(self, player, scene):
         

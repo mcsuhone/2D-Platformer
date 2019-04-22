@@ -6,7 +6,7 @@ class Spikes(Block):
     
     def __init__(self,x,y,scene,collision = True, parent=None):
         texture = "Textures/Blocks/Spikes.png"
-        Block.__init__(self,x,y,scene,collision=collision,parent=parent)
+        Block.__init__(self,x,y,scene,texture,collision=collision,parent=parent)
         self.ypos = y*32
         
     def stand_on_effect(self,player,scene):

@@ -6,7 +6,6 @@ from physics import Physics
 import Blocks
 from CONSTANTS import *
 from PyQt5.Qt import QPointF, pyqtSignal, QObject
-from texture import Texture
 from animation import Animation
 from signals import Signals
 from Items.equipment import Equipment
@@ -204,11 +203,7 @@ class Derbiili(QGraphicsPixmapItem):
                 self.physics.reset_gravity()
         
         #positive dy moves player up, negative moves down
-        '''
-        if dx != 0 or dy != 0:
-            if not self.in_air:
-                self.signals.player_moved.emit()
-        '''
+        
         self.move(dx,dy)
     
     def is_standing_on(self,dy):

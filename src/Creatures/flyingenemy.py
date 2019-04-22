@@ -5,7 +5,7 @@ from animation import Animation
 
 class FlyingEnemy(Enemy):
     
-    def __init__(self, scene, speed, distance, collision = False, size = {'height':22,'width':23,'offset':4}, parent=None):
+    def __init__(self, scene, speed, distance, collision = False, size = {'height':22,'width':23,'offset':4,'weight':1.0}, parent=None):
         Enemy.__init__(self,scene,speed,distance,collision,size,parent=parent)
         
     def move(self):

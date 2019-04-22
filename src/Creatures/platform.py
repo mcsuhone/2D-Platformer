@@ -9,9 +9,9 @@ class Platform(FlyingEnemy):
     def __init__(self,x,y, scene, collision = True, parent=None):
         speed = -0.6
         distance = 10
-        size = {'height':32,'width':32,'offset':0}
+        size = {'height':32,'width':32,'offset':0,'weight':1.0}
         FlyingEnemy.__init__(self,scene,speed,distance,collision,size,parent=parent)
-        self.setPixmap(QPixmap("Textures/Platform.png"))
+        self.animation = Animation(self,"Textures/Platform",1000)
         self.size = self.calculate_size()
         self.set_pos(x,y)
     

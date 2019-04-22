@@ -12,5 +12,9 @@ class Snake(Enemy):
         self.animation = Animation(self,"Textures/Snake",300)
         self.size = self.calculate_size()
         self.set_pos(x,y)
-    
+        
+    def touch_effect(self,player,scene):
+        
+        self.animation.set_animation('animattack')
+        scene.back_to_checkpoint()
     

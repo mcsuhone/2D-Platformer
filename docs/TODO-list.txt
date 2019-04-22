@@ -3,9 +3,7 @@ TODO-list
 ### bugs ###
 
 -fix bug with hitting spikes on corner
--fix view displaying outside the scene!!
 -crash when going to map menu and then choosing new keybinds
--gravity is defined wrong, if starting speed is too high, gravity can never overcome that.
 
 ### changes ###
 

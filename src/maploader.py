@@ -168,5 +168,6 @@ class MapLoader():
                         
                         
                         x+=1
-        self.map_info['ysize'] = y*32+32
+        
+        self.map_info['ysize'] = y*32
         

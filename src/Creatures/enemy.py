@@ -7,7 +7,7 @@ from signals import Signals
 
 class Enemy(QGraphicsPixmapItem):
     
-    def __init__(self, scene, speed = -1.0, distance = 1.0, collision = False, size = {'height':22,'width':23,'offset':4}, parent=None):
+    def __init__(self, scene, speed = -1.0, distance = 1.0, collision = False, size = {'height':22,'width':23,'offset':4,'weight':1.0}, parent=None):
         QGraphicsPixmapItem.__init__(self,parent)
         
         self.size = size
@@ -55,7 +55,7 @@ class Enemy(QGraphicsPixmapItem):
     
     def set_physics(self):
         
-        self.physics = Physics(self.size['height'],self.size['width'],self.size['offset'])
+        self.physics = Physics(self.size['height'],self.size['width'],self.size['offset'],self.size['weight'])
     
     def set_pos(self,x,y):
         
@@ -76,6 +76,7 @@ class Enemy(QGraphicsPixmapItem):
         
     def update(self,scene,player):
         
+        self.animation.set_animation('default')
         self.move()
     
     def flip(self,direction):

@@ -47,7 +47,7 @@ class Scene(QGraphicsScene):
         
         self.connections()
         
-        rect = QRectF(QPointF(0,0),QSizeF(self.map_info['xsize'],self.map_info['ysize']))
+        rect = QRectF(QPointF(0,32),QSizeF(self.map_info['xsize'],self.map_info['ysize']))
         self.setSceneRect(rect)
         
         self.addBackGround()
@@ -311,7 +311,7 @@ class Scene(QGraphicsScene):
             self.update()
             
         if self.stop:
-                self.timer.stop()
+            self.timer.stop()
                 
     #*********************************************************************************************************
 
