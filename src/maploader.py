@@ -19,6 +19,7 @@ from Items.flower import Flower
 from Items.crown import Crown
 from Blocks.blockdeadgrass import BlockDeadGrass
 from Blocks.lava import Lava
+from Creatures.platform import Platform
 
 class MapLoader():
     
@@ -145,12 +146,17 @@ class MapLoader():
                             block = BlockStoneWall(x,y,self.scene)
                         elif block == "I":
                             block = BlockIce(x,y,self.scene)
+                        elif block == "p":
+                            block = Platform(x,y,self.scene)
                         elif block == "D":
                             block = BlockDeadGrass(x,y,self.scene)
                         elif block == "P":
                             block = Portal(x,y,self.scene)
                         elif block == "L":
                             block = Lava(x,y,self.scene)
+                            self.lava_group.append(block)
+                        elif block == "l":
+                            block = Lava(x,y,self.scene,flow_direction='vertical')
                             self.lava_group.append(block)
                         elif block == "&":
                             block = Checkpoint(x,y,self.scene)
@@ -159,16 +165,12 @@ class MapLoader():
                             self.scene.addItem(block)
                         elif block == "1":
                             enemy = Snake(x,y,self.scene)
-                            self.scene.addItem(enemy)
                         elif block == "2":
                             enemy = Bat(x,y,self.scene)
-                            self.scene.addItem(enemy)
                         elif block == "3":
                             enemy = CaveBug(x,y,self.scene)
-                            self.scene.addItem(enemy)
                         elif block == "4":
                             enemy = Ghost(x,y,self.scene)
-                            self.scene.addItem(enemy)
                         
                         
                         

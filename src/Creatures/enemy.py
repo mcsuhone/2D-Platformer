@@ -24,7 +24,9 @@ class Enemy(QGraphicsPixmapItem):
         self.scene = scene
         self.signals = Signals()
         self.signals.direction_changed.connect(self.direction_changed_update)
-    
+        
+        scene.addItem(self)
+        
     def X0(self):
         
         return self.x()

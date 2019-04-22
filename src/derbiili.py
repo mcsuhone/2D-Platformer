@@ -28,6 +28,8 @@ class Derbiili(QGraphicsPixmapItem):
         self.crouching = False
         self.a = ACCELERATION
         self.friction = FRICTION
+        self.jumps = 1
+        self.jumps_left = 1
         
         self.vx = 0.0
         self.vy = 0.0
@@ -63,6 +65,12 @@ class Derbiili(QGraphicsPixmapItem):
         if type == 'Crown':
             self.equipment['Crown'] = equipment
             self.signals.direction_changed.connect(equipment.update)
+            self.animation.synchronize_animations(equipment)
+            self.add_super_powers()
+            
+    def add_super_powers(self):
+        
+        self.jumps = 2
     
     def player_movement(self, keys_pressed,keybindings):
         dx = 0
@@ -88,10 +96,17 @@ class Derbiili(QGraphicsPixmapItem):
                 self.speed = PLAYER_SPEED
         
         if self.in_air:
+            if self.jumps_left > 0 and keybindings['jump'] in keys_pressed:
+                self.jumps_left -= 1
+                dy = self.jump(self.jump_height)
+                self.signals.direction_changed.emit()
+            
             dv = self.physics.gravity()
             dy = self.vy-dv
         
         elif keybindings['jump'] in keys_pressed:
+            keys_pressed.remove(keybindings['jump'])
+            self.jumps_left -= 1
             dy = self.jump(self.jump_height)
             self.signals.direction_changed.emit()
         
@@ -162,6 +177,7 @@ class Derbiili(QGraphicsPixmapItem):
             if ydetect is None:
                 pass
             else:
+                self.jumps_left = self.jumps
                 dy = ydetect
                 self.vy = 0.0
                 self.in_air = False
@@ -257,11 +273,21 @@ class Derbiili(QGraphicsPixmapItem):
         
         if self.crouching:
             self.animation.set_animation('anim2')
+            if 'Crown' in self.equipment:
+                self.equipment['Crown'].animation.set_animation('anim1')
         else:
             if self.in_air:
                 self.animation.set_animation('anim1')
+                if 'Crown' in self.equipment:
+                    self.equipment['Crown'].animation.set_animation('anim1')
             else:
                 self.animation.set_animation('default')
+                if 'Crown' in self.equipment:
+                    self.equipment['Crown'].animation.set_animation('default')
         
         self.animation.refresh_animation()
+        if 'Crown' in self.equipment:
+            self.equipment['Crown'].animation.refresh_animation()
+        
+        
         

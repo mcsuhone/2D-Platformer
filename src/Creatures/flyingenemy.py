@@ -5,8 +5,8 @@ from animation import Animation
 
 class FlyingEnemy(Enemy):
     
-    def __init__(self, scene, speed, distance, parent=None):
-        Enemy.__init__(self,scene,speed,distance,parent)
+    def __init__(self, scene, speed, distance, collision = False, size = {'height':22,'width':23,'offset':4}, parent=None):
+        Enemy.__init__(self,scene,speed,distance,collision,size,parent=parent)
         
     def move(self):
         dx = 0

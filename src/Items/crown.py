@@ -1,5 +1,6 @@
 from PyQt5.Qt import QGraphicsPixmapItem, QPixmap
 from .equipment import Equipment
+from animation import Animation
 
 
 class Crown(Equipment):
@@ -7,7 +8,7 @@ class Crown(Equipment):
     def __init__(self,x,y, parent=None):
         
         Equipment.__init__(self,parent)
-        self.setPixmap(QPixmap("Textures/Crown.png"))
+        self.animation = Animation(self, "Textures/Crown",500)
         self.set_pos(x,y)
         
     def set_pos(self,x,y):
@@ -19,6 +20,6 @@ class Crown(Equipment):
         player = self.get_player()
         
         if player.get_direction() == 'right':
-            self.setPos(12,-4)
+            self.setPos(12,-3)
         else:
-            self.setPos(4,-4)
+            self.setPos(4,-3)

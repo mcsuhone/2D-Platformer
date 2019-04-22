@@ -92,6 +92,8 @@ class Scene(QGraphicsScene):
                 self.enemies.append(item)
             elif type(item) == Creatures.ghost.Ghost:
                 self.enemies.append(item)
+            elif type(item) == Creatures.platform.Platform:
+                self.enemies.append(item)
         
     def addBackGround(self):
         #gc stands for gradient color
@@ -281,7 +283,8 @@ class Scene(QGraphicsScene):
 
     def keyReleaseEvent(self, event):
         
-        self.keys_pressed.remove(event.key())
+        if event.key() in self.keys_pressed:
+            self.keys_pressed.remove(event.key())
     
     def keyEvents(self):
         

@@ -9,6 +9,7 @@ TODO-list
 
 ### changes ###
 
+-make animations work from 1 .png file
 -make portals 2 blocks tall
 -make bats more functional
 -add animations to ghosts

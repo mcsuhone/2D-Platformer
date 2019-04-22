@@ -34,11 +34,16 @@ class Animation():
             if file.endswith(".png"):
                 str = folder + "/" + file
                 mainpixmap = QPixmap(str)
+        if self.object.flow_direction == 'horizontal':
+            for x in range(32):
+                frame = mainpixmap.copy(x,0,32,32)
+                frames.append(frame)
+        else:
+            for y in range(32):
+                frame = mainpixmap.copy(0,y,32,32)
+                frames.append(frame)
+        frames.reverse()
         
-        for x in range(32):
-            frame = mainpixmap.copy(x,0,32,32)
-            frames.append(frame)
-            
         self.defaultanim['frames'] = frames
         self.defaultanim['animation'] = 'default'
         
@@ -163,10 +168,25 @@ class Animation():
         
         self.timer.stop()
         
+    def synchronize_animations(self,object):
+        
+        self.reset_animation()
+        object.animation.reset_animation()
+        
     def reset_animation(self):
         
         self.timer.stop()
         self.timer.start()
+        self.current_frame = 0
+    
+    def refresh_animation(self):
+        
+        self.current_frame -= 1
+        self.object.setPixmap(self.next_frame())
+        
+    def set_animation(self,animation):
+        
+        self.current_animation = animation
     
     def animate(self):
         
@@ -198,14 +218,6 @@ class Animation():
                     self.current_frame = 0
                 return animations['flippedframes'][self.current_frame]
         
-    def refresh_animation(self):
-        
-        self.object.setPixmap(self.next_frame())
-        
-    def set_animation(self,animation):
-        
-        self.current_animation = animation
-    
     def get_animations(self):
         
         if self.current_animation == 'default':
