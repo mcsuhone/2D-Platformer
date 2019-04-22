@@ -17,6 +17,8 @@ class Physics():
         
         self.weight = weight
         
+        self.jump_correction = 0
+        
     def calculate_size(self,width,height):
         
         w = width//32 + 1
@@ -159,11 +161,15 @@ class Physics():
     def reset_gravity(self):
         self.g = 0.0
         self.v = 0.0
+        
+    def set_jump_correction(self,jump_height):
+        
+        self.jump_correction = jump_height
     
     def gravity(self):
         
         self.g += GRAVITY
-        if self.v <= MAX_FALL_VELOCITY:
+        if self.v <= MAX_FALL_VELOCITY+self.jump_correction:
             self.v += self.g*self.weight
         
         return self.v

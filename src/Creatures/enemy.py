@@ -145,9 +145,9 @@ class Enemy(QGraphicsPixmapItem):
         
         if self.in_air:
             dv = self.physics.gravity()
-            dy = self.vy-dv
+            self.vy = self.vy-dv
+            dy = self.vy
         
-            
         if self.direction == 'left':
             
             dx = self.speed

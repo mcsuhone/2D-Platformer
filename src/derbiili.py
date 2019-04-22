@@ -248,9 +248,11 @@ class Derbiili(QGraphicsPixmapItem):
             item.touch_effect(self,self.scene)
         
     def jump(self,jump_height):
+        
         self.vy = jump_height
         dy = self.vy
         self.in_air = True
+        self.physics.set_jump_correction(jump_height)
         self.physics.reset_gravity()
         
         return dy
