@@ -43,7 +43,6 @@ class Scene(QGraphicsScene):
         self.addScoreBoard()
         self.health = 5
         self.addHealthBar()
-        #self.addMenuButton()
         self.pause = Pause()
         
         self.connections()
@@ -289,8 +288,8 @@ class Scene(QGraphicsScene):
     def keyEvents(self):
         
         if Qt.Key_Escape in self.keys_pressed:
-            
-            self.back_to_main_menu()
+            self.stop = True
+            self.back_to_menu()
             
     #*********************************************************************************************************
     

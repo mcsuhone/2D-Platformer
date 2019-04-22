@@ -10,4 +10,4 @@ FRICTION                = 0.7
 
 #physics
 GRAVITY                 = 0.03
-MAX_FALL_VELOCITY       = 16
+MAX_FALL_VELOCITY       = 10
