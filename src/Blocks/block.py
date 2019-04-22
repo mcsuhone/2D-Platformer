@@ -1,10 +1,13 @@
 from PyQt5.QtWidgets import QGraphicsPixmapItem
+from PyQt5.Qt import QPixmap
 
 
 class Block(QGraphicsPixmapItem):
     
-    def __init__(self, scene, collision = True, parent=None):
+    def __init__(self, x, y, scene, texture = "Textures/Blocks/BlockGrass.png", collision = True, parent=None):
         QGraphicsPixmapItem.__init__(self,parent)
+        self.setPixmap(QPixmap(texture))
+        self.addPos(x,y)
         self.collision = collision
         scene.addItem(self)
         

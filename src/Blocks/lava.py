@@ -6,10 +6,9 @@ from PyQt5.Qt import QPainterPath, QRectF
 class Lava(Block):
     
     def __init__(self,x,y, scene, flow_direction = 'horizontal', collision = False, parent=None):
-        Block.__init__(self,scene,collision,parent)
+        Block.__init__(self,x,y,scene,collision=collision,parent=parent)
         self.flow_direction = flow_direction
         self.animation = Animation(self,"Textures/Lava",300,lava=True)
-        self.addPos(x,y)
         
     def shape(self):
         

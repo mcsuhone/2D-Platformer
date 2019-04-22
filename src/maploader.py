@@ -1,25 +1,20 @@
 from io import StringIO
 
-from Blocks.blockgrass import BlockGrass
-from Blocks.blockground import BlockGround
-from Blocks.blockrock import BlockRock
 from Blocks.spikes import Spikes
 from derbiili import Derbiili
 from Items.cake import Cake
-from Blocks.blockbox import BlockBox
 from Blocks.portal import Portal
 from Creatures.snake import Snake
 from Creatures.bat import Bat
-from Blocks.blockstonewall import BlockStoneWall
 from Blocks.blockice import BlockIce
 from Creatures.cavebug import CaveBug
 from Creatures.ghost import Ghost
 from Blocks.checkpoint import Checkpoint
 from Items.flower import Flower
 from Items.crown import Crown
-from Blocks.blockdeadgrass import BlockDeadGrass
 from Blocks.lava import Lava
 from Creatures.platform import Platform
+from Blocks.block import Block
 
 class MapLoader():
     
@@ -123,11 +118,11 @@ class MapLoader():
                         if block == "0":
                             pass
                         elif block == "g":
-                            block = BlockGrass(x,y,self.scene)
+                            block = Block(x,y,self.scene,"Textures/Blocks/BlockGrass.png")
                         elif block == "d":
-                            block = BlockGround(x,y,self.scene)
+                            block = Block(x,y,self.scene,"Textures/Blocks/BlockGround.png")
                         elif block == "s":
-                            block = BlockRock(x,y,self.scene)
+                            block = Block(x,y,self.scene,"Textures/Blocks/BlockRock.png")
                         elif block == "X":
                             derbiili = Derbiili(x,y,self.scene)
                             self.scene.addItem(derbiili)
@@ -141,15 +136,13 @@ class MapLoader():
                         elif block == "M":
                             block = Spikes(x,y,self.scene)
                         elif block == "b":
-                            block = BlockBox(x,y,self.scene)
-                        elif block == "O":
-                            block = BlockStoneWall(x,y,self.scene)
+                            block = Block(x,y,self.scene,"Textures/Blocks/BlockBox.png")
                         elif block == "I":
                             block = BlockIce(x,y,self.scene)
                         elif block == "p":
                             block = Platform(x,y,self.scene)
                         elif block == "D":
-                            block = BlockDeadGrass(x,y,self.scene)
+                            block = Block(x,y,self.scene,"Textures/Blocks/BlockDeadGrass.png")
                         elif block == "P":
                             block = Portal(x,y,self.scene)
                         elif block == "L":

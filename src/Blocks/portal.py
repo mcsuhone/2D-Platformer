@@ -4,9 +4,8 @@ from Blocks.block import Block
 class Portal(Block):
     
     def __init__(self,x,y, scene, collision = False, parent=None):
-        Block.__init__(self,scene,collision,parent)
-        self.setPixmap(QPixmap("Textures/Blocks/Portal.png"))
-        self.addPos(x,y)
+        texture = "Textures/Blocks/Portal.png"
+        Block.__init__(self,x,y,scene,texture,collision=collision,parent=parent)
         self.setOpacity(0.6)
         
     def touch_effect(self,player,scene):
