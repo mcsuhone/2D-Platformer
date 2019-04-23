@@ -1,0 +1,51 @@
+Tasoeditointi:
+
+Tasoja voi edioita muokkaamalla "Maps" kansiossa olevia tekstitiedostoja.
+
+1. Tason tiedot. M‰‰ritell‰‰n tasolle nimi, vaikeus, sek‰ taustan v‰ri. T‰ll‰ 
+hetkell‰ nimell‰ ja vaikeusasteella ei ole mit‰‰n merkityst‰ pelin kannalta.
+
+Taustan v‰ri‰ voi kuitenkin muokata. Se toimii RGB v‰rikoodeilla seuraavasti:
+
+backgroundgradient = r,g,b - r,g,b
+
+N‰ist‰ ensimm‰inen m‰‰ritt‰‰ mist‰ v‰rist‰ gradientti alkaa tason yl‰reunassa
+ja alempi mihin v‰riin se p‰‰ttyy tason alareunassa.
+
+2. Tason luominen/muokkaaminen. #map -kohdassa on iso matriisi tyylinen merkki
+ruudukko, jossa eri merkit on eroteltu ":" -merkeill‰. T‰ss‰ kohtaa tasosta voi
+vapaasti tehd‰ mink‰laisen haluaa, k‰ytett‰viss‰ olevilla palikoilla. Taso voi
+olla mink‰ kokoinen tahansa, kunhan se on suorakaiteen muotoinen.
+
+Jokaiseen tasoon t‰ytyy lis‰t‰ v‰hint‰‰n X -merkki, joka merkitsee pelaajan
+paikan. Ilman t‰t‰ taso ei k‰ynnisty. Sen lis‰ksi t‰ytyy lis‰t‰ P -merkki, koska muuten
+tasoa ei voi l‰p‰ist‰. On myˆs mielek‰st‰ lis‰t‰ ainakin 1 palikka pelaajan alle, jotta 
+pelaaja ei tipu suoraan alas tasosta.
+
+3. Erilaiset merkit. T‰ss‰ seuraavaksi lueteltu kaikki k‰ytett‰viss‰ olevat palikat,
+viholliset ja niiden merkit.
+
+	X	=	Pelaaja (Derbiili)
+	P	=	Portaali
+	&	=	Tallennuspiste
+	0	= 	Tyhj‰ kohta
+
+	g	=	Ruoho
+	d	=	Multa
+	s	=	Kivi
+	b	=	Laatikko
+	I	=	J‰‰
+	p	=	Liikkuva taso
+	D	=	Kuollut ruoho
+	L	=	Laava(Vaakasuunnassa liikkuva)
+	l	=	Laava(Pystysuunnassa liikkuva)
+
+	C	=	Kakku
+	G	=	Kukka
+	K	=	Kruunu
+	
+	M	=	Piikki
+	1	=	K‰‰rme
+	2	=	Lepakko
+	3	=	Luolaˆtˆkk‰
+	4	=	Haamu

@@ -1,42 +1,24 @@
-# Projektin nimi
+# Tasohyppelypeli
 
 ## Esittely
 
+-Pelissä on 3 tasoa, joita voi pelata. Pelissä on asetukset, joista voi vaihtaa näppäinasetuksia.
+
 ## Tiedosto- ja kansiorakenne
 
-  - Mitä eri kansioiden alta löytyy
-  - Mistä löytyy omat koodit, onko muiden tekemää koodia yms
-  - Yksittäisiä tiedostoja ei välttämättä tarvitse käydä läpi
+- src kansion alta löytyy kaikki pelin koodi.
+	src kansion sisällä koodin sisältö on jaoteltu pakettien 	sisään, suuren moduuli määrän vuoksi
+- docs kansion alta löytyy projektin dokumentaatio, sekä TODO -	lista.
 
 ## Asennusohje
 
-  - Mitä kirjastoja ohjelma tarvitsee (PyQt, numpy, ...)
-  - Kirjastojen asennusohje:
-      - Esim "pip install numpy"
-      - Tai tarvittaessa tarkempi selitys linkkeineen
-      - PyQt5:n asennusta ei tarvitse tarkemmin opastaa
-
+- Ohjelma vaatii ainoastaan PyQt5 -kirjaston.
+  
 ## Käyttöohje
 
-  - Miten ohjelmaa ajetaan
-  - Mahdolliset muut komentoriviltä käytettävät komennot
-  - Mahdolliset asetustiedostot ja niiden käyttö1. Mitä ominaisuuksia olet jo toteuttanut projektiisi?
-
-Toimiva tasohyppeli peli, jossa on kaksi tasoa. Pelissä on toimivat fysiikat jotka sisältävät putoamiskiihtyvyyden, törmäyksen sekä kiihtyvän liikkeen sivusuunnassa. Lisä fysiikoihin sisältyy vielä jääpalikat joiden päällä voi liukua.
-Pelissä on vihollisia joihin osuessa menettää elämän ja pelaaja joutuu tason alkuun. Elämiä on 5 ja niitä saa lisää keräämällä 10 kakkua joita löytyy tasoista.
-
-
-2. Käyttöohje
-
-Ohjelma on ajettavissa suorittamalla main.py moduulin. Suorituksen jälkeen voit valita asetuksista millä näppäimillä haluat pelata tai aloittaa pelaaminen suoraan oletus näppäimillä. Ennen pelaamista täytyy mennä taso valikon kautta, jossa valitset tason mitä haluat pelata. Tasojen lopussa on portaali, josta pääsee aina seuraavaan tasoon.
-
-
-3. Aikataulu
-
-Projektiin on kulunut karkeasti arvioiden 50-80 tuntia. Aikatauluun ei ole tullut muutoksia.
-
-4. Muuta
-
-Pelin idea on muuttunut. Pelissä ei kiivetäkkään ylöspäin ja tasot eivät ole satunnaisesti generoituja.  
-  - Onko ilmaantunut erityisiä ongelmia?
-  - Oletko joutunut tekemään muutoksia suunnitelmaasi?
+- Ohjelmaa ajetaan suorittamalla main.py moduuli. 
+- Näppäin asetuksia on mahdollista muuttaa options valikosta.
+- Peliin pääsee tasovalikon kautta, valitsemalla jokin kolmesta      tasosta.
+- Oletuksena hahmoa ohjataan asd ja space näppäimillä, mutta se on mahdollista vaihtaa asetuksista.
+- Esc näppäimellä voi palata takaisin valikkoon.
+- Peli toimii ja sen voi pelata alusta loppuun.
