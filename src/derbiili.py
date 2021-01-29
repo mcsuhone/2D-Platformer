@@ -125,7 +125,7 @@ class Derbiili(QGraphicsPixmapItem):
                 dx -= self.speed
                 
             if self.x()+dx < 0:
-                dx = 0   
+                dx = 0
         
         elif keybindings['right'] in keys_pressed:
             if self.direction == 'left':
