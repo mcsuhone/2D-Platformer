@@ -1,24 +1,17 @@
-# Tasohyppelypeli
+# 2D platformer game
 
 ## Esittely
 
--Pelissä on 3 tasoa, joita voi pelata. Pelissä on asetukset, joista voi vaihtaa näppäinasetuksia.
-
-## Tiedosto- ja kansiorakenne
-
-- src kansion alta löytyy kaikki pelin koodi.
-	src kansion sisällä koodin sisältö on jaoteltu pakettien 	sisään, suuren moduuli määrän vuoksi
-- docs kansion alta löytyy projektin dokumentaatio, sekä TODO -	lista.
+This is course project from the Y2 course of Aalto University. It features a 2D platformer, which accelerating physics, enemies, checkpoints and 3 maps to play.
 
 ## Asennusohje
 
-- Ohjelma vaatii ainoastaan PyQt5 -kirjaston.
+- Pull the repository and make sure you have Python 3 and PyQt5 library installed.
+- Run main.py file under the src folder to run the game.
   
-## Käyttöohje
+## Instructions
 
-- Ohjelmaa ajetaan suorittamalla main.py moduuli. 
-- Näppäin asetuksia on mahdollista muuttaa options valikosta.
-- Peliin pääsee tasovalikon kautta, valitsemalla jokin kolmesta      tasosta.
-- Oletuksena hahmoa ohjataan asd ja space näppäimillä, mutta se on mahdollista vaihtaa asetuksista.
-- Esc näppäimellä voi palata takaisin valikkoon.
-- Peli toimii ja sen voi pelata alusta loppuun.
+- You can change the key bindings in the settings menu.
+- Select a map under to play the game.
+- As default, use ASD and space to move around and crouch.
+- Use esc button to get back to menu from the game.
